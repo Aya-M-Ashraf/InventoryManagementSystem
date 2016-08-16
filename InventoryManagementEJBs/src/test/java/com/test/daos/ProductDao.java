@@ -1,4 +1,4 @@
-package com.test.beans;
+package com.test.daos;
 
 import com.test.dao.impl.GenericDao;
 import com.test.entity.Product;
@@ -6,18 +6,20 @@ import com.test.entity.Product;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 
 /**
  * Session Bean implementation class ProductDao
  */
-@Stateless
-@LocalBean
-public class ProductDao extends GenericDao<Product, Integer> implements ProductDaoLocal {
+ 
+public class ProductDao extends GenericDao<Product, Integer>   {
 
-	@PersistenceContext(unitName = "InventoryManagementEJBs")
-	private EntityManager em;
+//	@PersistenceContext(unitName = "InventoryManagementEJBs")
+//	private EntityManager em;
 
+	EntityManager em = Persistence.createEntityManagerFactory("InventoryManagementEJBs").createEntityManager();
+	
 	public ProductDao() {
 		super(Product.class);
 	}

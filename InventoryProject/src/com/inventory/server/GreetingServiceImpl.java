@@ -2,7 +2,7 @@ package com.inventory.server;
 
 import com.inventory.client.GreetingService;
 import com.inventory.shared.FieldVerifier;
-import com.test.beans.ProductDaoLocal;
+import com.test.controller.ProductControllerLocal;
 
 import javax.ejb.EJB;
 
@@ -15,7 +15,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
 	
 	@EJB
-	public ProductDaoLocal myBean;
+	public ProductControllerLocal productController;
 
 	public String greetServer(String input) throws IllegalArgumentException {
 		// Verify that the input is valid. 
@@ -33,7 +33,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		userAgent = escapeHtml(userAgent);
 
 		try {
-			return myBean.findById(1).getName() + "!<br><br>I am running " + serverInfo + ".<br><br>It looks like you are using:<br>"
+			return productController.getProductDao().findById(1).getName() + "!<br><br>I am running " + serverInfo + ".<br><br>It looks like you are using:<br>"
 					+ userAgent;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
