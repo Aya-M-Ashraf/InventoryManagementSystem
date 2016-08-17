@@ -12,6 +12,7 @@ public class InventoryProject implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+		System.out.println("***************** in the on moduleLoad()");
 		GreetingServiceAsync rpcService = GWT.create(GreetingService.class);
 		HandlerManager eventBus = new HandlerManager(null);
 		AppController appViewer = new AppController(rpcService, eventBus);

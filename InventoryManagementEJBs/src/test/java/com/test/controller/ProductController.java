@@ -1,9 +1,12 @@
 package com.test.controller;
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import com.test.daos.ProductDao;
+import com.test.entity.Product;
 
 /**
  * Session Bean implementation class ProductController
@@ -12,33 +15,14 @@ import com.test.daos.ProductDao;
 @LocalBean
 public class ProductController implements ProductControllerLocal {
 
-	
 	private ProductDao productDao = new ProductDao();
-	
-	
-    /**
-	 * @return the productDao
-	 */
-	@Override
-	public ProductDao getProductDao() {
-		return productDao;
-	}
 
-
-	/**
-	 * @param productDao the productDao to set
-	 */
-	@Override
-	public void setProductDao(ProductDao productDao) {
-		this.productDao = productDao;
-	}
-
-
-	/**
-     * Default constructor. 
-     */
     public ProductController() {
-        // TODO Auto-generated constructor stub
     }
+
+	@Override
+	public List<Product> getAllProducts() {
+		return productDao.findAll();
+	}
 
 }

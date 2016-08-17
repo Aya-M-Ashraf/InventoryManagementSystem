@@ -28,7 +28,7 @@ public abstract class GenericDao<T, ID extends Serializable> implements GenericD
 	}
 
 	@Override
-	public List<T> findAll() throws Exception {
+	public List<T> findAll(){
 
 		CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
 		cq.select(cq.from(persistentClass));

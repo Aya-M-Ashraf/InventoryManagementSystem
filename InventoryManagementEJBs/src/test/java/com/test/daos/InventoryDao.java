@@ -1,13 +1,10 @@
 package com.test.daos;
 
-import com.test.dao.impl.GenericDao;
-import com.test.entity.Inventory;
-
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
+
+import com.test.dao.impl.GenericDao;
+import com.test.entity.Inventory;
 
 /**
  * Session Bean implementation class InventoryDao

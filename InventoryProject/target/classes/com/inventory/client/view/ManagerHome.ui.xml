@@ -13,7 +13,8 @@
 	</ui:style>
 	<g:DockLayoutPanel unit="EM">
 		<g:center>
-			<c:DataGrid ui:field='contactList' />
+		
+			<c:DataGrid ui:field='productList' />
 		</g:center>
 
 		<g:south size="4">

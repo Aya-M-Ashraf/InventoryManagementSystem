@@ -5,7 +5,9 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.inventory.client.presenter.ManagerHomePresenter;
 import com.inventory.client.presenter.Presenter;
+import com.inventory.client.view.ManagerHome;
 
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
@@ -15,6 +17,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private HasWidgets container;
 
 	public AppController(GreetingServiceAsync rpcService, HandlerManager eventBus) {
+		System.out.println("***************** in the constructor of the AppController");
+
 		this.eventBus = eventBus;
 		this.rpcService = rpcService;
 		bind();
@@ -31,8 +35,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 		if ("".equals(History.getToken())) {
 			History.newItem("initialState");
-			/*Presenter presenter = new FirstViewPresenter(eventBus, rpcService, new HView());
-			presenter.go(container);*/
+			Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome());
+			presenter.go(container);
 			
 		} else {
 			History.fireCurrentHistoryState();
