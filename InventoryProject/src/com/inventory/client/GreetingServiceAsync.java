@@ -11,6 +11,6 @@ import com.test.entity.Product;
  */
 public interface GreetingServiceAsync {
 	void greetServer(String input, AsyncCallback<String> callback) throws IllegalArgumentException;
-	void getAllProducts(AsyncCallback<List<Product>> callback);
+	void getAllProducts(AsyncCallback<List<Product>> callback)throws IllegalArgumentException;
 
 }

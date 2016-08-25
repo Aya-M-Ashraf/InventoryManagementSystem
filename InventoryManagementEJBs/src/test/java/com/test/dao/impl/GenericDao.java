@@ -29,10 +29,13 @@ public abstract class GenericDao<T, ID extends Serializable> implements GenericD
 
 	@Override
 	public List<T> findAll(){
+		System.out.println("--------- inside the Daoooo");
 
 		CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
 		cq.select(cq.from(persistentClass));
-		return getEntityManager().createQuery(cq).getResultList();
+		List<T> myResult = getEntityManager().createQuery(cq).getResultList(); 
+		System.out.println("----------- size of result is "+myResult.size());
+		return myResult;
 	}
 
 	@Override

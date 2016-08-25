@@ -1,6 +1,8 @@
 package com.inventory.server;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 
@@ -21,12 +23,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	@Override
 	public List<Product> getAllProducts() throws IllegalArgumentException {
 
-		return (List<Product>)productController.getAllProducts();
+		
+		List<Product> products = productController.getAllProducts(); 
+		return products;
 	}
 
 	@Override
 	public String greetServer(String name) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

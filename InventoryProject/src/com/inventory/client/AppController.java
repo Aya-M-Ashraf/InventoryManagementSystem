@@ -28,7 +28,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		History.addValueChangeHandler(this);
 		
 	}
-
 	
 	public void go(final HasWidgets container) {
 		this.container = container;
@@ -39,7 +38,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			presenter.go(container);
 			
 		} else {
-			History.fireCurrentHistoryState();
+			/*History.fireCurrentHistoryState();*/
 		}
 	}
 

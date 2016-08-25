@@ -44,8 +44,8 @@ public class Product implements Serializable {
 	private Inventory inventory;
 
 	//bi-directional many-to-one association to Order
-	@OneToMany(mappedBy="product")
-	private List<Order> orders;
+	/*@OneToMany(mappedBy="product")
+	private List<Order> orders;*/
 
 	public Product() {
 	}
@@ -130,15 +130,15 @@ public class Product implements Serializable {
 		this.inventory = inventory;
 	}
 
-	public List<Order> getOrders() {
+/*	public List<Order> getOrders() {
 		return this.orders;
 	}
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
-	}
+	}*/
 
-	public Order addOrder(Order order) {
+	/*public Order addOrder(Order order) {
 		getOrders().add(order);
 		order.setProduct(this);
 
@@ -150,6 +150,6 @@ public class Product implements Serializable {
 		order.setProduct(null);
 
 		return order;
-	}
+	}*/
 
 }
