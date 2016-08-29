@@ -1,3 +1,3 @@
 # Module inventoryproject
 # RPC service class, partial path of RPC policy file
-com.inventory.client.GreetingService, 0CE385957D1DAEE6DFB3813C25490641.gwt.rpc
+com.inventory.client.GreetingService, 468DD0B7A8954E6D01CE64F07133853A.gwt.rpc

@@ -27,7 +27,14 @@ public class OrderStatus implements Serializable {
 
 	public OrderStatus() {
 	}
-
+	
+		public OrderStatus(int id, String status, List<Order> orders) {
+		super();
+		this.id = id;
+		this.status = status;
+		this.orders = orders;
+	}
+		
 	public int getId() {
 		return this.id;
 	}

@@ -4,18 +4,24 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the user database table.
  * 
  */
 @Entity
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@NamedQueries({ @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+@NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
+@NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
+@NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+@NamedQuery(name = "User.findByAddress", query = "SELECT u FROM User u WHERE u.address = :address"),
+@NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
+@NamedQuery(name = "User.findByUserRoleId", query = "SELECT u FROM User u WHERE u.userRole.role= :userRole") })
+
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String address;
@@ -26,17 +32,31 @@ public class User implements Serializable {
 
 	private String username;
 
-	//bi-directional many-to-one association to Order
-	@OneToMany(mappedBy="user")
+	// bi-directional many-to-one association to Order
+	@OneToMany(fetch=FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> orders;
 
-	//bi-directional many-to-one association to UserRole
+	// bi-directional many-to-one association to UserRole
 	@ManyToOne
-	@JoinColumn(name="user_role_id")
+	@JoinColumn(name = "user_role_id")
 	private UserRole userRole;
 
 	public User() {
 	}
+
+	public User(int id, String address, String email, String password, String username, List<Order> orders,
+			UserRole userRole) {
+		super();
+		this.id = id;
+		this.address = address;
+		this.email = email;
+		this.password = password;
+		this.username = username;
+		this.orders = orders;
+		this.userRole = userRole;
+	}
+
+
 
 	public int getId() {
 		return this.id;

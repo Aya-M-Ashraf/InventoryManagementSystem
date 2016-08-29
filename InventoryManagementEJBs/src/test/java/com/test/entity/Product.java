@@ -50,6 +50,24 @@ public class Product implements Serializable {
 	public Product() {
 	}
 
+	public Product(int id, byte expiryAlarm, Date expiryDate, String name, int quantity, byte status, int threshold,
+			byte thresholdAlarm, double weight, Inventory inventory, List<Order> orders) {
+		super();
+		this.id = id;
+		this.expiryAlarm = expiryAlarm;
+		this.expiryDate = expiryDate;
+		this.name = name;
+		this.quantity = quantity;
+		this.status = status;
+		this.threshold = threshold;
+		this.thresholdAlarm = thresholdAlarm;
+		this.weight = weight;
+		this.inventory = inventory;
+		this.orders = orders;
+	}
+
+
+
 	public int getId() {
 		return this.id;
 	}

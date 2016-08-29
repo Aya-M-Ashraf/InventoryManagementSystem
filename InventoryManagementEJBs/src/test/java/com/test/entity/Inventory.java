@@ -41,6 +41,14 @@ public class Inventory implements Serializable {
 		this.quantityForOrder = quantityForOrder;
 	}
 
+	public Inventory(int quantity, int quantityForOrder, Integer productId, Product product) {
+		super();
+		this.quantity = quantity;
+		this.quantityForOrder = quantityForOrder;
+		this.productId = productId;
+		this.product = product;
+	}
+
 	public int getQuantity() {
 		return quantity;
 	}

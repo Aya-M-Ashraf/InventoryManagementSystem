@@ -10,6 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
+@Table(name = "the_order")
 @NamedQuery(name="Order.findAll", query="SELECT o FROM Order o")
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -45,6 +46,19 @@ public class Order implements Serializable {
 	private User user;
 
 	public Order() {
+	}
+
+	public Order(int id, Date deliveryDate, Date orderDate, int quantity, double totalWeight, OrderStatus orderStatus,
+			Product product, User user) {
+		super();
+		this.id = id;
+		this.deliveryDate = deliveryDate;
+		this.orderDate = orderDate;
+		this.quantity = quantity;
+		this.totalWeight = totalWeight;
+		this.orderStatus = orderStatus;
+		this.product = product;
+		this.user = user;
 	}
 
 	public int getId() {
