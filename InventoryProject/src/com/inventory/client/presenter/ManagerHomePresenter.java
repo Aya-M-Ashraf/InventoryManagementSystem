@@ -33,6 +33,8 @@ public class ManagerHomePresenter implements Presenter {
 		rpcService.getAllProducts(new AsyncCallback<List<Product>>() {
 			@Override
 			public void onSuccess(List<Product> result) {
+				System.out.println(result.get(0).getExpiryAlarm() + " ................ " + result.get(0).getThresholdAlarm());
+				System.out.println(result.get(1).getExpiryAlarm() + " ................ " + result.get(1).getThresholdAlarm());
 				ManagerHomePresenter.this.view.setDataGridList(result);
 			}
 

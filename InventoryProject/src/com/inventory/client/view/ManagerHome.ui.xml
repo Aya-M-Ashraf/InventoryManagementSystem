@@ -14,5 +14,6 @@
 	<g:HTMLPanel>
 	    <div id = "dataGrid"></div>
 		<g:Button text="click here" ui:field='btn' />
+		
 	</g:HTMLPanel>
 </ui:UiBinder> 
