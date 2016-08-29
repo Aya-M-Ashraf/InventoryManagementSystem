@@ -46,6 +46,23 @@ public class Order implements Serializable {
 
 	public Order() {
 	}
+	
+	
+
+	public Order(int id, Date deliveryDate, Date orderDate, int quantity, double totalWeight, OrderStatus orderStatus,
+			Product product, User user) {
+		super();
+		this.id = id;
+		this.deliveryDate = deliveryDate;
+		this.orderDate = orderDate;
+		this.quantity = quantity;
+		this.totalWeight = totalWeight;
+		this.orderStatus = orderStatus;
+		this.product = product;
+		this.user = user;
+	}
+
+
 
 	public int getId() {
 		return this.id;

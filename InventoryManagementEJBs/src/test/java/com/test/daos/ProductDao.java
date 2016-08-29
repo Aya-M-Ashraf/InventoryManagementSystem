@@ -12,29 +12,23 @@ import javax.persistence.PersistenceContext;
 /**
  * Session Bean implementation class ProductDao
  */
- 
-public class ProductDao extends GenericDao<Product, Integer>   {
 
-//	@PersistenceContext(unitName = "InventoryManagementEJBs")
-//	private EntityManager em;
+public class ProductDao extends GenericDao<Product, Integer> {
 
-	EntityManager em = Persistence.createEntityManagerFactory("InventoryManagementEJBs").createEntityManager();
-	
+	private EntityManager entityManager;
+
 	public ProductDao() {
 		super(Product.class);
 	}
 
 	@Override
 	protected EntityManager getEntityManager() {
-		if (em == null)
-			System.out.println("EM is nulllllll");
-
-		return em;
-
+		return entityManager;
 	}
 
-	public void setEm(EntityManager em) {
-		this.em = em;
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
+	
 }

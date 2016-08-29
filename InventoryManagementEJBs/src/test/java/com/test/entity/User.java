@@ -38,6 +38,21 @@ public class User implements Serializable {
 	public User() {
 	}
 
+
+	public User(int id, String address, String email, String password, String username, List<Order> orders,
+			UserRole userRole) {
+		super();
+		this.id = id;
+		this.address = address;
+		this.email = email;
+		this.password = password;
+		this.username = username;
+		this.orders = orders;
+		this.userRole = userRole;
+	}
+
+
+
 	public int getId() {
 		return this.id;
 	}

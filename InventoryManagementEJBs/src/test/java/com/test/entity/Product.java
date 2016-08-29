@@ -1,9 +1,17 @@
 package com.test.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -49,6 +57,24 @@ public class Product implements Serializable {
 
 	public Product() {
 	}
+
+	
+	public Product(int id, byte expiryAlarm, Date expiryDate, String name, int quantity, byte status, int threshold,
+			byte thresholdAlarm, double weight, Inventory inventory , Object object) {
+		super();
+		this.id = id;
+		this.expiryAlarm = expiryAlarm;
+		this.expiryDate = expiryDate;
+		this.name = name;
+		this.quantity = quantity;
+		this.status = status;
+		this.threshold = threshold;
+		this.thresholdAlarm = thresholdAlarm;
+		this.weight = weight;
+		this.inventory = inventory;
+	}
+
+
 
 	public int getId() {
 		return this.id;

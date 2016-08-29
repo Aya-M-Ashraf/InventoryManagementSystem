@@ -2,6 +2,8 @@ package com.test.controller;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import com.test.daos.UserDao;
 
@@ -11,6 +13,8 @@ import com.test.daos.UserDao;
 @Stateless
 @LocalBean
 public class UserController implements UserControllerLocal {
+	@PersistenceContext(unitName = "InventoryManagementEJBs")
+	private EntityManager em;
 
 	private UserDao userDao = new UserDao();
 

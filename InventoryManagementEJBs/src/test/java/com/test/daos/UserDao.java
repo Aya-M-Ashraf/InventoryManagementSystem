@@ -15,10 +15,8 @@ import javax.persistence.PersistenceContext;
  
 public class UserDao extends GenericDao<User,Integer>  {
 
-//	@PersistenceContext(unitName = "InventoryManagementEJBs")
-//    private EntityManager em;
 	
-	EntityManager em = Persistence.createEntityManagerFactory("InventoryManagementEJBs").createEntityManager();
+	private EntityManager entityManager;
 
     public UserDao() {
         super(User.class);
@@ -26,8 +24,12 @@ public class UserDao extends GenericDao<User,Integer>  {
 
 	@Override
 	protected EntityManager getEntityManager() {
-		// TODO Auto-generated method stub
-		return em;
+		return entityManager;
 	}
+	
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
 
 }

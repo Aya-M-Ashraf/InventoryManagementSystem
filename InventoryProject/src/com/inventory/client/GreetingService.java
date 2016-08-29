@@ -1,9 +1,11 @@
 package com.inventory.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.inventory.shared.dto.ProductDTO;
 import com.test.entity.Product;
 
 
@@ -12,6 +14,6 @@ import com.test.entity.Product;
  */
 @RemoteServiceRelativePath("greet")
 public interface GreetingService extends RemoteService {
-	String greetServer(String name) throws IllegalArgumentException;
-	List<Product> getAllProducts() throws IllegalArgumentException;
+	List<ProductDTO> getAllProducts() throws IllegalArgumentException;
+	void saveEditedProducts(ArrayList<ProductDTO> gridList, ArrayList<Integer> changedIds )throws IllegalArgumentException;
 }
