@@ -1,0 +1,145 @@
+package com.inventory.shared.util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.inventory.shared.dto.InventoryDTO;
+import com.inventory.shared.dto.OrderDTO;
+import com.inventory.shared.dto.OrderStatusDTO;
+import com.inventory.shared.dto.ProductDTO;
+import com.inventory.shared.dto.UserDTO;
+import com.inventory.shared.dto.UserRoleDTO;
+import com.test.entity.Inventory;
+import com.test.entity.Order;
+import com.test.entity.OrderStatus;
+import com.test.entity.Product;
+import com.test.entity.User;
+import com.test.entity.UserRole;
+
+public class EntityMapper {
+	
+	List<Order> orderList;
+	List<OrderDTO> orderDtoList;
+
+	// USER & USERDTO
+	public User mapUserDtoToUser(UserDTO userDto) {
+		User user = new User(userDto.getId(), userDto.getAddress(), userDto.getEmail(), userDto.getPassword(),
+				userDto.getUsername(), mapOrderDtoListToOrderList(userDto.getOrders()),
+				mapUserRoleDtoToUserRole(userDto.getUserRole()));
+		return user;
+	}
+
+	public UserDTO mapUserToUserDto(User user) {
+		UserDTO userDto = new UserDTO(user.getId(), user.getAddress(), user.getEmail(), user.getPassword(),
+				user.getUsername(), mapOrderListToOrderDtoList(user.getOrders()), mapUserRoleToUserRoleDto(user.getUserRole()));
+		return userDto;
+	}
+
+	// ORDER & ORDERDTO
+	public Order mapOrderDtoToOrder(OrderDTO orderDto) {
+		Order order = new Order(orderDto.getId(), orderDto.getDeliveryDate(), orderDto.getOrderDate(),
+				orderDto.getQuantity(), orderDto.getTotalWeight(),
+				mapOrderStatusDtoToOrderStatus(orderDto.getOrderStatus()),
+				mapProductDtoToProduct(orderDto.getProduct()),null);
+		return order;
+	}
+
+	public OrderDTO mapOrderToOrderDTO(Order order) {
+		OrderDTO orderDto = new OrderDTO(order.getId(), order.getDeliveryDate(), order.getOrderDate(),
+				order.getQuantity(), order.getTotalWeight(), mapOrderStatusToOrderStatusDto(order.getOrderStatus()),
+				mapProductToProductDto(order.getProduct()));
+		return orderDto;
+	}
+
+	// USERROLE & USERROLEDTO
+	public UserRole mapUserRoleDtoToUserRole(UserRoleDTO userRoleDto) {
+		UserRole userRole = new UserRole(userRoleDto.getId(), userRoleDto.getRole(), null);
+		return userRole;
+	}
+
+	public UserRoleDTO mapUserRoleToUserRoleDto(UserRole userRole) {
+		UserRoleDTO userRoleDto = new UserRoleDTO(userRole.getId(), userRole.getRole());
+		return userRoleDto;
+	}
+
+	// ORDERSTATUS & ORDERSTATUSDTO
+	public OrderStatus mapOrderStatusDtoToOrderStatus(OrderStatusDTO orderStatusDto) {
+		OrderStatus orderStatus = new OrderStatus(orderStatusDto.getId(), orderStatusDto.getStatus(),null);
+		return orderStatus;
+	}
+
+	public OrderStatusDTO mapOrderStatusToOrderStatusDto(OrderStatus orderStatus) {
+		OrderStatusDTO orderStatusDto = new OrderStatusDTO(orderStatus.getId(), orderStatus.getStatus());
+		return orderStatusDto;
+	}
+
+	// INVENTORY & INVENTORYDTO
+	public Inventory mapInventoryDtoToInventory(InventoryDTO inventoryDto) {
+		Inventory inventory = new Inventory(inventoryDto.getQuantity(), inventoryDto.getQuantityForOrder(),
+				inventoryDto.getProductId(),null);
+		return inventory;
+	}
+
+	public InventoryDTO mapInventoryToInventoryDto(Inventory inventory) {
+		InventoryDTO inventoryDTO = new InventoryDTO(inventory.getQuantity(), inventory.getQuantityForOrder(),
+				inventory.getProductId());
+		return inventoryDTO;
+	}
+
+	// PRODUCT & PRODUCTDTO
+	public Product mapProductDtoToProduct(ProductDTO productDto) {
+		Product product = new Product(productDto.getId(), productDto.getExpiryAlarm(), productDto.getExpiryDate(),
+				productDto.getName(), productDto.getQuantity(), productDto.getStatus(), productDto.getThreshold(),
+				productDto.getThresholdAlarm(), productDto.getWeight(), mapInventoryDtoToInventory(productDto.getInventory()), null);
+		return product;
+	}
+
+	public ProductDTO mapProductToProductDto(Product product) {
+		ProductDTO productDto = new ProductDTO(product.getId(), product.getExpiryAlarm(), product.getExpiryDate(),
+				product.getName(), product.getQuantity(), product.getStatus(), product.getThreshold(),
+				product.getThresholdAlarm(), product.getWeight(),mapInventoryToInventoryDto(product.getInventory()));
+		return productDto;
+	}
+
+	// Map OrderDtoList to orderList
+	public List<Order> mapOrderDtoListToOrderList(List<OrderDTO> orderDtoList) {
+		orderList = new ArrayList<>();
+		if (orderDtoList != null) {
+			for (OrderDTO orderIterartor : orderDtoList) {
+				orderList.add(mapOrderDtoToOrder(orderIterartor));
+			}
+		}
+		return orderList;
+	}
+	// Map orderList to OrderDtoList 
+	public List<OrderDTO> mapOrderListToOrderDtoList(List<Order> orderList) {
+		orderDtoList = new ArrayList<>();
+		if (orderList != null) {
+			for (Order orderIterartor : orderList) {
+				orderDtoList.add(mapOrderToOrderDTO(orderIterartor));
+			}
+		}
+		return orderDtoList;
+	}
+	
+	// Map UserDtoList to UserList
+		public List<User> mapUserDtoListToUserList(List<UserDTO> userDtoList) {
+			List<User> userList = new ArrayList<>();
+		if (userDtoList != null) {
+			for (UserDTO userIterartor : userDtoList) {
+				userList.add(mapUserDtoToUser(userIterartor));
+			}
+		}
+			return userList;
+		}
+		// Map orderList to OrderDtoList 
+		public List<UserDTO> mapUserListToUserDtoList(List<User> userList) {
+			List<UserDTO> userDtoList = new ArrayList<>();
+			if (userList != null) {
+				for (User userIterartor : userList) {
+					userDtoList.add(mapUserToUserDto(userIterartor));
+				}
+			}
+			return userDtoList;
+		}
+}

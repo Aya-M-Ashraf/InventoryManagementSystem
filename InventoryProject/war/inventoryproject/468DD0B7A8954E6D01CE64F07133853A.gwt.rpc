@@ -1,0 +1,47 @@
+@FinalFields, false
+com.google.gwt.i18n.shared.impl.DateRecord, true, true, true, true, com.google.gwt.i18n.shared.impl.DateRecord/3173882066, 3173882066
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true, true, true, true, com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException/3936916533, 3936916533
+com.google.gwt.user.client.rpc.RpcTokenException, true, true, false, false, com.google.gwt.user.client.rpc.RpcTokenException/2345075298, 2345075298
+com.google.gwt.user.client.rpc.XsrfToken, false, false, true, true, com.google.gwt.user.client.rpc.XsrfToken/4254043109, 4254043109
+com.inventory.client.GreetingService, false, false, false, false, _, 1477746340
+com.inventory.shared.dto.InventoryDTO, true, true, true, true, com.inventory.shared.dto.InventoryDTO/850100510, 850100510
+com.inventory.shared.dto.OrderDTO, true, true, true, true, com.inventory.shared.dto.OrderDTO/430116488, 430116488
+[Lcom.inventory.shared.dto.OrderDTO;, true, true, true, true, [Lcom.inventory.shared.dto.OrderDTO;/3862797232, 3862797232
+com.inventory.shared.dto.OrderStatusDTO, true, true, true, true, com.inventory.shared.dto.OrderStatusDTO/3047975791, 3047975791
+com.inventory.shared.dto.ProductDTO, true, true, true, true, com.inventory.shared.dto.ProductDTO/105111729, 105111729
+com.inventory.shared.dto.UserDTO, true, true, true, true, com.inventory.shared.dto.UserDTO/1142152949, 1142152949
+com.inventory.shared.dto.UserRoleDTO, true, true, true, true, com.inventory.shared.dto.UserRoleDTO/2549750583, 2549750583
+com.test.entity.Inventory, true, true, false, false, com.test.entity.Inventory/343249195, 343249195
+@ClientFields,com.test.entity.Inventory,quantity,quantityForOrder,productId,product
+com.test.entity.Order, true, true, false, false, com.test.entity.Order/1272555581, 1272555581
+@ClientFields,com.test.entity.Order,id,deliveryDate,orderDate,quantity,totalWeight,orderStatus,product,user
+com.test.entity.OrderStatus, true, true, false, false, com.test.entity.OrderStatus/4219715149, 4219715149
+@ClientFields,com.test.entity.OrderStatus,id,status,orders
+[Lcom.test.entity.Order;, true, true, false, false, [Lcom.test.entity.Order;/2467603875, 2467603875
+com.test.entity.Product, true, true, false, false, com.test.entity.Product/3702479748, 3702479748
+@ClientFields,com.test.entity.Product,id,expiryAlarm,expiryDate,name,quantity,status,threshold,thresholdAlarm,weight,inventory,orders
+[Lcom.test.entity.Product;, true, true, false, false, [Lcom.test.entity.Product;/3080853323, 3080853323
+com.test.entity.User, true, true, false, false, com.test.entity.User/2028767350, 2028767350
+@ClientFields,com.test.entity.User,id,address,email,password,username,orders,userRole
+com.test.entity.UserRole, true, true, false, false, com.test.entity.UserRole/708961303, 708961303
+@ClientFields,com.test.entity.UserRole,id,role,users
+[Lcom.test.entity.User;, true, true, false, false, [Lcom.test.entity.User;/3187898308, 3187898308
+java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873
+java.lang.IllegalArgumentException, true, true, false, false, java.lang.IllegalArgumentException/1755012560, 1755012560
+java.lang.Integer, true, true, true, true, java.lang.Integer/3438268394, 3438268394
+java.lang.Number, true, false, true, false, java.lang.Number/300033342, 300033342
+java.lang.NumberFormatException, true, true, false, false, java.lang.NumberFormatException/3305228476, 3305228476
+java.lang.RuntimeException, true, false, true, false, java.lang.RuntimeException/515124647, 515124647
+java.lang.String, true, true, true, true, java.lang.String/2004016611, 2004016611
+java.lang.Throwable, true, false, true, false, java.lang.Throwable/2953622131, 2953622131
+java.sql.Date, true, true, true, true, java.sql.Date/730999118, 730999118
+java.sql.Time, true, true, true, true, java.sql.Time/1816797103, 1816797103
+java.sql.Timestamp, true, true, true, true, java.sql.Timestamp/3040052672, 3040052672
+java.util.ArrayList, true, true, true, true, java.util.ArrayList/4159755760, 4159755760
+java.util.Arrays$ArrayList, true, true, true, true, java.util.Arrays$ArrayList/2507071751, 2507071751
+java.util.Collections$EmptyList, true, true, true, true, java.util.Collections$EmptyList/4157118744, 4157118744
+java.util.Collections$SingletonList, true, true, true, true, java.util.Collections$SingletonList/1586180994, 1586180994
+java.util.Date, true, true, true, true, java.util.Date/3385151746, 3385151746
+java.util.LinkedList, true, true, true, true, java.util.LinkedList/3953877921, 3953877921
+java.util.Stack, true, true, true, true, java.util.Stack/1346942793, 1346942793
+java.util.Vector, true, true, true, true, java.util.Vector/3057315478, 3057315478

@@ -16,10 +16,12 @@ import com.inventory.client.event.LogOutEventHandler;
 import com.inventory.client.event.SignInEvent;
 import com.inventory.client.event.SignInEventHandler;
 import com.inventory.client.presenter.ForgetPasswordPresenter;
+import com.inventory.client.presenter.ManagerHomePresenter;
 import com.inventory.client.presenter.Presenter;
 import com.inventory.client.presenter.SignInPresenter;
 import com.inventory.client.presenter.WelcomePresenter;
 import com.inventory.client.view.ForgetPasswordView;
+import com.inventory.client.view.ManagerHome;
 import com.inventory.client.view.SignInView;
 import com.inventory.client.view.WelcomeView;
 import com.inventory.shared.dto.UserDTO;
@@ -45,7 +47,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 			@Override
 			public void onSignIn(SignInEvent event) {
-				Presenter presenter = new WelcomePresenter(eventBus, rpcService, new WelcomeView(), event.getUser());
+				/*Presenter presenter = new WelcomePresenter(eventBus, rpcService, new WelcomeView(), event.getUser());
+				presenter.go(container);*/
+				Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome());
 				presenter.go(container);
 			}
 		});
@@ -99,7 +103,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 
 		} else {
-			History.fireCurrentHistoryState();
+			/*History.fireCurrentHistoryState();*/
 		}
 	}
 

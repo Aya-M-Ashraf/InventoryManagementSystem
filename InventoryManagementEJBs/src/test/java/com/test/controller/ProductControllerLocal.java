@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import com.test.daos.ProductDao;
 import com.test.entity.Product;
 
 @Local

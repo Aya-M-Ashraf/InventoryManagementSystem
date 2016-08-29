@@ -11,21 +11,9 @@
 		border-top: 1px solid #ccc;
 		}
 	</ui:style>
-	<g:DockLayoutPanel unit="EM">
-		<g:center>
+	<g:HTMLPanel>
+	    <div id = "dataGrid"></div>
+		<g:Button text="click here" ui:field='btn' />
 		
-			<c:DataGrid ui:field='productList' />
-		</g:center>
-
-		<g:south size="4">
-			<g:HTMLPanel addStyleNames="{style.buttonPanel}">
-				<g:Button ui:field='redrawButton'>
-					<ui:msg key='cwCellSampleRedrawButton'>Redraw Table</ui:msg>
-				</g:Button>
-				<g:Button ui:field='commitButton'>
-					<ui:msg key='cwCellSampleCommitButton'>Commit Changes</ui:msg>
-				</g:Button>
-			</g:HTMLPanel>
-		</g:south>
-	</g:DockLayoutPanel>
+	</g:HTMLPanel>
 </ui:UiBinder> 
