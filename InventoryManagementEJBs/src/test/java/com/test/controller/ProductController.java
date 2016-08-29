@@ -1,9 +1,8 @@
 package com.test.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -13,12 +12,11 @@ import javax.persistence.PersistenceContext;
 import com.test.daos.ProductDao;
 import com.test.entity.Product;
 
-/**
- * Session Bean implementation class ProductController
- */
+
 @Stateless
 @LocalBean
 public class ProductController implements ProductControllerLocal {
+	
 	@PersistenceContext(unitName = "InventoryManagementEJBs")
 	private EntityManager em;
 
@@ -28,8 +26,9 @@ public class ProductController implements ProductControllerLocal {
 	}
 
 	@Override
-	public List<Product> getAllProducts() {
+	public List<Product> getAllProducts() { //and set Expiration Alarm if found
 		productDao.setEntityManager(em);
+		
 		return productDao.findAll();
 	}
 
@@ -37,7 +36,7 @@ public class ProductController implements ProductControllerLocal {
 	public void saveEditedProducts(ArrayList<Object> gridInfo) {
 		productDao.setEntityManager(em);
 		ArrayList<Product> allProducts = (ArrayList<Product>) gridInfo.get(0);
-		ArrayList<Integer> editedInedexes = (ArrayList<Integer>) gridInfo.get(1);
+		HashSet<Integer> editedInedexes = (HashSet<Integer>) gridInfo.get(1);
 		System.out.println("-------------" + editedInedexes.size());
 		for (Integer index : editedInedexes) {
 			try {
@@ -48,6 +47,17 @@ public class ProductController implements ProductControllerLocal {
 			}
 		}
 
+	}
+
+	@Override
+	public void deleteProduct(Product deletedProduct) {
+		productDao.setEntityManager(em);
+		try {
+			productDao.makeTransient(deletedProduct);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
 	}
 
 }

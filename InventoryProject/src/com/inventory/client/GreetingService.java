@@ -1,6 +1,7 @@
 package com.inventory.client;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -15,5 +16,6 @@ import com.test.entity.Product;
 @RemoteServiceRelativePath("greet")
 public interface GreetingService extends RemoteService {
 	List<ProductDTO> getAllProducts() throws IllegalArgumentException;
-	void saveEditedProducts(ArrayList<ProductDTO> gridList, ArrayList<Integer> changedIds )throws IllegalArgumentException;
+	void saveEditedProducts(ArrayList<ProductDTO> gridList, HashSet<Integer> changedIds )throws IllegalArgumentException;
+	void deleteProduct(ProductDTO product)throws IllegalArgumentException;
 }

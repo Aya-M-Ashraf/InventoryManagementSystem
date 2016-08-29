@@ -1,9 +1,8 @@
 package com.inventory.server;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 
@@ -39,7 +38,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	}
 
 	@Override
-	public void saveEditedProducts(ArrayList<ProductDTO> gridList, ArrayList<Integer> changedIds) throws IllegalArgumentException {
+	public void saveEditedProducts(ArrayList<ProductDTO> gridList, HashSet<Integer> changedIds) throws IllegalArgumentException {
 		ArrayList<Object> gridInfo = new ArrayList<>();
 		
 		List<Product> products = new ArrayList<>();
@@ -51,6 +50,13 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		gridInfo.add(changedIds);
 		productController.saveEditedProducts(gridInfo);
 
+	}
+
+	@Override
+	public void deleteProduct(ProductDTO product) throws IllegalArgumentException {
+		Product deletedProduct = mapper.mapProductDtoToProduct(product);
+		productController.deleteProduct(deletedProduct);
+		
 	}
 
 }

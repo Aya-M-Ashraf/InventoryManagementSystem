@@ -1,6 +1,7 @@
 package com.inventory.client.presenter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,16 +14,13 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.inventory.client.GreetingServiceAsync;
 import com.inventory.client.view.ManagerHome;
 import com.inventory.shared.dto.ProductDTO;
-import com.test.entity.Product;
 
 public class ManagerHomePresenter implements Presenter {
 
 	public interface Display {
 		void setDataGridList(List<ProductDTO> myList);
-
 		ArrayList<ProductDTO> getChangedDataGridList();
-		ArrayList<Integer> getChangedIds();
-
+		HashSet<Integer> getChangedIds();
 		HasClickHandlers getSaveChangesButton();
 	}
 
@@ -80,4 +78,18 @@ public class ManagerHomePresenter implements Presenter {
 
 	}
 
+	public void deleteProduct(ProductDTO product){
+		rpcService.deleteProduct(product, new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert(caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				Window.alert("You removed your object successfully");
+			}
+		});
+	}
 }

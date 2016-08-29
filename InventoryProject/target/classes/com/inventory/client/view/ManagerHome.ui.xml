@@ -15,5 +15,6 @@
 	    <g:DockPanel ui:field="dockPanel" />
 	
 		<g:Button text="click here" ui:field='btn' />
+		
 	</g:HTMLPanel>
 </ui:UiBinder> 

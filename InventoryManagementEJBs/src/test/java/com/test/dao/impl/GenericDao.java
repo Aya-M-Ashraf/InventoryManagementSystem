@@ -36,6 +36,7 @@ public abstract class GenericDao<T, ID extends Serializable> implements GenericD
 		CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
 		cq.select(cq.from(persistentClass));
 		List<T> myResult = getEntityManager().createQuery(cq).getResultList(); 
+		getEntityManager().flush();
 		return myResult;
 	}
 
@@ -48,6 +49,7 @@ public abstract class GenericDao<T, ID extends Serializable> implements GenericD
 
 	@Override
 	public void makeTransient(T entity) throws Exception {
+		System.out.println("--------- inside the Daoooo in makeTransient");
 		getEntityManager().remove(getEntityManager().merge(entity));
 	}
 

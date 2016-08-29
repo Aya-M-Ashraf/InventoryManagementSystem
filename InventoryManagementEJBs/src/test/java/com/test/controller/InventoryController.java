@@ -21,7 +21,6 @@ public class InventoryController implements InventoryControllerLocal {
 	public InventoryController() {
 		// TODO Auto-generated constructor stub
 	}
-
 	
 	
 	@Override
@@ -34,8 +33,5 @@ public class InventoryController implements InventoryControllerLocal {
 		this.inventoryDao = inventoryDao;
 	}
 
-	/**
-	 * Default constructor.
-	 */
 	
 }

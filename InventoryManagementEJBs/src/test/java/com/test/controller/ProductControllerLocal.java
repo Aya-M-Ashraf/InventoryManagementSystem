@@ -12,4 +12,5 @@ public interface ProductControllerLocal {
 	
 	public List<Product> getAllProducts();
 	public void saveEditedProducts(ArrayList<Object> gridInfo);
+	public void deleteProduct(Product deletedProduct);
 }
