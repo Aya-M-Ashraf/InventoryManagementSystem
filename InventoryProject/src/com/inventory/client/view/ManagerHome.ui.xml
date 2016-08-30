@@ -12,7 +12,8 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-	    <div id = "dataGrid"></div>
+	    <g:DockPanel ui:field="dockPanel" />
+	
 		<g:Button text="click here" ui:field='btn' />
 		
 	</g:HTMLPanel>

@@ -12,21 +12,22 @@ import javax.persistence.PersistenceContext;
 /**
  * Session Bean implementation class OredrStatusDao
  */
- 
-public class OrderStatusDao extends GenericDao<OrderStatus,Integer>  {
 
-//	@PersistenceContext(unitName = "InventoryManagementEJBs")
-//    private EntityManager em;
-	
-	EntityManager em = Persistence.createEntityManagerFactory("InventoryManagementEJBs").createEntityManager();
-	
-    public OrderStatusDao() {
-        super(OrderStatus.class);
-    }
+public class OrderStatusDao extends GenericDao<OrderStatus, Integer> {
+
+	private EntityManager entityManager;
+
+	public OrderStatusDao() {
+		super(OrderStatus.class);
+	}
 
 	@Override
 	protected EntityManager getEntityManager() {
-		return em;
+		return entityManager;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 }

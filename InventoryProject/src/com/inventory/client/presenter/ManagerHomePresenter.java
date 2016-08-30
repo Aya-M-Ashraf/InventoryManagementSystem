@@ -1,23 +1,27 @@
 package com.inventory.client.presenter;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
-import com.google.gwt.cell.client.EditTextCell;
-import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.inventory.client.GreetingServiceAsync;
 import com.inventory.client.view.ManagerHome;
-import com.test.entity.Product;
+import com.inventory.shared.dto.ProductDTO;
 
 public class ManagerHomePresenter implements Presenter {
 
 	public interface Display {
-		void setDataGridList(List<Product> myList);
+		void setDataGridList(List<ProductDTO> myList);
+		ArrayList<ProductDTO> getChangedDataGridList();
+		HashSet<Integer> getChangedIds();
+		HasClickHandlers getSaveChangesButton();
 	}
 
 	private final HandlerManager eventBus;
@@ -30,11 +34,9 @@ public class ManagerHomePresenter implements Presenter {
 		this.view = view;
 		this.view.setPresenter(this);
 
-		rpcService.getAllProducts(new AsyncCallback<List<Product>>() {
+		rpcService.getAllProducts(new AsyncCallback<List<ProductDTO>>() {
 			@Override
-			public void onSuccess(List<Product> result) {
-				System.out.println(result.get(0).getExpiryAlarm() + " ................ " + result.get(0).getThresholdAlarm());
-				System.out.println(result.get(1).getExpiryAlarm() + " ................ " + result.get(1).getThresholdAlarm());
+			public void onSuccess(List<ProductDTO> result) {
 				ManagerHomePresenter.this.view.setDataGridList(result);
 			}
 
@@ -42,6 +44,14 @@ public class ManagerHomePresenter implements Presenter {
 			public void onFailure(Throwable caught) {
 				System.out.println("*********** There is an Error :" + caught.getMessage());
 			}
+		});
+
+		ManagerHomePresenter.this.view.getSaveChangesButton().addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				saveEditedProducts();
+			}
+
 		});
 	}
 
@@ -51,4 +61,35 @@ public class ManagerHomePresenter implements Presenter {
 		container.add(ManagerHomePresenter.this.view.asWidget());
 	}
 
+	public void saveEditedProducts() {
+		
+		rpcService.saveEditedProducts(ManagerHomePresenter.this.view.getChangedDataGridList(),
+				ManagerHomePresenter.this.view.getChangedIds(),
+				new AsyncCallback<Void>() {
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Errrrrooooorrrrrrr !!!! " + caught.getMessage());	
+					}
+					@Override
+					public void onSuccess(Void result) {
+						Window.alert("your changes Updated successfully ");
+					}
+				});
+
+	}
+
+	public void deleteProduct(ProductDTO product){
+		rpcService.deleteProduct(product, new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert(caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				Window.alert("You removed your object successfully");
+			}
+		});
+	}
 }

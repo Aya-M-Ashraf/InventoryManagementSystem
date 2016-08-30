@@ -2,6 +2,8 @@ package com.test.controller;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import com.test.daos.InventoryDao;
 
@@ -11,29 +13,25 @@ import com.test.daos.InventoryDao;
 @Stateless
 @LocalBean
 public class InventoryController implements InventoryControllerLocal {
+	@PersistenceContext(unitName = "InventoryManagementEJBs")
+	private EntityManager em;
 
-	private InventoryDao inventoryDao = new InventoryDao();
+	private InventoryDao inventoryDao = new InventoryDao();  //before use it setEntitymanager first
+
+	public InventoryController() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	@Override
-    public InventoryDao getInventoryDao() {
+	public InventoryDao getInventoryDao() {
 		return inventoryDao;
 	}
-
 
 	@Override
 	public void setInventoryDao(InventoryDao inventoryDao) {
 		this.inventoryDao = inventoryDao;
 	}
 
-
-
-	/**
-     * Default constructor. 
-     */
-    public InventoryController() {
-        // TODO Auto-generated constructor stub
-    }
-
-   
+	
 }

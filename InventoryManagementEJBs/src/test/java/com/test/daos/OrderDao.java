@@ -12,22 +12,23 @@ import javax.persistence.PersistenceContext;
 /**
  * Session Bean implementation class OrderDao
  */
- 
-public class OrderDao extends GenericDao<Order,Integer>   {
 
-//	@PersistenceContext(unitName = "InventoryManagementEJBs")
-//    private EntityManager em;
-	
-	EntityManager em = Persistence.createEntityManagerFactory("InventoryManagementEJBs").createEntityManager();
-	
-    public OrderDao() {
-    	super(Order.class);
-    }
+public class OrderDao extends GenericDao<Order, Integer> {
+
+	private EntityManager entityManager;
+
+	public OrderDao() {
+		super(Order.class);
+	}
 
 	@Override
 	protected EntityManager getEntityManager() {
-		// TODO Auto-generated method stub
-		return em;
+
+		return entityManager;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 }

@@ -2,6 +2,7 @@ package com.test.dao.impl;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
@@ -28,11 +29,15 @@ public abstract class GenericDao<T, ID extends Serializable> implements GenericD
 	}
 
 	@Override
+	@Transactional
 	public List<T> findAll(){
+		System.out.println("--------- inside the Daoooo");
 
 		CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
 		cq.select(cq.from(persistentClass));
 		List<T> myResult = getEntityManager().createQuery(cq).getResultList(); 
+
+		getEntityManager().flush();
 		return myResult;
 	}
 
@@ -47,12 +52,14 @@ public abstract class GenericDao<T, ID extends Serializable> implements GenericD
 	@Override
 	@Transactional
 	public void makeTransient(T entity) throws Exception {
+		System.out.println("--------- inside the Daoooo in makeTransient");
 		getEntityManager().remove(getEntityManager().merge(entity));
 	}
 
 	@Override
 	@Transactional
 	public void update(T entity) throws Exception {
+		System.out.println("--------- inside the Daoooo in update");
 		getEntityManager().merge(entity);
 	}
 

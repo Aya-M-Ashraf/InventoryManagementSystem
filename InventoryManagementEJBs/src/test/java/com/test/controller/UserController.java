@@ -25,6 +25,7 @@ public class UserController implements UserControllerLocal {
 	private final int PASSWORD_LENGTH = 8;
 	private static final Random RANDOM = new SecureRandom();
 
+
 	public UserController() {
 	}
 

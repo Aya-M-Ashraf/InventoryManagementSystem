@@ -17,7 +17,7 @@ import com.test.entity.User;
 import com.test.entity.UserRole;
 
 public class EntityMapper {
-	
+
 	List<Order> orderList;
 	List<OrderDTO> orderDtoList;
 
@@ -31,7 +31,8 @@ public class EntityMapper {
 
 	public UserDTO mapUserToUserDto(User user) {
 		UserDTO userDto = new UserDTO(user.getId(), user.getAddress(), user.getEmail(), user.getPassword(),
-				user.getUsername(), mapOrderListToOrderDtoList(user.getOrders()), mapUserRoleToUserRoleDto(user.getUserRole()));
+				user.getUsername(), mapOrderListToOrderDtoList(user.getOrders()),
+				mapUserRoleToUserRoleDto(user.getUserRole()));
 		return userDto;
 	}
 
@@ -40,7 +41,7 @@ public class EntityMapper {
 		Order order = new Order(orderDto.getId(), orderDto.getDeliveryDate(), orderDto.getOrderDate(),
 				orderDto.getQuantity(), orderDto.getTotalWeight(),
 				mapOrderStatusDtoToOrderStatus(orderDto.getOrderStatus()),
-				mapProductDtoToProduct(orderDto.getProduct()),null);
+				mapProductDtoToProduct(orderDto.getProduct()), null);
 		return order;
 	}
 
@@ -64,7 +65,7 @@ public class EntityMapper {
 
 	// ORDERSTATUS & ORDERSTATUSDTO
 	public OrderStatus mapOrderStatusDtoToOrderStatus(OrderStatusDTO orderStatusDto) {
-		OrderStatus orderStatus = new OrderStatus(orderStatusDto.getId(), orderStatusDto.getStatus(),null);
+		OrderStatus orderStatus = new OrderStatus(orderStatusDto.getId(), orderStatusDto.getStatus(), null);
 		return orderStatus;
 	}
 
@@ -75,29 +76,39 @@ public class EntityMapper {
 
 	// INVENTORY & INVENTORYDTO
 	public Inventory mapInventoryDtoToInventory(InventoryDTO inventoryDto) {
-		Inventory inventory = new Inventory(inventoryDto.getQuantity(), inventoryDto.getQuantityForOrder(),
-				inventoryDto.getProductId(),null);
-		return inventory;
+		if (inventoryDto != null) {
+			Inventory inventory = new Inventory(inventoryDto.getQuantity(), inventoryDto.getQuantityForOrder(),
+					inventoryDto.getProductId(), null);
+			return inventory;
+		} else {
+			return null;
+		}
 	}
 
 	public InventoryDTO mapInventoryToInventoryDto(Inventory inventory) {
-		InventoryDTO inventoryDTO = new InventoryDTO(inventory.getQuantity(), inventory.getQuantityForOrder(),
-				inventory.getProductId());
-		return inventoryDTO;
+		if (inventory != null) {
+
+			InventoryDTO inventoryDTO = new InventoryDTO(inventory.getQuantity(), inventory.getQuantityForOrder(),
+					inventory.getProductId());
+			return inventoryDTO;
+		} else {
+			return null;
+		}
 	}
 
 	// PRODUCT & PRODUCTDTO
 	public Product mapProductDtoToProduct(ProductDTO productDto) {
 		Product product = new Product(productDto.getId(), productDto.getExpiryAlarm(), productDto.getExpiryDate(),
 				productDto.getName(), productDto.getQuantity(), productDto.getStatus(), productDto.getThreshold(),
-				productDto.getThresholdAlarm(), productDto.getWeight(), mapInventoryDtoToInventory(productDto.getInventory()), null);
+				productDto.getThresholdAlarm(), productDto.getWeight(),
+				mapInventoryDtoToInventory(productDto.getInventory()), null);
 		return product;
 	}
 
 	public ProductDTO mapProductToProductDto(Product product) {
 		ProductDTO productDto = new ProductDTO(product.getId(), product.getExpiryAlarm(), product.getExpiryDate(),
 				product.getName(), product.getQuantity(), product.getStatus(), product.getThreshold(),
-				product.getThresholdAlarm(), product.getWeight(),mapInventoryToInventoryDto(product.getInventory()));
+				product.getThresholdAlarm(), product.getWeight(), mapInventoryToInventoryDto(product.getInventory()));
 		return productDto;
 	}
 
@@ -111,7 +122,8 @@ public class EntityMapper {
 		}
 		return orderList;
 	}
-	// Map orderList to OrderDtoList 
+
+	// Map orderList to OrderDtoList
 	public List<OrderDTO> mapOrderListToOrderDtoList(List<Order> orderList) {
 		orderDtoList = new ArrayList<>();
 		if (orderList != null) {
@@ -121,25 +133,26 @@ public class EntityMapper {
 		}
 		return orderDtoList;
 	}
-	
+
 	// Map UserDtoList to UserList
-		public List<User> mapUserDtoListToUserList(List<UserDTO> userDtoList) {
-			List<User> userList = new ArrayList<>();
+	public List<User> mapUserDtoListToUserList(List<UserDTO> userDtoList) {
+		List<User> userList = new ArrayList<>();
 		if (userDtoList != null) {
 			for (UserDTO userIterartor : userDtoList) {
 				userList.add(mapUserDtoToUser(userIterartor));
 			}
 		}
-			return userList;
-		}
-		// Map orderList to OrderDtoList 
-		public List<UserDTO> mapUserListToUserDtoList(List<User> userList) {
-			List<UserDTO> userDtoList = new ArrayList<>();
-			if (userList != null) {
-				for (User userIterartor : userList) {
-					userDtoList.add(mapUserToUserDto(userIterartor));
-				}
+		return userList;
+	}
+
+	// Map orderList to OrderDtoList
+	public List<UserDTO> mapUserListToUserDtoList(List<User> userList) {
+		List<UserDTO> userDtoList = new ArrayList<>();
+		if (userList != null) {
+			for (User userIterartor : userList) {
+				userDtoList.add(mapUserToUserDto(userIterartor));
 			}
-			return userDtoList;
 		}
+		return userDtoList;
+	}
 }

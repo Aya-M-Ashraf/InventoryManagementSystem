@@ -1,4 +1,4 @@
-package com.inventory.shared;
+package com.inventory.shared.util;
 
 /**
  * <p>

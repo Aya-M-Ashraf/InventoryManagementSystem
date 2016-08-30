@@ -47,6 +47,8 @@ public class Order implements Serializable {
 
 	public Order() {
 	}
+	
+	
 
 	public Order(int id, Date deliveryDate, Date orderDate, int quantity, double totalWeight, OrderStatus orderStatus,
 			Product product, User user) {

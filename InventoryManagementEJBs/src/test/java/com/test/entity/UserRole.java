@@ -27,7 +27,8 @@ public class UserRole implements Serializable {
 
 	public UserRole() {
 	}
-
+	
+	
 	public UserRole(int id, String role, List<User> users) {
 		super();
 		this.id = id;

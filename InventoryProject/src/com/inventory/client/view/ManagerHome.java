@@ -2,6 +2,7 @@ package com.inventory.client.view;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import com.google.gwt.cell.client.ButtonCell;
@@ -11,24 +12,18 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ImageCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.inventory.client.presenter.ManagerHomePresenter;
 import com.inventory.client.presenter.ManagerHomePresenter.Display;
-import com.sun.java.swing.plaf.windows.resources.windows;
-import com.test.entity.Product;
+import com.inventory.shared.dto.ProductDTO;
 
 public class ManagerHome extends Composite implements Display {
 
@@ -38,155 +33,154 @@ public class ManagerHome extends Composite implements Display {
 	}
 
 	private ManagerHomePresenter presenter;
+	private HashSet<Integer> changedIDs = new HashSet<>();
 
-	DataGrid<Product> productList;
+	DataGrid<ProductDTO> productList;
 	@UiField
 	Button btn;
+
+	@UiField
+	DockPanel dockPanel;
 
 	public ManagerHome() {
 		initWidget(uiBinder.createAndBindUi(this));
 
+		productList = new DataGrid<ProductDTO>();
+		productList.setSize("1000px", "500px");
+
 		// columns***********************************************
 
-		Column<Product, String> productNameColumn = new Column<Product, String>(new EditTextCell()) {
+		Column<ProductDTO, String> productNameColumn = new Column<ProductDTO, String>(new EditTextCell()) {
 			@Override
-			public String getValue(Product object) {
+			public String getValue(ProductDTO object) {
 				return object.getName();
 			}
 		};
-
-		Column<Product, String> productWeightColumn = new Column<Product, String>(new EditTextCell()) {
+		Column<ProductDTO, String> productWeightColumn = new Column<ProductDTO, String>(new EditTextCell()) {
 			@Override
-			public String getValue(Product object) {
+			public String getValue(ProductDTO object) {
 				return Double.toString(object.getWeight());
 			}
 		};
-		Column<Product, Date> dateColumn = new Column<Product, Date>(new DatePickerCell()) {
-
+		Column<ProductDTO, Date> dateColumn = new Column<ProductDTO, Date>(new DatePickerCell()) {
 			@Override
-			public Date getValue(Product object) {
+			public Date getValue(ProductDTO object) {
 				return object.getExpiryDate();
 			}
 		};
-
-		Column<Product, String> productQuantityColumn = new Column<Product, String>(new EditTextCell()) {
+		Column<ProductDTO, String> productQuantityColumn = new Column<ProductDTO, String>(new EditTextCell()) {
 			@Override
-			public String getValue(Product object) {
+			public String getValue(ProductDTO object) {
 				return Integer.toString(object.getQuantity());
 			}
 		};
-
-		Column<Product, String> productThresholdColumn = new Column<Product, String>(new EditTextCell()) {
+		Column<ProductDTO, String> productThresholdColumn = new Column<ProductDTO, String>(new EditTextCell()) {
 			@Override
-			public String getValue(Product object) {
+			public String getValue(ProductDTO object) {
 				return Integer.toString(object.getThreshold());
 			}
 		};
-		Column<Product, String> activeProductButtonsColumn = new Column<Product, String>(new ButtonCell()) {
+		Column<ProductDTO, String> activeProductButtonsColumn = new Column<ProductDTO, String>(new ButtonCell()) {
 
 			@Override
-			public String getValue(Product object) {
+			public String getValue(ProductDTO object) {
 				if (object.getStatus() == 0)
 					return "Activate";
 				else
 					return "Deactivate";
 			}
 		};
-		Column<Product, String> deleteProductButtonsColumn = new Column<Product, String>(new ButtonCell()) {
+		
+		Column<ProductDTO, String> deleteProductButtonsColumn = new Column<ProductDTO, String>(new ButtonCell()) {
 
 			@Override
-			public String getValue(Product object) {
+			public String getValue(ProductDTO object) {
 				return "Delete";
 			}
 		};
-		Column<Product, String> thresholdAlarmColumn = new Column<Product, String>(new ImageCell()) {
+		Column<ProductDTO, String> thresholdAlarmColumn = new Column<ProductDTO, String>(new ImageCell()) {
 
 			@Override
-			public String getValue(Product object) {
+			public String getValue(ProductDTO object) {
 				if (object.getThresholdAlarm() == 0)
 					return "";
 				else
 					return "http://www.healthsafetytest.co.uk/guide/wp-content/uploads/2012/03/photodune-941549-blank-danger-and-hazard-triangle-warning-sign-isolated-macro-xs.jpg";
 			}
 		};
-		Column<Product, String> expiryAlarmColumn = new Column<Product, String>(new ImageCell()) {
+		Column<ProductDTO, String> expiryAlarmColumn = new Column<ProductDTO, String>(new ImageCell()) {
 
 			@Override
-			public String getValue(Product object) {
+			public String getValue(ProductDTO object) {
 				if (object.getExpiryAlarm() == 0)
 					return "";
 				else
 					return "http://www.healthsafetytest.co.uk/guide/wp-content/uploads/2012/03/photodune-941549-blank-danger-and-hazard-triangle-warning-sign-isolated-macro-xs.jpg";
 			}
 		};
+
 		// fieldUpdaters******************************************
-		productNameColumn.setFieldUpdater(new FieldUpdater<Product, String>() {
-
+		productNameColumn.setFieldUpdater(new FieldUpdater<ProductDTO, String>() {
 			@Override
-			public void update(int index, Product object, String value) {
+			public void update(int index, ProductDTO object, String value) {
 				object.setName(value);
+				changedIDs.add(index);
 			}
 		});
-
-		productWeightColumn.setFieldUpdater(new FieldUpdater<Product, String>() {
+		productWeightColumn.setFieldUpdater(new FieldUpdater<ProductDTO, String>() {
 			@Override
-			public void update(int index, Product object, String value) {
+			public void update(int index, ProductDTO object, String value) {
 				object.setWeight(Double.parseDouble(value));
+				changedIDs.add(index);
 			}
 		});
-		dateColumn.setFieldUpdater(new FieldUpdater<Product, Date>() {
+		dateColumn.setFieldUpdater(new FieldUpdater<ProductDTO, Date>() {
 
 			@Override
-			public void update(int index, Product object, Date value) {
+			public void update(int index, ProductDTO object, Date value) {
 				object.setExpiryDate(value);
+				changedIDs.add(index);
 
 			}
 		});
-
-		productQuantityColumn.setFieldUpdater(new FieldUpdater<Product, String>() {
+		productQuantityColumn.setFieldUpdater(new FieldUpdater<ProductDTO, String>() {
 			@Override
-			public void update(int index, Product object, String value) {
+			public void update(int index, ProductDTO object, String value) {
 				object.setQuantity(Integer.parseInt(value));
+				changedIDs.add(index);
 			}
 		});
-
-		productThresholdColumn.setFieldUpdater(new FieldUpdater<Product, String>() {
+		productThresholdColumn.setFieldUpdater(new FieldUpdater<ProductDTO, String>() {
 			@Override
-			public void update(int index, Product object, String value) {
+			public void update(int index, ProductDTO object, String value) {
 				object.setThreshold(Integer.parseInt(value));
 			}
 		});
-		activeProductButtonsColumn.setFieldUpdater(new FieldUpdater<Product, String>() {
-
+		activeProductButtonsColumn.setFieldUpdater(new FieldUpdater<ProductDTO, String>() {
 			@Override
-			public void update(int index, Product object, String value) {
-				/*
-				 * CON.remove(object); dataGrid.setRowData(CON);
-				 */
+			public void update(int index, ProductDTO object, String value) {
 				if (value.equals("Activate")) {
 					object.setStatus((byte) 1);
 				} else if (value.equals("Deactivate")) {
 					object.setStatus((byte) 0);
 				}
 				productList.redraw();
-
+				changedIDs.add(index);
 			}
 		});
-		deleteProductButtonsColumn.setFieldUpdater(new FieldUpdater<Product, String>() {
-
+		deleteProductButtonsColumn.setFieldUpdater(new FieldUpdater<ProductDTO, String>() {
 			@Override
-			public void update(int index, Product object, String value) {
-				/*
-				 * CON.remove(object); dataGrid.setRowData(CON);
-				 * dataGrid.redraw();
-				 */
-				Window.alert("You removed: " + object.getName());
+			public void update(int index, ProductDTO object, String value) {
+				presenter.deleteProduct(object);
+				ArrayList<ProductDTO> list = new ArrayList<>(productList.getVisibleItems());
+				list.remove(object);
+				productList.setRowData(list);
+				productList.redraw();
+				changedIDs.add(index);
 			}
 		});
 
 		// dataGrid***********************************************
-		productList = new DataGrid<Product>();
-		productList.setSize("1000px", "500px");
 
 		productList.setColumnWidth(productNameColumn, 40, Unit.PX);
 		productList.setColumnWidth(productWeightColumn, 40, Unit.PX);
@@ -207,8 +201,7 @@ public class ManagerHome extends Composite implements Display {
 		productList.addColumn(thresholdAlarmColumn, "Threshold Warning");
 		productList.addColumn(expiryAlarmColumn, "Expiry Warning");
 		productList.addColumn(deleteProductButtonsColumn, "");
-		
-		
+
 	}
 
 	public void setPresenter(ManagerHomePresenter presenter) {
@@ -216,19 +209,28 @@ public class ManagerHome extends Composite implements Display {
 	}
 
 	@Override
-	public void setDataGridList(List<Product> myList) {
+	public void setDataGridList(List<ProductDTO> myList) {
 
 		productList.setRowData(myList);
-
-		DockPanel dockPanel = new DockPanel();
 		dockPanel.setSpacing(4);
 		dockPanel.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
-		ScrollPanel scrollPanel = new ScrollPanel(productList);
-		// scrollPanel.setSize("100px", "100px");
-		dockPanel.add(scrollPanel, DockPanel.NORTH);
-		RootPanel.get("dataGrid").add(dockPanel);
-
+		dockPanel.add(productList, DockPanel.NORTH);
 	}
 
+	@Override
+	public HasClickHandlers getSaveChangesButton() {
+		return btn;
+	}
 
+	@Override
+	public ArrayList<ProductDTO> getChangedDataGridList() {
+		ArrayList<ProductDTO> list = new ArrayList<>(productList.getVisibleItems());
+		return list;
+	}
+
+	@Override
+	public HashSet<Integer> getChangedIds() {
+		return changedIDs;
+	}
+	
 }

@@ -12,10 +12,8 @@ import com.test.entity.Inventory;
  
 public class InventoryDao extends GenericDao<Inventory,Integer>   {
 
-//	@PersistenceContext(unitName = "InventoryManagementEJBs")
-//    private EntityManager em;
 	
-	private EntityManager em = Persistence.createEntityManagerFactory("InventoryManagementEJBs").createEntityManager();
+	private EntityManager entityManager;
 	
     public InventoryDao() {
         super(Inventory.class);
@@ -23,8 +21,12 @@ public class InventoryDao extends GenericDao<Inventory,Integer>   {
 
 	@Override
 	protected EntityManager getEntityManager() {
-		// TODO Auto-generated method stub
-		return em;
+			return entityManager;
 	}
+	
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
 
 }

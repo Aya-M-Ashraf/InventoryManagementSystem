@@ -2,6 +2,8 @@ package com.test.controller;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import com.test.daos.OrderStatusDao;
 
@@ -11,6 +13,8 @@ import com.test.daos.OrderStatusDao;
 @Stateless
 @LocalBean
 public class OrderStatusController implements OrderStatusControllerLocal {
+	@PersistenceContext(unitName = "InventoryManagementEJBs")
+	private EntityManager em;
 
 	private OrderStatusDao orderStatusDao = new OrderStatusDao();
 	
