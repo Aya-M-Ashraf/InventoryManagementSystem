@@ -8,4 +8,5 @@ import com.test.entity.User;
 public interface UserControllerLocal {
 	User signIn(User user);
 	void forgetPasswordController (String emailAddress);
+	void updateProfileController(String email, String oldPasswd, String newPasswd);
 }

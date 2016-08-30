@@ -36,6 +36,8 @@ public class ForgetPasswordView extends Composite implements ForgetPasswordPrese
 	@UiField
 	Button sendBtn;
 	
+	@UiField
+	Anchor editProfile;
 
 	@Override
 	public TextBox getEmail() {
@@ -55,5 +57,10 @@ public class ForgetPasswordView extends Composite implements ForgetPasswordPrese
 	@Override
 	public HasClickHandlers getBackToSignIn() {
 		return backToSignIn;
+	}
+
+	@Override
+	public HasClickHandlers getEditProfile() {
+		return editProfile;
 	}
 }

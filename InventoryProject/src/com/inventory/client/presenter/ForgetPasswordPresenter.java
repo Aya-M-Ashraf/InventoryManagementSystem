@@ -5,13 +5,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.inventory.client.GreetingServiceAsync;
-import com.inventory.client.event.ForgetPasswordEvent;
+import com.inventory.client.event.EditProfileEvent;
 import com.inventory.client.event.LogOutEvent;
 
 public class ForgetPasswordPresenter implements Presenter {
@@ -25,6 +24,7 @@ public class ForgetPasswordPresenter implements Presenter {
 		Label getFilpText();
 		HasClickHandlers getSendBtn();
 		HasClickHandlers getBackToSignIn();
+		HasClickHandlers getEditProfile();
 		Widget asWidget();
 	}
 
@@ -51,6 +51,14 @@ public class ForgetPasswordPresenter implements Presenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				eventBus.fireEvent(new LogOutEvent());
+			}
+		});
+		
+		display.getEditProfile().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				eventBus.fireEvent(new EditProfileEvent());
 			}
 		});
 	}

@@ -166,7 +166,7 @@
 						password</g:Label>
 					<br />
 					<g:TextBox ui:field="inputEmail" styleName="{style.form-control} {style.f-h}"></g:TextBox>
-					<g:TextBox ui:field="inputPassword" styleName="{style.form-control} {style.f-h}"></g:TextBox>
+					<g:PasswordTextBox ui:field="inputPassword" styleName="{style.form-control} {style.f-h}"></g:PasswordTextBox>
 					<g:Button ui:field="signInBtn"
 						styleName="{style.btn} {style.btn-signin} {style.f-h}"> Sign In</g:Button>
 					<div id="remember" class="checkbox">
@@ -176,8 +176,9 @@
 					</div>
 					<br />
 				</div>
-				<g:Anchor ui:field="forgetPassword" styleName="{style.forgot-password}">Forgot the
-					password?</g:Anchor>
+				<g:Anchor ui:field="forgetPassword" styleName="{style.forgot-password}">Forgot The Password?</g:Anchor>
+				<br/>
+				<g:Anchor ui:field="editProfile" styleName="{style.forgot-password}">Update Your Profile</g:Anchor>
 			</div><!-- /card-container -->
 		</div><!-- /container -->
 	</g:HTMLPanel>

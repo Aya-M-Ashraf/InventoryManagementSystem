@@ -21,6 +21,7 @@ public interface GreetingServiceAsync {
 	void getAllProducts(AsyncCallback<List<ProductDTO>> callback)throws IllegalArgumentException;
 	void saveEditedProducts(ArrayList<ProductDTO> gridList, HashSet<Integer> changedIds, AsyncCallback<Void> callback);
 	void deleteProduct(ProductDTO product, AsyncCallback<Void> callback);
+	void updateProfile(String email, String oldPasswd, String newPasswd, AsyncCallback<Void> callback);
 
 
 }

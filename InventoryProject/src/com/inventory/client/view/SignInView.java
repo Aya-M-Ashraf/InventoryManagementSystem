@@ -41,6 +41,9 @@ public class SignInView extends Composite implements SignInPresenter.Display {
 
 	@UiField
 	CheckBox rememberMe;
+	
+	@UiField
+	Anchor editProfile;
 
 	@Override
 	public TextBox getEmail() {
@@ -75,6 +78,11 @@ public class SignInView extends Composite implements SignInPresenter.Display {
 	@Override
 	public CheckBox getRemeberMe() {
 		return rememberMe;
+	}
+
+	@Override
+	public HasClickHandlers getEditProfile() {
+		return editProfile;
 	}
 
 }

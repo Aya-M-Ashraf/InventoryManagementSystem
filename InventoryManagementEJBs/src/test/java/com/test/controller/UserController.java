@@ -18,13 +18,12 @@ import com.test.util.PasswordSenderMail;
 @Stateless
 @LocalBean
 public class UserController implements UserControllerLocal {
-	
+
 	@PersistenceContext(unitName = "InventoryManagementEJBs")
 	private EntityManager em;
 	private UserDao userDao = new UserDao();
 	private final int PASSWORD_LENGTH = 8;
 	private static final Random RANDOM = new SecureRandom();
-
 
 	public UserController() {
 	}
@@ -45,27 +44,39 @@ public class UserController implements UserControllerLocal {
 	public void forgetPasswordController(String emailAddress) {
 		userDao.setEm(em);
 		User retrivedUser = userDao.findByEmail(emailAddress);
-		if(retrivedUser !=null){
+		if (retrivedUser != null) {
 			String generatedOne = generateRandomPassword();
-			System.out.println("*************"+ generatedOne +"*************" );
 			retrivedUser.setPassword(generatedOne);
 			try {
 				userDao.update(retrivedUser);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			PasswordSenderMail.generateAndSendEmail(retrivedUser.getPassword(), emailAddress);
 		}
 	}
-	
+
 	public String generateRandomPassword() {
-        String letters = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ123456789!@";
-        String password = "";
-        for (int i = 0; i < PASSWORD_LENGTH; i++) {
-            int index = (int) (RANDOM.nextDouble() * letters.length());
-            password += letters.substring(index, index + 1);
-        }
-        return password;
-    }
+		String letters = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ123456789!@";
+		String password = "";
+		for (int i = 0; i < PASSWORD_LENGTH; i++) {
+			int index = (int) (RANDOM.nextDouble() * letters.length());
+			password += letters.substring(index, index + 1);
+		}
+		return password;
+	}
+
+	@Override
+	public void updateProfileController(String email, String oldPasswd, String newPasswd) {
+		userDao.setEm(em);
+		User user = userDao.findByEmail(email);
+		if (user != null && user.getPassword().equals(oldPasswd)) {
+			user.setPassword(newPasswd);
+			try {
+				userDao.update(user);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

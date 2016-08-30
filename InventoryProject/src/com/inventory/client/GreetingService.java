@@ -22,4 +22,5 @@ public interface GreetingService extends RemoteService {
 	void deleteProduct(ProductDTO product)throws IllegalArgumentException;
 	UserDTO signIn(UserDTO user) throws IllegalArgumentException;
 	void forgetPassword(String emailAddress) throws IllegalArgumentException;
+	void updateProfile(String email, String oldPasswd, String newPasswd) throws IllegalArgumentException;
 }

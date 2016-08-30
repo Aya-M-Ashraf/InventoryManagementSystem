@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.inventory.client.GreetingServiceAsync;
+import com.inventory.client.event.EditProfileEvent;
 import com.inventory.client.event.ForgetPasswordEvent;
 import com.inventory.client.event.SignInEvent;
 //import com.test.entity.User;
@@ -33,6 +34,8 @@ public class SignInPresenter implements Presenter {
 		Label getErrorLabel();
 
 		CheckBox getRemeberMe();
+		
+		HasClickHandlers getEditProfile();
 
 		Widget asWidget();
 	}
@@ -71,6 +74,15 @@ public class SignInPresenter implements Presenter {
 				eventBus.fireEvent(new ForgetPasswordEvent());
 			}
 		});
+		
+		display.getEditProfile().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				eventBus.fireEvent(new EditProfileEvent());
+			}
+		});
+		
 		display.getErrorLabel().setVisible(false);
 		display.getEmail().getElement().setAttribute("placeHolder", "Enter Your E-mail");
 		display.getPassword().getElement().setAttribute("placeHolder", "Enter Your Password");

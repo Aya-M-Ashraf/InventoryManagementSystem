@@ -1,6 +1,5 @@
 package com.inventory.client;
 
-import com.gargoylesoftware.htmlunit.Page;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
@@ -9,21 +8,23 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.inventory.client.event.EditProfileEvent;
+import com.inventory.client.event.EditProfileHandler;
 import com.inventory.client.event.ForgetPasswordEvent;
 import com.inventory.client.event.ForgetPasswordHandler;
 import com.inventory.client.event.LogOutEvent;
 import com.inventory.client.event.LogOutEventHandler;
 import com.inventory.client.event.SignInEvent;
 import com.inventory.client.event.SignInEventHandler;
+import com.inventory.client.presenter.EditProfileOPresenter;
 import com.inventory.client.presenter.ForgetPasswordPresenter;
 import com.inventory.client.presenter.ManagerHomePresenter;
 import com.inventory.client.presenter.Presenter;
 import com.inventory.client.presenter.SignInPresenter;
-import com.inventory.client.presenter.WelcomePresenter;
+import com.inventory.client.view.EditProfileView;
 import com.inventory.client.view.ForgetPasswordView;
 import com.inventory.client.view.ManagerHome;
 import com.inventory.client.view.SignInView;
-import com.inventory.client.view.WelcomeView;
 import com.inventory.shared.dto.UserDTO;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
@@ -70,6 +71,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				History.newItem("forgetPassword");
 			}
 		});
+		
+		eventBus.addHandler(EditProfileEvent.TYPE, new EditProfileHandler() {
+			
+			@Override
+			public void onEditProfile(EditProfileEvent editProfileEvent) {
+				History.newItem("editProfile");
+			}
+		});
 	}
 
 	public void go(final HasWidgets container) {
@@ -109,9 +118,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	public void onValueChange(ValueChangeEvent<String> event) {
 		String token = event.getValue();
+		Presenter presenter;
 		if (token != null) {
 			if (token.equals("forgetPassword")) {
-				Presenter presenter = new ForgetPasswordPresenter(eventBus, rpcService, new ForgetPasswordView());
+				presenter = new ForgetPasswordPresenter(eventBus, rpcService, new ForgetPasswordView());
+				presenter.go(container);
+			}
+			if(token.equals("editProfile")){
+				presenter = new EditProfileOPresenter(eventBus, rpcService, new EditProfileView());
 				presenter.go(container);
 			}
 		}

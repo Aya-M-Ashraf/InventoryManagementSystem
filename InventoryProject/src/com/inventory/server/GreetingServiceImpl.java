@@ -89,4 +89,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		}
 	}
 
+	@Override
+	public void updateProfile(String email, String oldPasswd, String newPasswd) throws IllegalArgumentException {
+		userController.updateProfileController(email, oldPasswd, newPasswd);
+	}
+
 }
