@@ -52,8 +52,8 @@ public class Inventory implements Serializable {
 		this.quantity = quantity;
 		this.quantityForOrder = quantityForOrder;
 	}
-
-
+	
+	
 	public int getQuantity() {
 		return quantity;
 	}

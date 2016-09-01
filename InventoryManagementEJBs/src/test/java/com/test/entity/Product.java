@@ -15,25 +15,24 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 /**
  * The persistent class for the product database table.
  * 
  */
 @Entity
-@NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
+@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name="expiry_alarm")
+	@Column(name = "expiry_alarm")
 	private byte expiryAlarm;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="expiry_date")
+	@Column(name = "expiry_date")
 	private Date expiryDate;
 
 	private String name;
@@ -44,17 +43,17 @@ public class Product implements Serializable {
 
 	private int threshold;
 
-	@Column(name="threshold_alarm")
+	@Column(name = "threshold_alarm")
 	private byte thresholdAlarm;
 
 	private double weight;
 
-	//bi-directional one-to-one association to Inventory
-	@OneToOne(mappedBy="product")
+	// bi-directional one-to-one association to Inventory
+	@OneToOne(mappedBy = "product")
 	private Inventory inventory;
 
-	//bi-directional many-to-one association to Order
-	@OneToMany(mappedBy="product")
+	// bi-directional many-to-one association to Order
+	@OneToMany(mappedBy = "product")
 	private List<Order> orders;
 
 	public Product() {
@@ -76,11 +75,8 @@ public class Product implements Serializable {
 		this.orders = orders;
 	}
 
-
-
-	
 	public Product(int id, byte expiryAlarm, Date expiryDate, String name, int quantity, byte status, int threshold,
-			byte thresholdAlarm, double weight, Inventory inventory , Object object) {
+			byte thresholdAlarm, double weight, Inventory inventory, Object object) {
 		super();
 		this.id = id;
 		this.expiryAlarm = expiryAlarm;
@@ -94,7 +90,19 @@ public class Product implements Serializable {
 		this.inventory = inventory;
 	}
 
-
+	public Product(byte expiryAlarm, Date expiryDate, String name, int quantity, byte status, int threshold,
+			byte thresholdAlarm, double weight /*, Inventory inventory*/) {
+		super();
+		this.expiryAlarm = expiryAlarm;
+		this.expiryDate = expiryDate;
+		this.name = name;
+		this.quantity = quantity;
+		this.status = status;
+		this.threshold = threshold;
+		this.thresholdAlarm = thresholdAlarm;
+		this.weight = weight;
+		this.inventory = inventory;
+	}
 
 	public int getId() {
 		return this.id;

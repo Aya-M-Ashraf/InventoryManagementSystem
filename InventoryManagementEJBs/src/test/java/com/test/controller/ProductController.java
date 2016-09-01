@@ -1,5 +1,6 @@
 package com.test.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +12,8 @@ import javax.persistence.PersistenceContext;
 
 import com.test.daos.ProductDao;
 import com.test.entity.Product;
+import com.test.util.AddProductAsXML;
+import com.test.xmlSchema.ProductType;
 
 
 @Stateless
@@ -46,7 +49,6 @@ public class ProductController implements ProductControllerLocal {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	@Override
@@ -59,5 +61,4 @@ public class ProductController implements ProductControllerLocal {
 			e.printStackTrace();
 		}
 	}
-
 }
