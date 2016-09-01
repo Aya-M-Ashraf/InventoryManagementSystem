@@ -6,8 +6,10 @@ import java.util.List;
 
 import javax.ejb.EJB;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.inventory.client.GreetingService;
+import com.inventory.shared.dto.InventoryDTO;
 import com.inventory.shared.dto.ProductDTO;
 import com.inventory.shared.util.EntityMapper;
 import com.test.controller.ProductControllerLocal;
@@ -92,6 +94,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	@Override
 	public void updateProfile(String email, String oldPasswd, String newPasswd) throws IllegalArgumentException {
 		userController.updateProfileController(email, oldPasswd, newPasswd);
+	}
+
+	@Override
+	public ProductDTO addProduct(ProductDTO product, InventoryDTO inventoryDTO) {
+		Product addedProduct = productController.addProduct(mapper.mapProductDtoToProduct(product), mapper.mapInventoryDtoToInventory(inventoryDTO));
+		return mapper.mapProductToProductDto(addedProduct);
 	}
 
 }

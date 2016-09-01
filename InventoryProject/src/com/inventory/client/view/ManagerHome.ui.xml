@@ -12,9 +12,10 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-	    <g:DockPanel ui:field="dockPanel" />
-	
-		<g:Button text="click here" ui:field='btn' />
-		
+		<g:DockPanel ui:field="dockPanel" />
+
+		<g:Button text="Save Changes" ui:field='btn' />
+		<g:Button text="Add Product" ui:field='addProductButton' />
+
 	</g:HTMLPanel>
 </ui:UiBinder> 

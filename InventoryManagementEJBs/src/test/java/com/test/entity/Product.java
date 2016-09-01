@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,15 +49,21 @@ public class Product implements Serializable {
 
 	private double weight;
 
-	// bi-directional one-to-one association to Inventory
-	@OneToOne(mappedBy = "product")
+
+	//bi-directional one-to-one association to Inventory
+	@OneToOne(mappedBy="product",cascade = {CascadeType.MERGE,CascadeType.REMOVE,CascadeType.PERSIST,CascadeType.REFRESH})
+
 	private Inventory inventory;
 
-	// bi-directional many-to-one association to Order
-	@OneToMany(mappedBy = "product")
+	//bi-directional many-to-one association to Order
+	@OneToMany(mappedBy="product",cascade = {CascadeType.MERGE,CascadeType.REMOVE,CascadeType.PERSIST,CascadeType.REFRESH})
+
 	private List<Order> orders;
 
 	public Product() {
+		expiryDate = new Date();
+		name="";
+		inventory=new Inventory();
 	}
 
 	public Product(int id, byte expiryAlarm, Date expiryDate, String name, int quantity, byte status, int threshold,
