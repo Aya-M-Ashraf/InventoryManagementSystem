@@ -17,10 +17,9 @@ public class EntityMapper {
 		Product productEntity = new Product((byte) (isExpiryAlarm ? 1 : 0),
 				ExpiryDateProdType.toGregorianCalendar().getTime(), productType.getName(),
 				productType.getQuantity().intValue(), (byte) (isStatus ? 1 : 0), productType.getThreshold().intValue(),
-				(byte) (isThresholdAlarm ? 1 : 0), productType.getWeight() /*, mapInventoryTypeToInventory(productType.getInventory()) */);
+				(byte) (isThresholdAlarm ? 1 : 0), productType.getWeight(), mapInventoryTypeToInventory(productType.getInventory()));
 		return productEntity;
 	}
-	
 	
 	// BEFORE PRESISTING PRODUCT SET THE NULL FIELDS IN INVENTORY
 	

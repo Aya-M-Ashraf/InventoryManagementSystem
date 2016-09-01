@@ -14,6 +14,8 @@ import com.test.daos.ProductDao;
 import com.test.entity.Inventory;
 import com.test.entity.Product;
 import com.test.util.AddProductAsXML;
+import com.test.util.EntityMapper;
+import com.test.xmlSchema.InventoryType;
 import com.test.xmlSchema.ProductType;
 
 
@@ -25,6 +27,8 @@ public class ProductController implements ProductControllerLocal {
 	private EntityManager em;
 
 	private ProductDao productDao = new ProductDao();
+	
+	private EntityMapper mapper = new EntityMapper();
 
 	public ProductController() {
 	}
@@ -79,5 +83,20 @@ public class ProductController implements ProductControllerLocal {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public void addProductByXml(File file) {
+		productDao.setEntityManager(em);
+		AddProductAsXML addProductAsXML = new AddProductAsXML();
+		List <ProductType> prodTypeList = new ArrayList<>();
+		prodTypeList = addProductAsXML.getProductList(file);
+		for(ProductType productTypeItem : prodTypeList){
+			Product product = mapper.mapProductTypeToProduct(productTypeItem);
+			Inventory inventory = product.getInventory();
+			inventory.setProductId(product.getId());
+			addProduct(product, inventory);
+		}
+		
 	}
 }

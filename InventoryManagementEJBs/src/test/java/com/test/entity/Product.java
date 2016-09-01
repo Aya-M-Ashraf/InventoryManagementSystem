@@ -98,7 +98,7 @@ public class Product implements Serializable {
 	}
 
 	public Product(byte expiryAlarm, Date expiryDate, String name, int quantity, byte status, int threshold,
-			byte thresholdAlarm, double weight /*, Inventory inventory*/) {
+			byte thresholdAlarm, double weight ,Inventory inventory) {
 		super();
 		this.expiryAlarm = expiryAlarm;
 		this.expiryDate = expiryDate;
