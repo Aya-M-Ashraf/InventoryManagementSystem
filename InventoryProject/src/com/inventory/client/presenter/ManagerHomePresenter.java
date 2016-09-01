@@ -10,34 +10,43 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Hidden;
 import com.inventory.client.GreetingServiceAsync;
 import com.inventory.client.view.ManagerHome;
 import com.inventory.shared.dto.InventoryDTO;
 import com.inventory.shared.dto.ProductDTO;
+import com.inventory.shared.dto.UserDTO;
 
 public class ManagerHomePresenter implements Presenter {
 
 	public interface Display {
 		void setDataGridList(List<ProductDTO> myList);
-
 		ArrayList<ProductDTO> getChangedDataGridList();
-
 		HashSet<Integer> getChangedIds();
-
 		HasClickHandlers getSaveChangesButton();
-		
+		HasClickHandlers getXmlButton();
+		HasClickHandlers getUploadBtn();
+		DialogBox getXmlDb();
+		FileUpload getFileUpload();
+		FormPanel getUploadForm();
+		Hidden getUserHidden();
 		void setAddedProduct(ProductDTO newProduct);
 	}
 
 	private final HandlerManager eventBus;
 	private final GreetingServiceAsync rpcService;
 	private final ManagerHome view;
+	private final UserDTO user;
 
-	public ManagerHomePresenter(HandlerManager eventBus, GreetingServiceAsync rpcService, ManagerHome view) {
+	public ManagerHomePresenter(HandlerManager eventBus, GreetingServiceAsync rpcService, ManagerHome view, UserDTO user) {
 		this.eventBus = eventBus;
 		this.rpcService = rpcService;
 		this.view = view;
+		this.user = user;
 		this.view.setPresenter(this);
 
 		rpcService.getAllProducts(new AsyncCallback<List<ProductDTO>>() {
@@ -58,6 +67,31 @@ public class ManagerHomePresenter implements Presenter {
 				saveEditedProducts();
 			}
 
+		});
+		bind();
+	}
+	
+	void bind(){
+		FormPanel form=view.getUploadForm();
+		form.setAction("FileUploadServelt");
+		form.setEncoding(FormPanel.ENCODING_MULTIPART);
+		form.setMethod(FormPanel.METHOD_POST);
+		view.getUserHidden().setValue(user.getEmail());
+		
+		view.getXmlButton().addClickHandler(new ClickHandler() {
+		
+		@Override
+		public void onClick(ClickEvent event) {
+			view.getXmlDb().center();
+		}
+	});
+		
+		view.getUploadBtn().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				view.getUploadForm().submit();
+			}
 		});
 	}
 

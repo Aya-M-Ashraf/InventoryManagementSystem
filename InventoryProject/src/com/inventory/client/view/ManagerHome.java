@@ -21,7 +21,12 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.Hidden;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.inventory.client.presenter.ManagerHomePresenter;
 import com.inventory.client.presenter.ManagerHomePresenter.Display;
@@ -49,6 +54,14 @@ public class ManagerHome extends Composite implements Display {
 	@UiField
 	Button addProductButton;
 
+	FileUpload fileUpload ;
+	DialogBox dialogbox;
+	Button btnxml;
+	Button uploadBtn;
+	FormPanel form;
+	VerticalPanel verticalPanel;
+	Hidden userHidden;
+	
 	public ManagerHome() {
 		initWidget(uiBinder.createAndBindUi(this));
 		addedProduct = new ProductDTO() ;
@@ -240,9 +253,30 @@ public class ManagerHome extends Composite implements Display {
 
 			}
 		});
-
+		bind();
 	}
-
+	
+	void bind(){
+		userHidden = new Hidden();
+		userHidden.getElement().setAttribute("name", "user_email");
+		verticalPanel = new VerticalPanel();
+		form = new FormPanel();
+		uploadBtn = new Button("upload");
+		btnxml = new Button("add product by xml");
+		dialogbox = new DialogBox();
+		fileUpload =  new FileUpload();
+		fileUpload.setName("myFile");
+		dialogbox.setAnimationEnabled(true);
+		dialogbox.setGlassEnabled(true);
+		dialogbox.setAutoHideEnabled(true);
+		verticalPanel.setSpacing(5);
+		verticalPanel.add(fileUpload);
+		verticalPanel.add(uploadBtn);
+		verticalPanel.add(userHidden);
+		form.add(verticalPanel);
+		dialogbox.setWidget(form);
+	}
+	
 	public void setPresenter(ManagerHomePresenter presenter) {
 		this.presenter = presenter;
 	}
@@ -254,6 +288,7 @@ public class ManagerHome extends Composite implements Display {
 		dockPanel.setSpacing(4);
 		dockPanel.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
 		dockPanel.add(productList, DockPanel.NORTH);
+		dockPanel.add(btnxml, DockPanel.SOUTH);
 	}
 
 	@Override
@@ -277,5 +312,35 @@ public class ManagerHome extends Composite implements Display {
 	public void setAddedProduct(ProductDTO newProduct) {
 		addedProduct = newProduct;
 		
+	}
+	
+	@Override
+	public HasClickHandlers getXmlButton() {
+		return btnxml;
+	}
+
+	@Override
+	public DialogBox getXmlDb() {
+		return dialogbox;
+	}
+
+	@Override
+	public FileUpload getFileUpload() {
+		return fileUpload;
+	}
+
+	@Override
+	public HasClickHandlers getUploadBtn() {
+		return uploadBtn;
+	}
+
+	@Override
+	public FormPanel getUploadForm() {
+		return form;
+	}
+
+	@Override
+	public Hidden getUserHidden() {
+		return userHidden;
 	}
 }
