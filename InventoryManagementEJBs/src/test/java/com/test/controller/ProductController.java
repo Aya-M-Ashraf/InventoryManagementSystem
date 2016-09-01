@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.test.daos.ProductDao;
+import com.test.entity.Inventory;
 import com.test.entity.Product;
 
 
@@ -57,6 +58,24 @@ public class ProductController implements ProductControllerLocal {
 		} catch (Exception e) {
 			
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Product addProduct(Product product, Inventory inventory) {
+		productDao.setEntityManager(em);
+		try {
+			System.out.println("in product controller addproduct");
+			inventory.setProduct(product);
+			product.setInventory(inventory);
+			System.out.println("***************** product date = " +product.getExpiryDate());
+			Product persistedProduct = productDao.makePersistent(product);
+			System.out.println("***************** product new date = " +persistedProduct.getExpiryDate());
+			return persistedProduct;
+		} catch (Exception e) {
+			System.out.println("***************** exceptioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaan");
+			e.printStackTrace();
+			return null;
 		}
 	}
 

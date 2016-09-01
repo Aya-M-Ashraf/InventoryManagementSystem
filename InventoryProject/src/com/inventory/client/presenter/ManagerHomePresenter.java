@@ -13,15 +13,21 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.inventory.client.GreetingServiceAsync;
 import com.inventory.client.view.ManagerHome;
+import com.inventory.shared.dto.InventoryDTO;
 import com.inventory.shared.dto.ProductDTO;
 
 public class ManagerHomePresenter implements Presenter {
 
 	public interface Display {
 		void setDataGridList(List<ProductDTO> myList);
+
 		ArrayList<ProductDTO> getChangedDataGridList();
+
 		HashSet<Integer> getChangedIds();
+
 		HasClickHandlers getSaveChangesButton();
+		
+		void setAddedProduct(ProductDTO newProduct);
 	}
 
 	private final HandlerManager eventBus;
@@ -62,14 +68,14 @@ public class ManagerHomePresenter implements Presenter {
 	}
 
 	public void saveEditedProducts() {
-		
+
 		rpcService.saveEditedProducts(ManagerHomePresenter.this.view.getChangedDataGridList(),
-				ManagerHomePresenter.this.view.getChangedIds(),
-				new AsyncCallback<Void>() {
+				ManagerHomePresenter.this.view.getChangedIds(), new AsyncCallback<Void>() {
 					@Override
 					public void onFailure(Throwable caught) {
-						Window.alert("Errrrrooooorrrrrrr !!!! " + caught.getMessage());	
+						Window.alert("Errrrrooooorrrrrrr !!!! " + caught.getMessage());
 					}
+
 					@Override
 					public void onSuccess(Void result) {
 						Window.alert("your changes Updated successfully ");
@@ -78,7 +84,7 @@ public class ManagerHomePresenter implements Presenter {
 
 	}
 
-	public void deleteProduct(ProductDTO product){
+	public void deleteProduct(ProductDTO product) {
 		rpcService.deleteProduct(product, new AsyncCallback<Void>() {
 
 			@Override
@@ -89,6 +95,23 @@ public class ManagerHomePresenter implements Presenter {
 			@Override
 			public void onSuccess(Void result) {
 				Window.alert("You removed your object successfully");
+			}
+		});
+	}
+
+	public void addProduct(ProductDTO newProduct, InventoryDTO inventoryDTO) {
+		Window.alert("MH Presenter before add product");
+		rpcService.addProduct(newProduct, inventoryDTO, new AsyncCallback<ProductDTO>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert(caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(ProductDTO result) {
+				ManagerHomePresenter.this.view.setAddedProduct(result);
+				Window.alert("MH Presenter add product success");
 			}
 		});
 	}

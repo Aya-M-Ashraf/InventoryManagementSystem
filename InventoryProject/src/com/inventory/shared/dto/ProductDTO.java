@@ -24,6 +24,9 @@ public class ProductDTO implements Serializable {
 
 	public ProductDTO() {
 		super();
+		expiryDate = new Date();
+		name="";
+		inventory=new InventoryDTO();
 	}
 
 	public ProductDTO(int id, byte expiryAlarm, Date expiryDate, String name, int quantity, byte status, int threshold,

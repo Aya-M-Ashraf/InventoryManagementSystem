@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.inventory.shared.dto.UserDTO;
+import com.inventory.shared.dto.InventoryDTO;
 import com.inventory.shared.dto.ProductDTO;
 import com.test.entity.Product;
 //import com.test.entity.User;
@@ -22,6 +23,7 @@ public interface GreetingServiceAsync {
 	void saveEditedProducts(ArrayList<ProductDTO> gridList, HashSet<Integer> changedIds, AsyncCallback<Void> callback);
 	void deleteProduct(ProductDTO product, AsyncCallback<Void> callback);
 	void updateProfile(String email, String oldPasswd, String newPasswd, AsyncCallback<Void> callback);
+	void addProduct(ProductDTO newProduct, InventoryDTO inventoryDTO, AsyncCallback<ProductDTO> asyncCallback);
 
 
 }

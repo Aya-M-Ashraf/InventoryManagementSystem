@@ -22,8 +22,9 @@ public class Inventory implements Serializable {
 	private int quantityForOrder;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "product_id")
+	//@Column(name = "product_id")
 	private Integer productId;
+	@MapsId
 	@JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
 	@OneToOne(optional = false)
 	private Product product;

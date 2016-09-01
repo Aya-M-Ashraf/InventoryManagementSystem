@@ -46,6 +46,7 @@ public abstract class GenericDao<T, ID extends Serializable> implements GenericD
 	public T makePersistent(T entity) throws Exception {
 		getEntityManager().persist(entity);
 		getEntityManager().flush();
+	
 		return entity;
 	}
 

@@ -12,6 +12,8 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ImageCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -23,6 +25,7 @@ import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.inventory.client.presenter.ManagerHomePresenter;
 import com.inventory.client.presenter.ManagerHomePresenter.Display;
+import com.inventory.shared.dto.InventoryDTO;
 import com.inventory.shared.dto.ProductDTO;
 
 public class ManagerHome extends Composite implements Display {
@@ -34,6 +37,7 @@ public class ManagerHome extends Composite implements Display {
 
 	private ManagerHomePresenter presenter;
 	private HashSet<Integer> changedIDs = new HashSet<>();
+	private ProductDTO addedProduct;
 
 	DataGrid<ProductDTO> productList;
 	@UiField
@@ -42,11 +46,14 @@ public class ManagerHome extends Composite implements Display {
 	@UiField
 	DockPanel dockPanel;
 
+	@UiField
+	Button addProductButton;
+
 	public ManagerHome() {
 		initWidget(uiBinder.createAndBindUi(this));
-
+		addedProduct = new ProductDTO() ;
 		productList = new DataGrid<ProductDTO>();
-		productList.setSize("1000px", "500px");
+		productList.setSize("1300px", "500px");
 
 		// columns***********************************************
 
@@ -71,7 +78,13 @@ public class ManagerHome extends Composite implements Display {
 		Column<ProductDTO, String> productQuantityColumn = new Column<ProductDTO, String>(new EditTextCell()) {
 			@Override
 			public String getValue(ProductDTO object) {
-				return Integer.toString(object.getQuantity());
+				return Integer.toString(object.getInventory().getQuantity());
+			}
+		};
+		Column<ProductDTO, String> productQuantityForOrderColumn = new Column<ProductDTO, String>(new EditTextCell()) {
+			@Override
+			public String getValue(ProductDTO object) {
+				return Integer.toString(object.getInventory().getQuantityForOrder());
 			}
 		};
 		Column<ProductDTO, String> productThresholdColumn = new Column<ProductDTO, String>(new EditTextCell()) {
@@ -90,7 +103,7 @@ public class ManagerHome extends Composite implements Display {
 					return "Deactivate";
 			}
 		};
-		
+
 		Column<ProductDTO, String> deleteProductButtonsColumn = new Column<ProductDTO, String>(new ButtonCell()) {
 
 			@Override
@@ -146,7 +159,14 @@ public class ManagerHome extends Composite implements Display {
 		productQuantityColumn.setFieldUpdater(new FieldUpdater<ProductDTO, String>() {
 			@Override
 			public void update(int index, ProductDTO object, String value) {
-				object.setQuantity(Integer.parseInt(value));
+				object.getInventory().setQuantity(Integer.parseInt(value));
+				changedIDs.add(index);
+			}
+		});
+		productQuantityForOrderColumn.setFieldUpdater(new FieldUpdater<ProductDTO, String>() {
+			@Override
+			public void update(int index, ProductDTO object, String value) {
+				object.getInventory().setQuantityForOrder(Integer.parseInt(value));
 				changedIDs.add(index);
 			}
 		});
@@ -182,25 +202,44 @@ public class ManagerHome extends Composite implements Display {
 
 		// dataGrid***********************************************
 
-		productList.setColumnWidth(productNameColumn, 40, Unit.PX);
+		productList.setColumnWidth(productNameColumn, 50, Unit.PX);
 		productList.setColumnWidth(productWeightColumn, 40, Unit.PX);
-		productList.setColumnWidth(dateColumn, 50, Unit.PX);
-		productList.setColumnWidth(productQuantityColumn, 30, Unit.PX);
-		productList.setColumnWidth(productThresholdColumn, 30, Unit.PX);
+		productList.setColumnWidth(dateColumn, 80, Unit.PX);
+		productList.setColumnWidth(productQuantityColumn, 40, Unit.PX);
+		productList.setColumnWidth(productQuantityForOrderColumn, 70, Unit.PX);
+		productList.setColumnWidth(productThresholdColumn, 40, Unit.PX);
 		productList.setColumnWidth(activeProductButtonsColumn, 40, Unit.PX);
-		productList.setColumnWidth(thresholdAlarmColumn, 40, Unit.PX);
-		productList.setColumnWidth(expiryAlarmColumn, 40, Unit.PX);
-		productList.setColumnWidth(deleteProductButtonsColumn, 30, Unit.PX);
+		productList.setColumnWidth(thresholdAlarmColumn, 60, Unit.PX);
+		productList.setColumnWidth(expiryAlarmColumn, 60, Unit.PX);
+		productList.setColumnWidth(deleteProductButtonsColumn, 40, Unit.PX);
 
 		productList.addColumn(productNameColumn, "Name");
 		productList.addColumn(productWeightColumn, "Weight");
 		productList.addColumn(dateColumn, "Expiry Date");
 		productList.addColumn(productQuantityColumn, "Quantity");
+		productList.addColumn(productQuantityForOrderColumn, "Quantity For Order");
 		productList.addColumn(productThresholdColumn, "Threshold");
 		productList.addColumn(activeProductButtonsColumn, "Activation");
 		productList.addColumn(thresholdAlarmColumn, "Threshold Warning");
 		productList.addColumn(expiryAlarmColumn, "Expiry Warning");
 		productList.addColumn(deleteProductButtonsColumn, "");
+
+		addProductButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				ProductDTO newProduct = new ProductDTO();
+				InventoryDTO inventoryDTO = new InventoryDTO();
+		//		inventoryDTO.setProductId(addedProduct.getId());
+				presenter.addProduct(newProduct, inventoryDTO);
+				ArrayList<ProductDTO> list = new ArrayList<>(productList.getVisibleItems());
+				list.add(addedProduct);
+				productList.setRowData(list);
+				productList.redraw();
+
+			}
+		});
 
 	}
 
@@ -232,5 +271,11 @@ public class ManagerHome extends Composite implements Display {
 	public HashSet<Integer> getChangedIds() {
 		return changedIDs;
 	}
-	
+
+
+	@Override
+	public void setAddedProduct(ProductDTO newProduct) {
+		addedProduct = newProduct;
+		
+	}
 }
