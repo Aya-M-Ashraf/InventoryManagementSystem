@@ -52,12 +52,16 @@ public class ManagerHome extends Composite implements Display {
 
 	@UiField
 	Button addProductButton;
+	
+	@UiField
+	Button btnxml;
 
 	FileUpload fileUpload ;
-	DialogBox dialogbox;
-	Button btnxml;
+	DialogBox dialogbox;	
 	Button uploadBtn;
 	FormPanel form;
+	FormPanel downloadFrom;
+	Button templateDwnBtn;
 	VerticalPanel verticalPanel;
 	Hidden userHidden;
 	
@@ -247,12 +251,16 @@ public class ManagerHome extends Composite implements Display {
 	}
 	
 	void bind(){
+		downloadFrom = new FormPanel();
+		templateDwnBtn = new Button("Download template file");
+		//
+		downloadFrom.add(templateDwnBtn);
+		//
 		userHidden = new Hidden();
 		userHidden.getElement().setAttribute("name", "user_email");
 		verticalPanel = new VerticalPanel();
 		form = new FormPanel();
 		uploadBtn = new Button("upload");
-		btnxml = new Button("add product by xml");
 		dialogbox = new DialogBox();
 		fileUpload =  new FileUpload();
 		fileUpload.setName("myFile");
@@ -263,6 +271,7 @@ public class ManagerHome extends Composite implements Display {
 		verticalPanel.add(fileUpload);
 		verticalPanel.add(uploadBtn);
 		verticalPanel.add(userHidden);
+		verticalPanel.add(downloadFrom);
 		form.add(verticalPanel);
 		dialogbox.setWidget(form);
 	}
@@ -278,7 +287,6 @@ public class ManagerHome extends Composite implements Display {
 		dockPanel.setSpacing(4);
 		dockPanel.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
 		dockPanel.add(productList, DockPanel.NORTH);
-		dockPanel.add(btnxml, DockPanel.SOUTH);
 	}
 
 	@Override
@@ -325,6 +333,22 @@ public class ManagerHome extends Composite implements Display {
 	@Override
 	public Hidden getUserHidden() {
 		return userHidden;
+	}
+
+
+	@Override
+	public DataGrid<ProductDTO> getProductDataGrid() {
+		return productList;
+	}
+
+	@Override
+	public HasClickHandlers getDownloadBtn() {
+		return templateDwnBtn;
+	}
+
+	@Override
+	public FormPanel getDownloadForm() {
+		return downloadFrom;
 	}
 
 }

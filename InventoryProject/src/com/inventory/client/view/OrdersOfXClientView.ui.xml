@@ -1,0 +1,27 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	.head
+	{
+	 margin-left: 300px;
+	align : center ;
+	color : blue   ;
+	font-weight: bold;
+	    font-size: 20px;
+	
+}
+	</ui:style>
+	<g:HTMLPanel>
+	<g:HorizontalPanel>
+	<g:Label ui:field="clientName"  addStyleNames="{style.head}" />
+	<g:Label ui:field="label"   addStyleNames="{style.head}" />
+	</g:HorizontalPanel>
+	
+	<div id = "divTest"  />
+		
+	</g:HTMLPanel>
+</ui:UiBinder> 
