@@ -99,7 +99,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	@Override
 	public ProductDTO addProduct(ProductDTO product, InventoryDTO inventoryDTO) {
 		Product addedProduct = productController.addProduct(mapper.mapProductDtoToProduct(product), mapper.mapInventoryDtoToInventory(inventoryDTO));
-		return mapper.mapProductToProductDto(addedProduct);
+		System.out.println("----- id in service impl addeed prod: "+ addedProduct.getId());
+		ProductDTO prdouctDto = mapper.mapProductToProductDto(addedProduct);
+		System.out.println("----- id in service impl addeed prodDTO: "+ prdouctDto.getId());
+		return prdouctDto;
 	}
 
 }

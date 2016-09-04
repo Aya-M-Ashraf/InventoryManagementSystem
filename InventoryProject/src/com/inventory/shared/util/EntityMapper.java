@@ -85,9 +85,18 @@ public class EntityMapper {
 		}
 	}
 
+	public Inventory mapInventoryDtoToInventory(InventoryDTO inventoryDto, Product product) {
+		if (inventoryDto != null) {
+			Inventory inventory = new Inventory(inventoryDto.getQuantity(), inventoryDto.getQuantityForOrder(),
+					product.getId(), product);
+			return inventory;
+		} else {
+			return null;
+		}
+	}
+
 	public InventoryDTO mapInventoryToInventoryDto(Inventory inventory) {
 		if (inventory != null) {
-
 			InventoryDTO inventoryDTO = new InventoryDTO(inventory.getQuantity(), inventory.getQuantityForOrder(),
 					inventory.getProductId());
 			return inventoryDTO;
@@ -98,10 +107,20 @@ public class EntityMapper {
 
 	// PRODUCT & PRODUCTDTO
 	public Product mapProductDtoToProduct(ProductDTO productDto) {
-		Product product = new Product(productDto.getId(), productDto.getExpiryAlarm(), productDto.getExpiryDate(),
-				productDto.getName(), productDto.getQuantity(), productDto.getStatus(), productDto.getThreshold(),
-				productDto.getThresholdAlarm(), productDto.getWeight(),
-				mapInventoryDtoToInventory(productDto.getInventory()), null);
+		
+		Product product = new Product();
+		System.out.println("---- id swapped from Dto to product"+productDto.getId());
+		product.setId(productDto.getId());
+		product.setExpiryAlarm(productDto.getExpiryAlarm());
+		product.setExpiryDate(productDto.getExpiryDate());
+		product.setName(productDto.getName());
+		product.setQuantity(productDto.getQuantity());
+		product.setStatus(productDto.getStatus());
+		product.setThreshold(productDto.getThreshold());
+		product.setThresholdAlarm(productDto.getThresholdAlarm());
+		product.setWeight(productDto.getWeight());
+		Inventory inventory = mapInventoryDtoToInventory(productDto.getInventory(),product);
+		product.setInventory(inventory);
 		return product;
 	}
 

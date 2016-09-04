@@ -19,6 +19,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
@@ -37,7 +38,6 @@ public class ManagerHome extends Composite implements Display {
 
 	private ManagerHomePresenter presenter;
 	private HashSet<Integer> changedIDs = new HashSet<>();
-	private ProductDTO addedProduct;
 
 	DataGrid<ProductDTO> productList;
 	@UiField
@@ -51,7 +51,6 @@ public class ManagerHome extends Composite implements Display {
 
 	public ManagerHome() {
 		initWidget(uiBinder.createAndBindUi(this));
-		addedProduct = new ProductDTO() ;
 		productList = new DataGrid<ProductDTO>();
 		productList.setSize("1300px", "500px");
 
@@ -225,19 +224,11 @@ public class ManagerHome extends Composite implements Display {
 		productList.addColumn(deleteProductButtonsColumn, "");
 
 		addProductButton.addClickHandler(new ClickHandler() {
-
 			@Override
 			public void onClick(ClickEvent event) {
-
 				ProductDTO newProduct = new ProductDTO();
 				InventoryDTO inventoryDTO = new InventoryDTO();
-		//		inventoryDTO.setProductId(addedProduct.getId());
 				presenter.addProduct(newProduct, inventoryDTO);
-				ArrayList<ProductDTO> list = new ArrayList<>(productList.getVisibleItems());
-				list.add(addedProduct);
-				productList.setRowData(list);
-				productList.redraw();
-
 			}
 		});
 
@@ -272,10 +263,4 @@ public class ManagerHome extends Composite implements Display {
 		return changedIDs;
 	}
 
-
-	@Override
-	public void setAddedProduct(ProductDTO newProduct) {
-		addedProduct = newProduct;
-		
-	}
 }

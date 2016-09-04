@@ -1,0 +1,27 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	
+	body, html {
+		height: 100%;
+	}
+	
+	.logout {
+		float: right;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		Welcome,
+		<g:TextBox ui:field="username"></g:TextBox>
+		<g:Button ui:field="logOutBtn" styleName="{style.logout}">Log Out</g:Button>
+		<br />
+		<br />
+		<g:TextBox ui:field="theId"></g:TextBox>
+		<g:TextBox ui:field="email"></g:TextBox>
+		<g:TextBox ui:field="address"></g:TextBox>
+	</g:HTMLPanel>
+</ui:UiBinder> 

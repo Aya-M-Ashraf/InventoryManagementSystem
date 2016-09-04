@@ -13,11 +13,10 @@ import com.test.daos.ProductDao;
 import com.test.entity.Inventory;
 import com.test.entity.Product;
 
-
 @Stateless
 @LocalBean
 public class ProductController implements ProductControllerLocal {
-	
+
 	@PersistenceContext(unitName = "InventoryManagementEJBs")
 	private EntityManager em;
 
@@ -27,9 +26,9 @@ public class ProductController implements ProductControllerLocal {
 	}
 
 	@Override
-	public List<Product> getAllProducts() { //and set Expiration Alarm if found
+	public List<Product> getAllProducts() { // and set Expiration Alarm if found
 		productDao.setEntityManager(em);
-		
+
 		return productDao.findAll();
 	}
 
@@ -41,7 +40,6 @@ public class ProductController implements ProductControllerLocal {
 		System.out.println("-------------" + editedInedexes.size());
 		for (Integer index : editedInedexes) {
 			try {
-				System.out.println("--------- inside the Controller in SaveEditedProducts()" + allProducts.get(index));
 				productDao.update(allProducts.get(index));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -56,7 +54,7 @@ public class ProductController implements ProductControllerLocal {
 		try {
 			productDao.makeTransient(deletedProduct);
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 	}
@@ -67,10 +65,9 @@ public class ProductController implements ProductControllerLocal {
 		try {
 			System.out.println("in product controller addproduct");
 			inventory.setProduct(product);
-			product.setInventory(inventory);
-			System.out.println("***************** product date = " +product.getExpiryDate());
-			Product persistedProduct = productDao.makePersistent(product);
-			System.out.println("***************** product new date = " +persistedProduct.getExpiryDate());
+			product.setInventory(inventory);			
+			Product persistedProduct = productDao.findById(productDao.makePersistent(product).getId());
+			System.out.println("---- id returned in product controller after adding "+persistedProduct.getId());
 			return persistedProduct;
 		} catch (Exception e) {
 			System.out.println("***************** exceptioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaan");

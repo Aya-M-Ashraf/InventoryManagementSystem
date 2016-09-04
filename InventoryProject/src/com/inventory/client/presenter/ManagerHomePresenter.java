@@ -26,8 +26,7 @@ public class ManagerHomePresenter implements Presenter {
 		HashSet<Integer> getChangedIds();
 
 		HasClickHandlers getSaveChangesButton();
-		
-		void setAddedProduct(ProductDTO newProduct);
+
 	}
 
 	private final HandlerManager eventBus;
@@ -57,7 +56,6 @@ public class ManagerHomePresenter implements Presenter {
 			public void onClick(ClickEvent event) {
 				saveEditedProducts();
 			}
-
 		});
 	}
 
@@ -110,8 +108,10 @@ public class ManagerHomePresenter implements Presenter {
 
 			@Override
 			public void onSuccess(ProductDTO result) {
-				ManagerHomePresenter.this.view.setAddedProduct(result);
-				Window.alert("MH Presenter add product success");
+				Window.alert("MH Presenter add product success" + result.getId());
+				ArrayList<ProductDTO> list = new ArrayList<>(ManagerHomePresenter.this.view.getChangedDataGridList());
+				list.add(result);
+				ManagerHomePresenter.this.view.setDataGridList(list);
 			}
 		});
 	}
