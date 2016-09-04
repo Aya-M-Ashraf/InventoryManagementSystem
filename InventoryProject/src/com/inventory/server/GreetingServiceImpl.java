@@ -1,5 +1,6 @@
 package com.inventory.server;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -88,6 +89,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	public void forgetPassword(String emailAddress) throws IllegalArgumentException {
 		if(emailAddress !=null){
 			userController.forgetPasswordController(emailAddress);
+//			productController.addProductByXml(new File("C:/Users/Hossam/Documents/Altova/inventory/productXMLschema.xml"));
 		}
 	}
 

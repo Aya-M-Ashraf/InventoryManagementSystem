@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 1F6F841F6C909BDF6BD030E5F05B07B0.cache.js
 user.agent safari
 
 5DA0715F7CBFCCFA7E23F2F030F24C5E.cache.js
+=======
+0BEED23C86764A95384F16743A3B8566.cache.js
+user.agent ie9
+
+3386B50CCECA1760F7CD3AA5F51036EB.cache.js
+>>>>>>> branch 'master' of https://github.com/Aya-M-Ashraf/InventoryManagementSystem.git
 user.agent ie8
 
+<<<<<<< HEAD
 A701296E8F06284C66C7A8ECD5E1B2EE.cache.js
 user.agent ie9
 
@@ -12,5 +20,15 @@ user.agent gecko1_8
 
 FC71CC9F0313036987147463439C8B79.cache.js
 user.agent ie10
+=======
+403422B4630F115D8E21EB192FE3F9ED.cache.js
+user.agent gecko1_8
+
+B3905761CB70DE61FCA59DA569AC5118.cache.js
+user.agent ie10
+
+F68D2C09FF9098861A95F6392FF49643.cache.js
+user.agent safari
+>>>>>>> branch 'master' of https://github.com/Aya-M-Ashraf/InventoryManagementSystem.git
 
 Devmode:devmode.js

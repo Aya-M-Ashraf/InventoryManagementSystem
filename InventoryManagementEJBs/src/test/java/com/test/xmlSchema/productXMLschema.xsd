@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="ProductsContainer">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="product" type="productType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="inventoryType">
+		<xs:all>
+			<xs:element name="quantity" type="xs:integer"/>
+			<xs:element name="quantityForOrder" type="xs:integer"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="productType">
+		<xs:all>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="weight" type="xs:double"/>
+			<xs:element name="quantity" type="xs:integer"/>
+			<xs:element name="threshold" type="xs:integer"/>
+			<xs:element name="status" type="xs:boolean"/>
+			<xs:element name="thresholdAlarm" type="xs:boolean"/>
+			<xs:element name="expiryAlarm" type="xs:boolean"/>
+			<xs:element name="expiryDate" type="xs:date"/>
+			<xs:element name="inventory" type="inventoryType"/>
+		</xs:all>
+	</xs:complexType>
+</xs:schema>

@@ -50,7 +50,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			public void onSignIn(SignInEvent event) {
 				/*Presenter presenter = new WelcomePresenter(eventBus, rpcService, new WelcomeView(), event.getUser());
 				presenter.go(container);*/
-				Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome());
+				Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),event.getUser());
 				presenter.go(container);
 			}
 		});
