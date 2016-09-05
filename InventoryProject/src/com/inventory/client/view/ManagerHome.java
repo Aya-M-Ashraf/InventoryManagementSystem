@@ -55,12 +55,12 @@ public class ManagerHome extends Composite implements Display {
 
 	@UiField
 	Button addProductButton;
-	
+
 	@UiField
 	Button btnxml;
 
 	FileUpload fileUpload;
-	DialogBox dialogbox;	
+	DialogBox dialogbox;
 	Button uploadBtn;
 	FormPanel form;
 	FormPanel downloadFrom;
@@ -71,7 +71,7 @@ public class ManagerHome extends Composite implements Display {
 	public ManagerHome() {
 		initWidget(uiBinder.createAndBindUi(this));
 		productList = new DataGrid<ProductDTO>();
-		productList.setSize("1300px", "500px");		
+		productList.setSize("1300px", "500px");
 
 		// columns***********************************************
 
@@ -288,27 +288,38 @@ public class ManagerHome extends Composite implements Display {
 
 		productList.setRowData(myList);
 		HorizontalPanel hyperLinks = new HorizontalPanel();
-	    Hyperlink link0 = new Hyperlink("Clients", "Clients");
-	    Hyperlink link1 = new Hyperlink("Orders", "Orders");
-	    Hyperlink link2 = new Hyperlink("Reports", "Reports");
-	    hyperLinks.add(link0);
-	    hyperLinks.add(link1);
-	    hyperLinks.add(link2);
-	    link0.setStyleName("linkStyle");
-	    link1.setStyleName("linkStyle");
-	    link2.setStyleName("linkStyle");
+		Hyperlink clientsLink = new Hyperlink("Clients", "Clients");
+		Hyperlink ordersLink = new Hyperlink("Orders", "Orders");
+		Hyperlink reportsLink = new Hyperlink("Reports", "Reports");
+		hyperLinks.add(clientsLink);
+		hyperLinks.add(ordersLink);
+		hyperLinks.add(reportsLink);
+
+		clientsLink.getElement().getStyle().setProperty("padding", "30px");
+		clientsLink.getElement().getStyle().setProperty("font-size", "150%");
+		clientsLink.getElement().getStyle().setProperty("color", "#373f7e");
+
+		ordersLink.getElement().getStyle().setProperty("padding", "30px");
+		ordersLink.getElement().getStyle().setProperty("font-size", "150%");
+		ordersLink.getElement().getStyle().setProperty("color", "#373f7e");
+
+		reportsLink.getElement().getStyle().setProperty("padding", "30px");
+		reportsLink.getElement().getStyle().setProperty("font-size", "150%");
+		reportsLink.getElement().getStyle().setProperty("color", "#373f7e");
+
 		Image image = new Image();
-	    image.setUrl("http://www.haystackinfotech.com/images/product/inventory.jpg");
-	    image.setPixelSize(1400, 300);
-	    VerticalPanel header = new VerticalPanel();
-		header.add(hyperLinks);
+		image.setUrl("http://www.haystackinfotech.com/images/product/inventory.jpg");
+		image.setPixelSize(1400, 300);
+		VerticalPanel header = new VerticalPanel();
+
 		header.add(image);
+		header.add(hyperLinks);
+
 		dockPanel.setSpacing(10);
 		dockPanel.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
-		dockPanel.add(header , DockPanel.NORTH);
+		dockPanel.add(header, DockPanel.NORTH);
 		dockPanel.add(productList, DockPanel.CENTER);
-/*		dockPanel.add(hyperLinks, DockPanel.EAST);
-*/		
+
 	}
 
 	@Override
@@ -356,7 +367,6 @@ public class ManagerHome extends Composite implements Display {
 	public Hidden getUserHidden() {
 		return userHidden;
 	}
-
 
 	@Override
 	public DataGrid<ProductDTO> getProductDataGrid() {

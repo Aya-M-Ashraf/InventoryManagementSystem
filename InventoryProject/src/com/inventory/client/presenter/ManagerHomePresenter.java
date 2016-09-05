@@ -45,7 +45,6 @@ public class ManagerHomePresenter implements Presenter {
 		FormPanel getUploadForm();
 
 		Hidden getUserHidden();
-//		void setAddedProduct(ProductDTO newProduct);
 		DataGrid<ProductDTO> getProductDataGrid();
 		HasClickHandlers getDownloadBtn();
 		FormPanel getDownloadForm();
@@ -115,7 +114,6 @@ public class ManagerHomePresenter implements Presenter {
 						list.addAll(result);
 						view.getProductDataGrid().setRowData(list);
 						view.getProductDataGrid().redraw();
-						Window.alert("product(s) added");
 					}
 					
 					@Override
@@ -196,7 +194,6 @@ public class ManagerHomePresenter implements Presenter {
 	}
 
 	public void addProduct(ProductDTO newProduct, InventoryDTO inventoryDTO) {
-		Window.alert("MH Presenter before add product");
 		rpcService.addProduct(newProduct, inventoryDTO, new AsyncCallback<ProductDTO>() {
 
 			@Override
@@ -206,7 +203,6 @@ public class ManagerHomePresenter implements Presenter {
 
 			@Override
 			public void onSuccess(ProductDTO result) {
-				Window.alert("MH Presenter add product success" + result.getId());
 				ArrayList<ProductDTO> list = new ArrayList<>(ManagerHomePresenter.this.view.getChangedDataGridList());
 				list.add(result);
 				ManagerHomePresenter.this.view.setDataGridList(list);
