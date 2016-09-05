@@ -19,6 +19,7 @@
 
 		<g:Button text="Save Changes" ui:field='btn' />
 		<g:Button text="Add Product" ui:field='addProductButton' />
+		<g:Button text="Add Product by XML" ui:field='btnxml' />
 
 
 	</g:HTMLPanel>

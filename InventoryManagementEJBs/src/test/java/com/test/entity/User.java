@@ -34,7 +34,7 @@ public class User implements Serializable {
 
 	// bi-directional many-to-one association to Order
 	@OneToMany(fetch=FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Order> orders;
+	private List<Order> Orders;
 
 	// bi-directional many-to-one association to UserRole
 	@ManyToOne
@@ -44,7 +44,7 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(int id, String address, String email, String password, String username, List<Order> orders,
+	public User(int id, String address, String email, String password, String username, List<Order> Orders,
 			UserRole userRole) {
 		super();
 		this.id = id;
@@ -52,7 +52,7 @@ public class User implements Serializable {
 		this.email = email;
 		this.password = password;
 		this.username = username;
-		this.orders = orders;
+		this.Orders = Orders;
 		this.userRole = userRole;
 	}
 
@@ -98,18 +98,18 @@ public class User implements Serializable {
 	}
 
 	public List<Order> getOrders() {
-		return this.orders;
+		return this.Orders;
 	}
 
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
+	public void setOrders(List<Order> Orders) {
+		this.Orders = Orders;
 	}
 
-	public Order addOrder(Order order) {
-		getOrders().add(order);
-		order.setUser(this);
+	public Order addOrder(Order Order) {
+		getOrders().add(Order);
+		Order.setUser(this);
 
-		return order;
+		return Order;
 	}
 
 	public Order removeOrder(Order order) {

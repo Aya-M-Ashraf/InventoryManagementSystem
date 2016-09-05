@@ -13,6 +13,7 @@ import com.test.entity.Inventory;
 import com.test.entity.Order;
 import com.test.entity.OrderStatus;
 import com.test.entity.Product;
+import com.test.entity.Order;
 import com.test.entity.User;
 import com.test.entity.UserRole;
 
@@ -35,6 +36,7 @@ public class EntityMapper {
 		return userDto;
 	}
 
+
 	
 	
 	// ORDER & ORDERDTO
@@ -51,7 +53,7 @@ public class EntityMapper {
 				mapProductToProductDto(order.getProduct()));
 		return orderDto;
 	}
-	
+
 	
 
 	// USERROLE & USERROLEDTO
@@ -160,7 +162,7 @@ public class EntityMapper {
 		}
 		return orderDtoList;
 	}
-
+	
 	
 	
 	// Map UserDtoList to UserList

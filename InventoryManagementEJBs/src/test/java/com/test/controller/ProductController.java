@@ -15,6 +15,7 @@ import com.test.entity.Inventory;
 import com.test.entity.Product;
 import com.test.util.AddProductAsXML;
 import com.test.util.EntityMapper;
+import com.test.util.RealNameDTO;
 import com.test.xmlSchema.InventoryType;
 import com.test.xmlSchema.ProductType;
 
@@ -82,9 +83,11 @@ public class ProductController implements ProductControllerLocal {
 		}
 	}
 
+
 	@Override
-	public void addProductByXml(File file) {
+	public ArrayList<Product> addProductByXml(File file) {
 		productDao.setEntityManager(em);
+		ArrayList<Product> persistedProducts = new ArrayList<Product>();
 		AddProductAsXML addProductAsXML = new AddProductAsXML();
 		List <ProductType> prodTypeList = new ArrayList<>();
 		prodTypeList = addProductAsXML.getProductList(file);
@@ -92,8 +95,18 @@ public class ProductController implements ProductControllerLocal {
 			Product product = mapper.mapProductTypeToProduct(productTypeItem);
 			Inventory inventory = product.getInventory();
 			inventory.setProductId(product.getId());
-			addProduct(product, inventory);
+			persistedProducts.add(addProduct(product, inventory));
 		}
-		
+		return persistedProducts;
 	}
+
+	@Override
+	public RealNameDTO getRealFilePath(String fakePath) {
+		RealNameDTO realNameDTO = new RealNameDTO();
+		String[] For_split_Fake = fakePath.split("\\\\");
+		realNameDTO.setEmail(For_split_Fake[0]);
+		realNameDTO.setFileName(For_split_Fake[For_split_Fake.length-1]);
+		return realNameDTO;
+	}
+
 }
