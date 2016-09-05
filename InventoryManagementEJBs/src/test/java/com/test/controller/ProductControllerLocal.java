@@ -8,6 +8,7 @@ import javax.ejb.Local;
 
 import com.test.entity.Inventory;
 import com.test.entity.Product;
+import com.test.util.RealNameDTO;
 
 @Local
 public interface ProductControllerLocal {
@@ -16,6 +17,7 @@ public interface ProductControllerLocal {
 	public void saveEditedProducts(ArrayList<Object> gridInfo);
 	public void deleteProduct(Product deletedProduct);
 	public Product addProduct(Product product, Inventory inventory);
-	public void addProductByXml(File file);
+	public ArrayList<Product> addProductByXml(File file);
+	public RealNameDTO getRealFilePath(String fakePath);
 	public List<Product> getAllActiveProducts();
 }

@@ -12,20 +12,32 @@ import com.inventory.client.event.EditProfileEvent;
 import com.inventory.client.event.EditProfileHandler;
 import com.inventory.client.event.ForgetPasswordEvent;
 import com.inventory.client.event.ForgetPasswordHandler;
+import com.inventory.client.event.GetOrdersEvent;
+import com.inventory.client.event.GetOrdersEventHandler;
 import com.inventory.client.event.LogOutEvent;
 import com.inventory.client.event.LogOutEventHandler;
 import com.inventory.client.event.SignInEvent;
 import com.inventory.client.event.SignInEventHandler;
+<<<<<<< HEAD
 import com.inventory.client.presenter.ClientHomePresenter;
+=======
+import com.inventory.client.presenter.AllClientsPresenter;
+>>>>>>> branch 'master' of https://github.com/Aya-M-Ashraf/InventoryManagementSystem.git
 import com.inventory.client.presenter.EditProfileOPresenter;
 import com.inventory.client.presenter.ForgetPasswordPresenter;
 import com.inventory.client.presenter.ManagerHomePresenter;
+import com.inventory.client.presenter.OrdersOfXClientPresenter;
 import com.inventory.client.presenter.Presenter;
 import com.inventory.client.presenter.SignInPresenter;
+<<<<<<< HEAD
 import com.inventory.client.view.ClientHome;
+=======
+import com.inventory.client.view.AllClientsView;
+>>>>>>> branch 'master' of https://github.com/Aya-M-Ashraf/InventoryManagementSystem.git
 import com.inventory.client.view.EditProfileView;
 import com.inventory.client.view.ForgetPasswordView;
 import com.inventory.client.view.ManagerHome;
+import com.inventory.client.view.OrdersOfXClientView;
 import com.inventory.client.view.SignInView;
 import com.inventory.shared.dto.UserDTO;
 
@@ -43,10 +55,23 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	private void bind() {
 		History.addValueChangeHandler(this);
+<<<<<<< HEAD
 		System.out.println("in the app controller bind method");
+=======
+		
+		eventBus.addHandler(GetOrdersEvent.TYPE, new GetOrdersEventHandler() {
+
+			@Override
+			public void onGetOrders(GetOrdersEvent event) {
+				doGetOrders(event.getId());
+			}
+		});
+		
+>>>>>>> branch 'master' of https://github.com/Aya-M-Ashraf/InventoryManagementSystem.git
 		eventBus.addHandler(SignInEvent.TYPE, new SignInEventHandler() {
 			@Override
 			public void onSignIn(SignInEvent event) {
+<<<<<<< HEAD
 				/*
 				 * Presenter presenter = new ManagerHomePresenter(eventBus,
 				 * rpcService, new ManagerHome(),event.getUser());
@@ -62,6 +87,15 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 					presenter.go(container);
 				}
 
+=======
+				/*Presenter presenter = new WelcomePresenter(eventBus, rpcService, new WelcomeView(), event.getUser());
+				presenter.go(container);*/
+				Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),event.getUser());
+				presenter.go(container);
+				
+//				Presenter presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
+//				presenter.go(container);
+>>>>>>> branch 'master' of https://github.com/Aya-M-Ashraf/InventoryManagementSystem.git
 			}
 		});
 
@@ -141,5 +175,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 		}
 	}
+	
+	// ===========================================================================
+	private void doGetOrders(int id) {
+		History.newItem("ordersHistory");
+		Presenter presenter = new OrdersOfXClientPresenter(eventBus, rpcService, new OrdersOfXClientView(), id);
+		presenter.go(container);
+	}
+	// ==========================================================================
 
 }

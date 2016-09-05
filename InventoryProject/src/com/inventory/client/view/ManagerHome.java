@@ -19,14 +19,22 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
+<<<<<<< HEAD
 import com.google.gwt.user.client.Window;
+=======
+import com.google.gwt.user.client.DOM;
+>>>>>>> branch 'master' of https://github.com/Aya-M-Ashraf/InventoryManagementSystem.git
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Hidden;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.inventory.client.presenter.ManagerHomePresenter;
@@ -53,15 +61,19 @@ public class ManagerHome extends Composite implements Display {
 
 	@UiField
 	Button addProductButton;
-
-	FileUpload fileUpload ;
-	DialogBox dialogbox;
+	
+	@UiField
 	Button btnxml;
+
+	FileUpload fileUpload;
+	DialogBox dialogbox;	
 	Button uploadBtn;
 	FormPanel form;
+	FormPanel downloadFrom;
+	Button templateDwnBtn;
 	VerticalPanel verticalPanel;
 	Hidden userHidden;
-	
+
 	public ManagerHome() {
 		initWidget(uiBinder.createAndBindUi(this));
 		productList = new DataGrid<ProductDTO>();
@@ -246,16 +258,20 @@ public class ManagerHome extends Composite implements Display {
 		});
 		bind();
 	}
-	
-	void bind(){
+
+	void bind() {
+		downloadFrom = new FormPanel();
+		templateDwnBtn = new Button("Download template file");
+		//
+		downloadFrom.add(templateDwnBtn);
+		//
 		userHidden = new Hidden();
 		userHidden.getElement().setAttribute("name", "user_email");
 		verticalPanel = new VerticalPanel();
 		form = new FormPanel();
 		uploadBtn = new Button("upload");
-		btnxml = new Button("add product by xml");
 		dialogbox = new DialogBox();
-		fileUpload =  new FileUpload();
+		fileUpload = new FileUpload();
 		fileUpload.setName("myFile");
 		dialogbox.setAnimationEnabled(true);
 		dialogbox.setGlassEnabled(true);
@@ -264,6 +280,7 @@ public class ManagerHome extends Composite implements Display {
 		verticalPanel.add(fileUpload);
 		verticalPanel.add(uploadBtn);
 		verticalPanel.add(userHidden);
+		verticalPanel.add(downloadFrom);
 		form.add(verticalPanel);
 		dialogbox.setWidget(form);
 	}
@@ -276,10 +293,28 @@ public class ManagerHome extends Composite implements Display {
 	public void setDataGridList(List<ProductDTO> myList) {
 
 		productList.setRowData(myList);
-		dockPanel.setSpacing(4);
+		HorizontalPanel hyperLinks = new HorizontalPanel();
+	    Hyperlink link0 = new Hyperlink("Clients", "Clients");
+	    Hyperlink link1 = new Hyperlink("Orders", "Orders");
+	    Hyperlink link2 = new Hyperlink("Reports", "Reports");
+	    hyperLinks.add(link0);
+	    hyperLinks.add(link1);
+	    hyperLinks.add(link2);
+	    link0.setStyleName("linkStyle");
+	    link1.setStyleName("linkStyle");
+	    link2.setStyleName("linkStyle");
+		Image image = new Image();
+	    image.setUrl("http://www.haystackinfotech.com/images/product/inventory.jpg");
+	    image.setPixelSize(1400, 300);
+	    VerticalPanel header = new VerticalPanel();
+		header.add(hyperLinks);
+		header.add(image);
+		dockPanel.setSpacing(10);
 		dockPanel.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
-		dockPanel.add(productList, DockPanel.NORTH);
-		dockPanel.add(btnxml, DockPanel.SOUTH);
+		dockPanel.add(header , DockPanel.NORTH);
+		dockPanel.add(productList, DockPanel.CENTER);
+/*		dockPanel.add(hyperLinks, DockPanel.EAST);
+*/		
 	}
 
 	@Override
@@ -297,7 +332,7 @@ public class ManagerHome extends Composite implements Display {
 	public HashSet<Integer> getChangedIds() {
 		return changedIDs;
 	}
-	
+
 	@Override
 	public HasClickHandlers getXmlButton() {
 		return btnxml;
@@ -326,6 +361,22 @@ public class ManagerHome extends Composite implements Display {
 	@Override
 	public Hidden getUserHidden() {
 		return userHidden;
+	}
+
+
+	@Override
+	public DataGrid<ProductDTO> getProductDataGrid() {
+		return productList;
+	}
+
+	@Override
+	public HasClickHandlers getDownloadBtn() {
+		return templateDwnBtn;
+	}
+
+	@Override
+	public FormPanel getDownloadForm() {
+		return downloadFrom;
 	}
 
 }

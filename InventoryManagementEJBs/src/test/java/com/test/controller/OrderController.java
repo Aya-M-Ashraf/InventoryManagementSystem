@@ -1,14 +1,18 @@
 package com.test.controller;
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import com.test.daos.OrderDao;
 import com.test.daos.OrderStatusDao;
 import com.test.entity.Order;
 import com.test.entity.OrderStatus;
+import com.test.entity.Order;
 
 /**
  * Session Bean implementation class OrderController
@@ -16,6 +20,7 @@ import com.test.entity.OrderStatus;
 @Stateless
 @LocalBean
 public class OrderController implements OrderControllerLocal {
+	
 	@PersistenceContext(unitName = "InventoryManagementEJBs")
 	private EntityManager entityManager;
 
@@ -23,28 +28,23 @@ public class OrderController implements OrderControllerLocal {
 	private OrderStatusDao orderStatusDao = new OrderStatusDao(); //before use it setEntitymanager first
 	
 	
-    /**
-	 * @return the orderDao
-	 */
 	public OrderDao getOrderDao() {
 		return orderDao;
 	}
 
 
-	/**
-	 * @param orderDao the orderDao to set
-	 */
 	public void setOrderDao(OrderDao orderDao) {
 		this.orderDao = orderDao;
 	}
 
 
-	/**
-     * Default constructor. 
-     */
-    public OrderController() {
-        // TODO Auto-generated constructor stub
-    }
+	@Override
+	public List<Order> getAllOrderforXClient(int id) {
+		TypedQuery<Order> clientQuery = entityManager.createNamedQuery("Order.findByUserId", Order.class)
+				.setParameter("id", id);
+		List<Order> orders = clientQuery.getResultList();
+		return orders;
+	}
 
 
 	@Override
