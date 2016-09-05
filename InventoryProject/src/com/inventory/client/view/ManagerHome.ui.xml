@@ -2,13 +2,16 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c='urn:import:com.google.gwt.user.cellview.client'>
 	<ui:style>
-		.important {
-		font-weight: bold;
+		body {
+		background-color: #D1C4A5;
+		text-align: center;
+		font-family: verdana,sans-serif;
 		}
-		.buttonPanel {
-		padding: 8px
-		20px;
-		border-top: 1px solid #ccc;
+		.linkStyle {
+		cursor: pointer;
+		font-size: 150%;
+		padding: 20px;
+		margin: 20px;
 		}
 	</ui:style>
 	<g:HTMLPanel>
@@ -16,6 +19,7 @@
 
 		<g:Button text="Save Changes" ui:field='btn' />
 		<g:Button text="Add Product" ui:field='addProductButton' />
+
 
 	</g:HTMLPanel>
 </ui:UiBinder> 
