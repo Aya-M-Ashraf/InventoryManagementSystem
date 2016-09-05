@@ -13,6 +13,7 @@ import com.test.entity.Inventory;
 import com.test.entity.Order;
 import com.test.entity.OrderStatus;
 import com.test.entity.Product;
+import com.test.entity.Order;
 import com.test.entity.User;
 import com.test.entity.UserRole;
 
@@ -36,6 +37,7 @@ public class EntityMapper {
 		return userDto;
 	}
 
+
 	// ORDER & ORDERDTO
 	public Order mapOrderDtoToOrder(OrderDTO orderDto) {
 		Order order = new Order(orderDto.getId(), orderDto.getDeliveryDate(), orderDto.getOrderDate(),
@@ -51,6 +53,7 @@ public class EntityMapper {
 				mapProductToProductDto(order.getProduct()));
 		return orderDto;
 	}
+
 
 	// USERROLE & USERROLEDTO
 	public UserRole mapUserRoleDtoToUserRole(UserRoleDTO userRoleDto) {

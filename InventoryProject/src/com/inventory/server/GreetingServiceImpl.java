@@ -1,11 +1,8 @@
 package com.inventory.server;
 
-<<<<<<< HEAD
-=======
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
->>>>>>> branch 'master' of https://github.com/Aya-M-Ashraf/InventoryManagementSystem.git
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,15 +15,6 @@ import com.inventory.client.GreetingService;
 import com.inventory.shared.dto.InventoryDTO;
 import com.inventory.shared.dto.OrderDTO;
 import com.inventory.shared.dto.ProductDTO;
-<<<<<<< HEAD
-=======
-import com.inventory.shared.util.EntityMapper;
-import com.test.controller.OrderControllerLocal;
-import com.test.controller.ProductControllerLocal;
-import com.test.controller.UserControllerLocal;
-import com.test.entity.Product;
-import com.test.entity.Order;
->>>>>>> branch 'master' of https://github.com/Aya-M-Ashraf/InventoryManagementSystem.git
 import com.inventory.shared.dto.UserDTO;
 import com.inventory.shared.util.EntityMapper;
 import com.test.controller.OrderControllerLocal;
@@ -50,11 +38,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	private UserControllerLocal userController;
 	
 	@EJB
-<<<<<<< HEAD
 	private OrderControllerLocal orderController;
-=======
-	public OrderControllerLocal orderController ; 
->>>>>>> branch 'master' of https://github.com/Aya-M-Ashraf/InventoryManagementSystem.git
 
 	private EntityMapper mapper = new EntityMapper();
 	
@@ -130,7 +114,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	}
 
 	@Override
-<<<<<<< HEAD
+
 	public List<ProductDTO> getAllActiveProducts() {
 		List<Product> products = productController.getAllActiveProducts();
 		List<ProductDTO> productsDTOs = new ArrayList<>();
@@ -148,7 +132,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 
 	}
 
-=======
 	public List<UserDTO> getAllUsers() {
 		// TODO Auto-generated method stub
 		return null;
@@ -205,5 +188,5 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		return persistedProductsDTOs;
 	}
 	
->>>>>>> branch 'master' of https://github.com/Aya-M-Ashraf/InventoryManagementSystem.git
+
 }

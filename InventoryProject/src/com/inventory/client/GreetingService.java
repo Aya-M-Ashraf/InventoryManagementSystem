@@ -26,13 +26,11 @@ public interface GreetingService extends RemoteService {
 	void forgetPassword(String emailAddress) throws IllegalArgumentException;
 	void updateProfile(String email, String oldPasswd, String newPasswd) throws IllegalArgumentException;
 	ProductDTO addProduct(ProductDTO newProduct, InventoryDTO inventoryDTO);
-<<<<<<< HEAD
 	List<ProductDTO> getAllActiveProducts();
 	void makeOrder(OrderDTO order, UserDTO user);
-=======
 	List<UserDTO> getAllUsers();
 	List<OrderDTO> getAllOrdersForXClient(int id) throws IllegalArgumentException;
 	public String getUserName(int id) throws IllegalArgumentException;
 	ArrayList<ProductDTO> addProductByXML(String fileName)throws IllegalArgumentException;
->>>>>>> branch 'master' of https://github.com/Aya-M-Ashraf/InventoryManagementSystem.git
+
 }
