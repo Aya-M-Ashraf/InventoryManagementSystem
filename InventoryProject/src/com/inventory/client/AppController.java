@@ -16,11 +16,13 @@ import com.inventory.client.event.LogOutEvent;
 import com.inventory.client.event.LogOutEventHandler;
 import com.inventory.client.event.SignInEvent;
 import com.inventory.client.event.SignInEventHandler;
+import com.inventory.client.presenter.ClientHomePresenter;
 import com.inventory.client.presenter.EditProfileOPresenter;
 import com.inventory.client.presenter.ForgetPasswordPresenter;
 import com.inventory.client.presenter.ManagerHomePresenter;
 import com.inventory.client.presenter.Presenter;
 import com.inventory.client.presenter.SignInPresenter;
+import com.inventory.client.view.ClientHome;
 import com.inventory.client.view.EditProfileView;
 import com.inventory.client.view.ForgetPasswordView;
 import com.inventory.client.view.ManagerHome;
@@ -34,8 +36,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private HasWidgets container;
 
 	public AppController(GreetingServiceAsync rpcService, HandlerManager eventBus) {
-		System.out.println("***************** in the constructor of the AppController");
-
 		this.eventBus = eventBus;
 		this.rpcService = rpcService;
 		bind();
@@ -43,15 +43,25 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	private void bind() {
 		History.addValueChangeHandler(this);
-
+		System.out.println("in the app controller bind method");
 		eventBus.addHandler(SignInEvent.TYPE, new SignInEventHandler() {
-
 			@Override
 			public void onSignIn(SignInEvent event) {
-				/*Presenter presenter = new WelcomePresenter(eventBus, rpcService, new WelcomeView(), event.getUser());
-				presenter.go(container);*/
-				Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),event.getUser());
-				presenter.go(container);
+				/*
+				 * Presenter presenter = new ManagerHomePresenter(eventBus,
+				 * rpcService, new ManagerHome(),event.getUser());
+				 * presenter.go(container);
+				 */
+				if (event.getUser().getUserRole().getRole().equalsIgnoreCase("manager")) {
+					Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),
+							event.getUser());
+					presenter.go(container);
+				} else {
+					Presenter presenter = new ClientHomePresenter(eventBus, rpcService, new ClientHome(),
+							event.getUser());
+					presenter.go(container);
+				}
+
 			}
 		});
 
@@ -63,17 +73,17 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				Window.Location.replace("http://localhost:8085/InventoryManagement/");
 			}
 		});
-		
+
 		eventBus.addHandler(ForgetPasswordEvent.TYPE, new ForgetPasswordHandler() {
-			
+
 			@Override
 			public void onForgetPassword(ForgetPasswordEvent event) {
 				History.newItem("forgetPassword");
 			}
 		});
-		
+
 		eventBus.addHandler(EditProfileEvent.TYPE, new EditProfileHandler() {
-			
+
 			@Override
 			public void onEditProfile(EditProfileEvent editProfileEvent) {
 				History.newItem("editProfile");
@@ -92,17 +102,18 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				userDTO.setEmail(mailCookie);
 				userDTO.setPassword(passCookie);
 				rpcService.signIn(userDTO, new AsyncCallback<UserDTO>() {
-
 					@Override
 					public void onSuccess(UserDTO result) {
 						if (result != null) {
 							eventBus.fireEvent(new SignInEvent(result));
+						} else {
+							Window.alert("user is not found");
 						}
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
+						Window.alert(caught.getMessage());
 
 					}
 				});
@@ -112,7 +123,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 
 		} else {
-			/*History.fireCurrentHistoryState();*/
+			/* History.fireCurrentHistoryState(); */
 		}
 	}
 
@@ -124,7 +135,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				presenter = new ForgetPasswordPresenter(eventBus, rpcService, new ForgetPasswordView());
 				presenter.go(container);
 			}
-			if(token.equals("editProfile")){
+			if (token.equals("editProfile")) {
 				presenter = new EditProfileOPresenter(eventBus, rpcService, new EditProfileView());
 				presenter.go(container);
 			}

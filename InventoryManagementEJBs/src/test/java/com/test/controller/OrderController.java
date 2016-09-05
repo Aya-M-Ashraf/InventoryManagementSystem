@@ -6,6 +6,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.test.daos.OrderDao;
+import com.test.daos.OrderStatusDao;
+import com.test.entity.Order;
+import com.test.entity.OrderStatus;
 
 /**
  * Session Bean implementation class OrderController
@@ -14,9 +17,10 @@ import com.test.daos.OrderDao;
 @LocalBean
 public class OrderController implements OrderControllerLocal {
 	@PersistenceContext(unitName = "InventoryManagementEJBs")
-	private EntityManager em;
+	private EntityManager entityManager;
 
 	private OrderDao orderDao = new OrderDao();  //before use it setEntitymanager first
+	private OrderStatusDao orderStatusDao = new OrderStatusDao(); //before use it setEntitymanager first
 	
 	
     /**
@@ -41,5 +45,19 @@ public class OrderController implements OrderControllerLocal {
     public OrderController() {
         // TODO Auto-generated constructor stub
     }
+
+
+	@Override
+	public void addOrder(Order order) {
+		orderDao.setEntityManager(entityManager);
+		orderStatusDao.setEntityManager(entityManager);
+	    order.setOrderStatus(orderStatusDao.findById(1));
+		try {
+			orderDao.makePersistent(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 }

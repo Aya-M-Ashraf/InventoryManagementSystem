@@ -17,4 +17,5 @@ public interface ProductControllerLocal {
 	public void deleteProduct(Product deletedProduct);
 	public Product addProduct(Product product, Inventory inventory);
 	public void addProductByXml(File file);
+	public List<Product> getAllActiveProducts();
 }

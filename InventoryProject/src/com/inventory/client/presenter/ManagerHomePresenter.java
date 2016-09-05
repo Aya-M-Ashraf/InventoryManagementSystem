@@ -25,14 +25,23 @@ public class ManagerHomePresenter implements Presenter {
 
 	public interface Display {
 		void setDataGridList(List<ProductDTO> myList);
+
 		ArrayList<ProductDTO> getChangedDataGridList();
+
 		HashSet<Integer> getChangedIds();
+
 		HasClickHandlers getSaveChangesButton();
+
 		HasClickHandlers getXmlButton();
+
 		HasClickHandlers getUploadBtn();
+
 		DialogBox getXmlDb();
+
 		FileUpload getFileUpload();
+
 		FormPanel getUploadForm();
+
 		Hidden getUserHidden();
 	}
 
@@ -41,12 +50,15 @@ public class ManagerHomePresenter implements Presenter {
 	private final ManagerHome view;
 	private final UserDTO user;
 
-	public ManagerHomePresenter(HandlerManager eventBus, GreetingServiceAsync rpcService, ManagerHome view, UserDTO user) {
+	public ManagerHomePresenter(HandlerManager eventBus, GreetingServiceAsync rpcService, ManagerHome view,
+			UserDTO user) {
 		this.eventBus = eventBus;
 		this.rpcService = rpcService;
 		this.view = view;
 		this.user = user;
 		this.view.setPresenter(this);
+		
+		Window.alert("Hello, "+user.getUsername()+"role: "+ user.getUserRole().getRole());
 
 		rpcService.getAllProducts(new AsyncCallback<List<ProductDTO>>() {
 			@Override
@@ -69,24 +81,24 @@ public class ManagerHomePresenter implements Presenter {
 		});
 		bind();
 	}
-	
-	void bind(){
-		FormPanel form=view.getUploadForm();
+
+	void bind() {
+		FormPanel form = view.getUploadForm();
 		form.setAction("FileUploadServelt");
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
 		form.setMethod(FormPanel.METHOD_POST);
 		view.getUserHidden().setValue(user.getEmail());
-		
+
 		view.getXmlButton().addClickHandler(new ClickHandler() {
-		
-		@Override
-		public void onClick(ClickEvent event) {
-			view.getXmlDb().center();
-		}
-	});
-		
+
+			@Override
+			public void onClick(ClickEvent event) {
+				view.getXmlDb().center();
+			}
+		});
+
 		view.getUploadBtn().addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				view.getUploadForm().submit();
@@ -149,5 +161,9 @@ public class ManagerHomePresenter implements Presenter {
 				ManagerHomePresenter.this.view.setDataGridList(list);
 			}
 		});
+	}
+
+	public UserDTO getUser() {
+		return user;
 	}
 }

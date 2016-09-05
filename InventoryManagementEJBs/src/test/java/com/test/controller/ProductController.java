@@ -26,7 +26,7 @@ public class ProductController implements ProductControllerLocal {
 	private EntityManager em;
 
 	private ProductDao productDao = new ProductDao();
-	
+
 	private EntityMapper mapper = new EntityMapper();
 
 	public ProductController() {
@@ -35,7 +35,6 @@ public class ProductController implements ProductControllerLocal {
 	@Override
 	public List<Product> getAllProducts() { // and set Expiration Alarm if found
 		productDao.setEntityManager(em);
-
 		return productDao.findAll();
 	}
 
@@ -71,9 +70,9 @@ public class ProductController implements ProductControllerLocal {
 		try {
 			System.out.println("in product controller addproduct");
 			inventory.setProduct(product);
-			product.setInventory(inventory);			
+			product.setInventory(inventory);
 			Product persistedProduct = productDao.findById(productDao.makePersistent(product).getId());
-			System.out.println("---- id returned in product controller after adding "+persistedProduct.getId());
+			System.out.println("---- id returned in product controller after adding " + persistedProduct.getId());
 			return persistedProduct;
 		} catch (Exception e) {
 			System.out.println("***************** exceptioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaan");
@@ -86,14 +85,20 @@ public class ProductController implements ProductControllerLocal {
 	public void addProductByXml(File file) {
 		productDao.setEntityManager(em);
 		AddProductAsXML addProductAsXML = new AddProductAsXML();
-		List <ProductType> prodTypeList = new ArrayList<>();
+		List<ProductType> prodTypeList = new ArrayList<>();
 		prodTypeList = addProductAsXML.getProductList(file);
-		for(ProductType productTypeItem : prodTypeList){
+		for (ProductType productTypeItem : prodTypeList) {
 			Product product = mapper.mapProductTypeToProduct(productTypeItem);
 			Inventory inventory = product.getInventory();
 			inventory.setProductId(product.getId());
 			addProduct(product, inventory);
 		}
-		
+
+	}
+
+	@Override
+	public List<Product> getAllActiveProducts() {
+		productDao.setEntityManager(em);
+		return productDao.findAllActiveProducts();
 	}
 }

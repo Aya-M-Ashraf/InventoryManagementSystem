@@ -19,6 +19,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -64,7 +65,7 @@ public class ManagerHome extends Composite implements Display {
 	public ManagerHome() {
 		initWidget(uiBinder.createAndBindUi(this));
 		productList = new DataGrid<ProductDTO>();
-		productList.setSize("1300px", "500px");
+		productList.setSize("1300px", "500px");		
 
 		// columns***********************************************
 

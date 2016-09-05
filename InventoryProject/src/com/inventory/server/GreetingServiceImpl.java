@@ -1,23 +1,23 @@
 package com.inventory.server;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 import javax.ejb.EJB;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.inventory.client.GreetingService;
 import com.inventory.shared.dto.InventoryDTO;
+import com.inventory.shared.dto.OrderDTO;
 import com.inventory.shared.dto.ProductDTO;
-import com.inventory.shared.util.EntityMapper;
-import com.test.controller.ProductControllerLocal;
-import com.test.controller.UserControllerLocal;
-import com.test.entity.Product;
 import com.inventory.shared.dto.UserDTO;
 import com.inventory.shared.util.EntityMapper;
+import com.test.controller.OrderControllerLocal;
+import com.test.controller.ProductControllerLocal;
+import com.test.controller.UserControllerLocal;
+import com.test.entity.Order;
+import com.test.entity.Product;
 import com.test.entity.User;
 
 /**
@@ -31,24 +31,25 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 
 	@EJB
 	private UserControllerLocal userController;
+	
+	@EJB
+	private OrderControllerLocal orderController;
 
 	private EntityMapper mapper = new EntityMapper();
 
 	@Override
 	public List<ProductDTO> getAllProducts() throws IllegalArgumentException {
-
 		List<Product> products = productController.getAllProducts();
 		List<ProductDTO> productsDTOs = new ArrayList<>();
-
 		for (Product product : products) {
 			productsDTOs.add(mapper.mapProductToProductDto(product));
 		}
-
 		return productsDTOs;
 	}
 
 	@Override
-	public void saveEditedProducts(ArrayList<ProductDTO> gridList, HashSet<Integer> changedIds) throws IllegalArgumentException {
+	public void saveEditedProducts(ArrayList<ProductDTO> gridList, HashSet<Integer> changedIds)
+			throws IllegalArgumentException {
 		ArrayList<Object> gridInfo = new ArrayList<>();
 		List<Product> products = new ArrayList<>();
 
@@ -65,12 +66,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	public void deleteProduct(ProductDTO product) throws IllegalArgumentException {
 		Product deletedProduct = mapper.mapProductDtoToProduct(product);
 		productController.deleteProduct(deletedProduct);
-		
+
 	}
 
 	@Override
 	public UserDTO signIn(UserDTO sentUserDto) throws IllegalArgumentException {
-		System.out.println("***************** IN RPC *****************");
 		if (sentUserDto != null) {
 			User tinyUser = new User();
 			tinyUser.setEmail(sentUserDto.getEmail());
@@ -87,9 +87,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 
 	@Override
 	public void forgetPassword(String emailAddress) throws IllegalArgumentException {
-		if(emailAddress !=null){
+		if (emailAddress != null) {
 			userController.forgetPasswordController(emailAddress);
-//			productController.addProductByXml(new File("C:/Users/Hossam/Documents/Altova/inventory/productXMLschema.xml"));
+			// productController.addProductByXml(new
+			// File("C:/Users/Hossam/Documents/Altova/inventory/productXMLschema.xml"));
 		}
 	}
 
@@ -100,11 +101,28 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 
 	@Override
 	public ProductDTO addProduct(ProductDTO product, InventoryDTO inventoryDTO) {
-		Product addedProduct = productController.addProduct(mapper.mapProductDtoToProduct(product), mapper.mapInventoryDtoToInventory(inventoryDTO));
-		System.out.println("----- id in service impl addeed prod: "+ addedProduct.getId());
+		Product addedProduct = productController.addProduct(mapper.mapProductDtoToProduct(product),
+				mapper.mapInventoryDtoToInventory(inventoryDTO));
 		ProductDTO prdouctDto = mapper.mapProductToProductDto(addedProduct);
-		System.out.println("----- id in service impl addeed prodDTO: "+ prdouctDto.getId());
 		return prdouctDto;
+	}
+
+	@Override
+	public List<ProductDTO> getAllActiveProducts() {
+		List<Product> products = productController.getAllActiveProducts();
+		List<ProductDTO> productsDTOs = new ArrayList<>();
+		for (Product product : products) {
+			productsDTOs.add(mapper.mapProductToProductDto(product));
+		}
+		return productsDTOs;
+	}
+
+	@Override
+	public void makeOrder(OrderDTO orderDto, UserDTO userDto) {
+		User user = mapper.mapUserDtoToUser(userDto);
+		Order order = mapper.mapOrderDtoToOrder(orderDto, user);
+		orderController.addOrder(order);
+
 	}
 
 }
