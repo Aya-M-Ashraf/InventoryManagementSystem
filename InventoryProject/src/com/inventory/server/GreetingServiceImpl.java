@@ -1,9 +1,12 @@
 package com.inventory.server;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 
 import javax.ejb.EJB;
 
@@ -11,14 +14,18 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.inventory.client.GreetingService;
 import com.inventory.shared.dto.InventoryDTO;
+import com.inventory.shared.dto.OrderDTO;
 import com.inventory.shared.dto.ProductDTO;
 import com.inventory.shared.util.EntityMapper;
+import com.test.controller.OrderControllerLocal;
 import com.test.controller.ProductControllerLocal;
 import com.test.controller.UserControllerLocal;
 import com.test.entity.Product;
+import com.test.entity.Order;
 import com.inventory.shared.dto.UserDTO;
 import com.inventory.shared.util.EntityMapper;
 import com.test.entity.User;
+import com.test.util.RealNameDTO;
 
 /**
  * The server-side implementation of the RPC service.
@@ -31,8 +38,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 
 	@EJB
 	private UserControllerLocal userController;
+	
+	@EJB
+	public OrderControllerLocal orderController ; 
 
 	private EntityMapper mapper = new EntityMapper();
+	
 
 	@Override
 	public List<ProductDTO> getAllProducts() throws IllegalArgumentException {
@@ -107,4 +118,61 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		return prdouctDto;
 	}
 
+	@Override
+	public List<UserDTO> getAllUsers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<OrderDTO> getAllOrdersForXClient(int id) throws IllegalArgumentException {
+		List<Order> orders = orderController.getAllOrderforXClient(id);
+		List<OrderDTO> orderssDTO = new ArrayList<>();
+		EntityMapper  em = new EntityMapper();
+	for (  Order   orderItem : orders){
+			orderssDTO.add(em.mapOrderToOrderDTO(orderItem));
+			
+	}
+		return orderssDTO ; 
+}
+	
+
+	@Override
+	public String getUserName(int id) throws IllegalArgumentException {
+		return  userController.getUserName(id);
+	}
+
+	@Override
+	public ArrayList<ProductDTO> addProductByXML(String fileName) throws IllegalArgumentException {
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("com/inventory/shared/util/Paths.properties");
+        Properties prop = new Properties();
+        if (inputStream != null)
+			try {
+				prop.load(inputStream);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		else 
+            System.out.println("File Not Found Path property file.");
+        
+//        String[] For_split_Fake = fileName.split("\\");
+        
+        RealNameDTO realNameDTO = productController.getRealFilePath(fileName);
+        
+        String path = prop.getProperty("upload_path")+"/xml_users/"+realNameDTO.getEmail()+"/"+realNameDTO.getFileName();
+        
+        System.out.println("in impl with path = " +path+"@@@@@@@@@@@@@@@@@");
+        
+//        productController.addProductByXml(new File(path+fileName));
+        
+        ArrayList<Product> persistedProducts = productController.addProductByXml(new File(path));
+        
+        ArrayList<ProductDTO> persistedProductsDTOs = new ArrayList<ProductDTO>();
+        
+        for(Product productENT:persistedProducts){
+        	persistedProductsDTOs.add(mapper.mapProductToProductDto(productENT));
+        }
+		return persistedProductsDTOs;
+	}
+	
 }

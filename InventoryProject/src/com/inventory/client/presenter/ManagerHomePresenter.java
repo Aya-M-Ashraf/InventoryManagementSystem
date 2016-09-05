@@ -8,11 +8,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Hidden;
 import com.inventory.client.GreetingServiceAsync;
@@ -34,6 +36,10 @@ public class ManagerHomePresenter implements Presenter {
 		FileUpload getFileUpload();
 		FormPanel getUploadForm();
 		Hidden getUserHidden();
+//		void setAddedProduct(ProductDTO newProduct);
+		DataGrid<ProductDTO> getProductDataGrid();
+		HasClickHandlers getDownloadBtn();
+		FormPanel getDownloadForm();
 	}
 
 	private final HandlerManager eventBus;
@@ -75,6 +81,43 @@ public class ManagerHomePresenter implements Presenter {
 		form.setAction("FileUploadServelt");
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
 		form.setMethod(FormPanel.METHOD_POST);
+		
+		view.getDownloadForm().setAction("FileUploadServelt");
+		view.getDownloadForm().setMethod(FormPanel.METHOD_GET);
+		
+		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
+			
+			@Override
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+//				String fileNameFake = view.getFileUpload().getFilename();
+//				String[] For_split_Fake = fileNameFake.split("\\");
+//				
+				String path =  user.getEmail()+ "\\"+view.getFileUpload().getFilename();
+				
+				rpcService.addProductByXML(path, new AsyncCallback<ArrayList<ProductDTO>>() {
+					
+					@Override
+					public void onSuccess(ArrayList<ProductDTO> result) {
+						view.getXmlDb().hide();
+						ArrayList<ProductDTO> list = new ArrayList<>(view.getProductDataGrid().getVisibleItems());
+						list.addAll(result);
+						view.getProductDataGrid().setRowData(list);
+						view.getProductDataGrid().redraw();
+						Window.alert("product(s) added");
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						view.getXmlDb().hide();
+						Window.alert("product failed");
+					}
+				});
+				
+			}
+		});
+		
+	
+		
 		view.getUserHidden().setValue(user.getEmail());
 		
 		view.getXmlButton().addClickHandler(new ClickHandler() {
@@ -90,6 +133,14 @@ public class ManagerHomePresenter implements Presenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				view.getUploadForm().submit();
+			}
+		});
+		
+		view.getDownloadBtn().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				view.getDownloadForm().submit();
 			}
 		});
 	}

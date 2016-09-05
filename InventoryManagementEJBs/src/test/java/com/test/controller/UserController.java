@@ -1,13 +1,16 @@
 package com.test.controller;
 
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Random;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
+import com.test.constants.UserRoleConstant;
 import com.test.daos.UserDao;
 import com.test.entity.User;
 import com.test.util.PasswordSenderMail;
@@ -78,5 +81,19 @@ public class UserController implements UserControllerLocal {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public List<User> getAllClients() {
+		TypedQuery<User> clientQuery = em.createNamedQuery("User.findByUserRole", User.class)
+				.setParameter("userRole", UserRoleConstant.CLIENT);
+
+		List<User> clients = clientQuery.getResultList();
+		return clients;
+	}
+
+	@Override
+	public String getUserName(int id) {
+		return em.find(User.class,id).getUsername();
 	}
 }

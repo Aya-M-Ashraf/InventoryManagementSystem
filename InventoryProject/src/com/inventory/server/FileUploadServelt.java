@@ -1,10 +1,14 @@
 package com.inventory.server;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -35,8 +39,36 @@ public class FileUploadServelt extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.setContentType("text/xml");
+		response.setHeader("Content-disposition","attachment; filename=Template.xml ");
+		
+		
+	       try{
+	    	   InputStream inputStream = getClass().getClassLoader().getResourceAsStream("com/inventory/shared/util/Paths.properties");
+	            Properties prop = new Properties();
+	            if (inputStream != null) 
+	                prop.load(inputStream);
+	            else 
+	                System.out.println("File Not Found Path property file.");
+	            
+	            OutputStream out = response.getOutputStream();
+	            
+		         FileInputStream in = new FileInputStream(prop.getProperty("template_path"));
+		         byte[] buffer = new byte[4096];
+		         int length;
+		         while ((length = in.read(buffer)) > 0){
+		            out.write(buffer, 0, length);
+		         }
+		        
+		         in.close();
+		         out.flush();
+		 		
+		         
+	       }catch ( IOException e){
+		        e.printStackTrace();
+		        }
+	       
+	     
 	}
 	
 	InputStream inputStream =null;
@@ -51,8 +83,11 @@ public class FileUploadServelt extends HttpServlet {
 		String userEmail = request.getParameter("user_email");
 	       
 	       String originalFilename = getFileName(uploadedFile);
+	       
+	       
+	       
 	       try{
-	    	   InputStream inputStream = getClass().getClassLoader().getResourceAsStream("com/inventory/shared/util//Paths.properties");
+	    	   InputStream inputStream = getClass().getClassLoader().getResourceAsStream("com/inventory/shared/util/Paths.properties");
 	            Properties prop = new Properties();
 	            if (inputStream != null) 
 	                prop.load(inputStream);
@@ -61,9 +96,14 @@ public class FileUploadServelt extends HttpServlet {
 	            
 	       inputStream = uploadedFile.getInputStream();
 	       
-	       String path = prop.getProperty("upload_path")+"/xml_users/"+userEmail+"\\";
+	       String path = prop.getProperty("upload_path")+"xml_users\\"+userEmail+"\\";
 	       
 	       new File(path).mkdirs();
+	       
+	       if(originalFilename.contains("\\")){
+	    	   String[] For_split_ie = originalFilename.split("\\\\");
+	    	   originalFilename = For_split_ie[For_split_ie.length-1];
+	       }
 	       
 	       outputStream = new FileOutputStream(new File(path+originalFilename));
 	      
