@@ -46,10 +46,27 @@ public class OrderController implements OrderControllerLocal {
 
 	@Override
 	public List<Order> getAllOrderforXClient(int id) {
+		orderDao.setEntityManager(em);
 		TypedQuery<Order> clientQuery = em.createNamedQuery("Order.findByUserId", Order.class)
 				.setParameter("id", id);
 		List<Order> orders = clientQuery.getResultList();
 		return orders;
+	}
+
+	@Override
+	public List<Order> getAllOrderforManager() {
+		orderDao.setEntityManager(em);
+		return orderDao.findAll();
+	}
+
+	@Override
+	public void changeOrderStatus(Order order) {
+		orderDao.setEntityManager(em);
+		try {
+			orderDao.update(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 

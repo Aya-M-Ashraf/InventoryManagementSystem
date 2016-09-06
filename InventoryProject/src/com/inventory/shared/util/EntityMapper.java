@@ -36,21 +36,30 @@ public class EntityMapper {
 		return userDto;
 	}
 
-
-	
+	//USER TO USERDTO WITHOUT LIST OF ORDERS
+	public UserDTO mapUserToUserDtoWithoutOrderList(User user) {
+		UserDTO userDto = new UserDTO(user.getId(), user.getAddress(), user.getEmail(), user.getPassword(),
+				user.getUsername(), mapUserRoleToUserRoleDto(user.getUserRole()));
+		return userDto;
+	}
+	public User mapUserDTOToUserWithoutOrderList(UserDTO userDto) {
+		User user = new User(userDto.getId(), userDto.getAddress(), userDto.getEmail(), userDto.getPassword(),
+				userDto.getUsername(),mapUserRoleDtoToUserRole(userDto.getUserRole()));
+		return user;
+	}
 	
 	// ORDER & ORDERDTO
 	public Order mapOrderDtoToOrder(OrderDTO orderDto) {
 		Order order = new Order(orderDto.getId(), orderDto.getDeliveryDate(), orderDto.getOrderDate(),
 				orderDto.getQuantity(), orderDto.getTotalWeight(),
 				mapOrderStatusDtoToOrderStatus(orderDto.getOrderStatus()),
-				mapProductDtoToProduct(orderDto.getProduct()), null);
+				mapProductDtoToProduct(orderDto.getProduct()), mapUserDTOToUserWithoutOrderList(orderDto.getUserDto()));
 		return order;
 	}
 	public OrderDTO mapOrderToOrderDTO(Order order) {
 		OrderDTO orderDto = new OrderDTO(order.getId(), order.getDeliveryDate(), order.getOrderDate(),
 				order.getQuantity(), order.getTotalWeight(), mapOrderStatusToOrderStatusDto(order.getOrderStatus()),
-				mapProductToProductDto(order.getProduct()));
+				mapProductToProductDto(order.getProduct()),mapUserToUserDtoWithoutOrderList(order.getUser()));
 		return orderDto;
 	}
 

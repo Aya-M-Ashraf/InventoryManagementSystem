@@ -30,4 +30,6 @@ public interface GreetingService extends RemoteService {
 	List<OrderDTO> getAllOrdersForXClient(int id) throws IllegalArgumentException;
 	public String getUserName(int id) throws IllegalArgumentException;
 	ArrayList<ProductDTO> addProductByXML(String fileName)throws IllegalArgumentException;
+	ArrayList<OrderDTO> getAllOrdersForManager() throws IllegalArgumentException;
+	void changeOrderStatus(OrderDTO orderDTO, String value)throws IllegalArgumentException;
 }

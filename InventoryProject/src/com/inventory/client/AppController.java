@@ -22,6 +22,7 @@ import com.inventory.client.presenter.AllClientsPresenter;
 import com.inventory.client.presenter.EditProfileOPresenter;
 import com.inventory.client.presenter.ForgetPasswordPresenter;
 import com.inventory.client.presenter.ManagerHomePresenter;
+import com.inventory.client.presenter.ManagingOrdersPresenter;
 import com.inventory.client.presenter.OrdersOfXClientPresenter;
 import com.inventory.client.presenter.Presenter;
 import com.inventory.client.presenter.SignInPresenter;
@@ -29,6 +30,7 @@ import com.inventory.client.view.AllClientsView;
 import com.inventory.client.view.EditProfileView;
 import com.inventory.client.view.ForgetPasswordView;
 import com.inventory.client.view.ManagerHome;
+import com.inventory.client.view.ManagingOrders;
 import com.inventory.client.view.OrdersOfXClientView;
 import com.inventory.client.view.SignInView;
 import com.inventory.shared.dto.UserDTO;
@@ -64,11 +66,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			public void onSignIn(SignInEvent event) {
 				/*Presenter presenter = new WelcomePresenter(eventBus, rpcService, new WelcomeView(), event.getUser());
 				presenter.go(container);*/
-				Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),event.getUser());
-				presenter.go(container);
+//				Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),event.getUser());
+//				presenter.go(container);
 				
 //				Presenter presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
 //				presenter.go(container);
+				
+				Presenter presenter2 = new ManagingOrdersPresenter(eventBus, rpcService, new ManagingOrders());
+				presenter2.go(container);
 			}
 		});
 

@@ -7,23 +7,21 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
-
 import javax.ejb.EJB;
-
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.inventory.client.GreetingService;
 import com.inventory.shared.dto.InventoryDTO;
 import com.inventory.shared.dto.OrderDTO;
+import com.inventory.shared.dto.OrderStatusDTO;
 import com.inventory.shared.dto.ProductDTO;
+import com.inventory.shared.dto.UserDTO;
 import com.inventory.shared.util.EntityMapper;
+import com.test.constants.Constatns;
 import com.test.controller.OrderControllerLocal;
 import com.test.controller.ProductControllerLocal;
 import com.test.controller.UserControllerLocal;
-import com.test.entity.Product;
 import com.test.entity.Order;
-import com.inventory.shared.dto.UserDTO;
-import com.inventory.shared.util.EntityMapper;
+import com.test.entity.Product;
 import com.test.entity.User;
 import com.test.util.RealNameDTO;
 
@@ -100,7 +98,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	public void forgetPassword(String emailAddress) throws IllegalArgumentException {
 		if(emailAddress !=null){
 			userController.forgetPasswordController(emailAddress);
-//			productController.addProductByXml(new File("C:/Users/Hossam/Documents/Altova/inventory/productXMLschema.xml"));
 		}
 	}
 
@@ -120,7 +117,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 
 	@Override
 	public List<UserDTO> getAllUsers() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -173,6 +169,30 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
         	persistedProductsDTOs.add(mapper.mapProductToProductDto(productENT));
         }
 		return persistedProductsDTOs;
+	}
+
+	@Override
+	public ArrayList<OrderDTO> getAllOrdersForManager() throws IllegalArgumentException {
+		List<Order> orders = orderController.getAllOrderforManager();
+		List<OrderDTO> ordersDTO = new ArrayList<>();
+		for (  Order   orderItem : orders){
+			ordersDTO.add(mapper.mapOrderToOrderDTO(orderItem));
+	}
+		return (ArrayList<OrderDTO>) ordersDTO;
+	}
+
+	@Override
+	public void changeOrderStatus(OrderDTO orderDTO, String value) throws IllegalArgumentException {
+		OrderStatusDTO orderStatusDTO = new OrderStatusDTO();
+		if(value.equals(Constatns.ACCEPT_ORDER)){
+			orderStatusDTO.setId(Constatns.PROGRESS_ORDER_ID);
+			orderDTO.setOrderStatus(orderStatusDTO);
+		}
+		else{
+			orderStatusDTO.setId(Constatns.REJECTED_ORDER_ID);;
+			orderDTO.setOrderStatus(orderStatusDTO);
+		}
+		orderController.changeOrderStatus(mapper.mapOrderDtoToOrder(orderDTO));
 	}
 	
 }

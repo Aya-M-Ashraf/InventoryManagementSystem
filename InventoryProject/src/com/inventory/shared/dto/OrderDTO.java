@@ -17,13 +17,22 @@ public class OrderDTO implements Serializable {
 	private double totalWeight;
 	private OrderStatusDTO orderStatus;
 	private ProductDTO product;
+	private UserDTO userDto;
+
+	public UserDTO getUserDto() {
+		return userDto;
+	}
+
+	public void setUserDto(UserDTO userDto) {
+		this.userDto = userDto;
+	}
 
 	public OrderDTO() {
 		super();
 	}
 
 	public OrderDTO(int id, Date deliveryDate, Date orderDate, int quantity, double totalWeight,
-			OrderStatusDTO orderStatus, ProductDTO product) {
+			OrderStatusDTO orderStatus, ProductDTO product, UserDTO userDto) {
 		super();
 		this.id = id;
 		this.deliveryDate = deliveryDate;
@@ -32,7 +41,7 @@ public class OrderDTO implements Serializable {
 		this.totalWeight = totalWeight;
 		this.orderStatus = orderStatus;
 		this.product = product;
-//		this.user = user;
+		this.userDto = userDto;
 	}
 
 	public int getId() {
