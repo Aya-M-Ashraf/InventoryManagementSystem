@@ -85,15 +85,12 @@ public class UserController implements UserControllerLocal {
 
 	@Override
 	public List<User> getAllClients() {
-		TypedQuery<User> clientQuery = em.createNamedQuery("User.findByUserRole", User.class)
-				.setParameter("userRole", UserRoleConstant.CLIENT);
-
-		List<User> clients = clientQuery.getResultList();
-		return clients;
+		userDao.setEm(em);
+		return userDao.getAllClients();
 	}
 
 	@Override
 	public String getUserName(int id) {
-		return em.find(User.class,id).getUsername();
+		return userDao.getUserName(id);
 	}
 }

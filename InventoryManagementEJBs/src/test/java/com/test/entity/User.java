@@ -15,7 +15,7 @@ import java.util.List;
 		@NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
 		@NamedQuery(name = "User.findByAddress", query = "SELECT u FROM User u WHERE u.address = :address"),
 		@NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-		@NamedQuery(name = "User.findByUserRoleId", query = "SELECT u FROM User u WHERE u.userRole.role= :userRole") })
+		@NamedQuery(name = "User.findByUserRole", query = "SELECT u FROM User u WHERE u.userRole.role= :userRole") })
 
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;

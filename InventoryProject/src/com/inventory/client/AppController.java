@@ -63,12 +63,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			@Override
 			public void onSignIn(SignInEvent event) {
 				if (event.getUser().getUserRole().getRole().equalsIgnoreCase("manager")) {
-					Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),
-							event.getUser());
+//					Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),
+//							event.getUser());
+					Presenter presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
 					presenter.go(container);
 				} else {
-					Presenter presenter = new ClientHomePresenter(eventBus, rpcService, new ClientHome(),
-							event.getUser());
+//					Presenter presenter = new ClientHomePresenter(eventBus, rpcService, new ClientHome(),
+//							event.getUser());
+					Presenter presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
 					presenter.go(container);
 				}
 
@@ -83,7 +85,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 //				presenter.go(container);
 
 				
-				Presenter presenter2 = new ManagingOrdersPresenter(eventBus, rpcService, new ManagingOrders());
+				//Presenter presenter2 = new ManagingOrdersPresenter(eventBus, rpcService, new ManagingOrders());
+				Presenter presenter2 = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
 				presenter2.go(container);
 			}
 		});

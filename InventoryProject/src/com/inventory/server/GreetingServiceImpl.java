@@ -131,7 +131,15 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	}
 
 	public List<UserDTO> getAllUsers() {
-		return null;
+		List<User>  users =userController.getAllClients();
+		List<UserDTO>  usersDTO = new ArrayList<>();
+		for(User item : users){
+			
+			usersDTO.add(mapper.mapUserToUserDto(item));
+		}
+		return usersDTO;
+				
+				
 	}
 
 	@Override

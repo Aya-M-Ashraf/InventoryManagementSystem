@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasDirectionalText;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -45,7 +46,7 @@ public class AllClientsPresenter implements Presenter {
 
 			@Override
 			public void onSuccess(List<UserDTO> clientsList) {
-				System.out.println("Success");
+				Window.alert("sucess");
 				String count = Integer.toString(clientsList.size());
 
 				AllClientsPresenter.this.view.getLabel().setText("Numbers of Clients : " + count);
@@ -65,7 +66,7 @@ public class AllClientsPresenter implements Presenter {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				System.out.println("Failer");
+				Window.alert("failure");
 
 			}
 		});
