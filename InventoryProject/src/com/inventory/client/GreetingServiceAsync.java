@@ -25,11 +25,12 @@ public interface GreetingServiceAsync {
 	void deleteProduct(ProductDTO product, AsyncCallback<Void> callback);
 	void updateProfile(String email, String oldPasswd, String newPasswd, AsyncCallback<Void> callback);
 	void addProduct(ProductDTO newProduct, InventoryDTO inventoryDTO, AsyncCallback<ProductDTO> asyncCallback);
+	void getAllActiveProducts(AsyncCallback<List<ProductDTO>> asyncCallback);
+	void makeOrder(OrderDTO order, UserDTO user, AsyncCallback<Void> asyncCallback);
 	void getAllUsers(AsyncCallback<List<UserDTO>> callback);
 	void getAllOrdersForXClient(int id, AsyncCallback<List<OrderDTO>> callback);
 	void getUserName(int id, AsyncCallback<String> callback);
 	void addProductByXML(String fileName, AsyncCallback<ArrayList<ProductDTO>> callback);
 	void getAllOrdersForManager(AsyncCallback<ArrayList<OrderDTO>> callback);
 	void changeOrderStatus(OrderDTO orderDTO, String value, AsyncCallback<Void> callback);
-
 }

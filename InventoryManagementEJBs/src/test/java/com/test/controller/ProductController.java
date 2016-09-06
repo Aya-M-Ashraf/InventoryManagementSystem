@@ -27,7 +27,7 @@ public class ProductController implements ProductControllerLocal {
 	private EntityManager em;
 
 	private ProductDao productDao = new ProductDao();
-	
+
 	private EntityMapper mapper = new EntityMapper();
 
 	public ProductController() {
@@ -36,7 +36,6 @@ public class ProductController implements ProductControllerLocal {
 	@Override
 	public List<Product> getAllProducts() { // and set Expiration Alarm if found
 		productDao.setEntityManager(em);
-
 		return productDao.findAll();
 	}
 
@@ -72,9 +71,9 @@ public class ProductController implements ProductControllerLocal {
 		try {
 			System.out.println("in product controller addproduct");
 			inventory.setProduct(product);
-			product.setInventory(inventory);			
+			product.setInventory(inventory);
 			Product persistedProduct = productDao.findById(productDao.makePersistent(product).getId());
-			System.out.println("---- id returned in product controller after adding "+persistedProduct.getId());
+			System.out.println("---- id returned in product controller after adding " + persistedProduct.getId());
 			return persistedProduct;
 		} catch (Exception e) {
 			System.out.println("***************** exceptioaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaan");
@@ -83,21 +82,27 @@ public class ProductController implements ProductControllerLocal {
 		}
 	}
 
-
 	@Override
 	public ArrayList<Product> addProductByXml(File file) {
 		productDao.setEntityManager(em);
 		ArrayList<Product> persistedProducts = new ArrayList<Product>();
 		AddProductAsXML addProductAsXML = new AddProductAsXML();
-		List <ProductType> prodTypeList = new ArrayList<>();
+		List<ProductType> prodTypeList = new ArrayList<>();
 		prodTypeList = addProductAsXML.getProductList(file);
-		for(ProductType productTypeItem : prodTypeList){
+		for (ProductType productTypeItem : prodTypeList) {
 			Product product = mapper.mapProductTypeToProduct(productTypeItem);
 			Inventory inventory = product.getInventory();
 			inventory.setProductId(product.getId());
 			persistedProducts.add(addProduct(product, inventory));
 		}
 		return persistedProducts;
+
+	}
+
+	@Override
+	public List<Product> getAllActiveProducts() {
+		productDao.setEntityManager(em);
+		return productDao.findAllActiveProducts();
 	}
 
 	@Override
@@ -105,7 +110,7 @@ public class ProductController implements ProductControllerLocal {
 		RealNameDTO realNameDTO = new RealNameDTO();
 		String[] For_split_Fake = fakePath.split("\\\\");
 		realNameDTO.setEmail(For_split_Fake[0]);
-		realNameDTO.setFileName(For_split_Fake[For_split_Fake.length-1]);
+		realNameDTO.setFileName(For_split_Fake[For_split_Fake.length - 1]);
 		return realNameDTO;
 	}
 

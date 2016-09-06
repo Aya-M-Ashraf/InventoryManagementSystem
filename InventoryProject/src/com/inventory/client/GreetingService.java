@@ -26,6 +26,8 @@ public interface GreetingService extends RemoteService {
 	void forgetPassword(String emailAddress) throws IllegalArgumentException;
 	void updateProfile(String email, String oldPasswd, String newPasswd) throws IllegalArgumentException;
 	ProductDTO addProduct(ProductDTO newProduct, InventoryDTO inventoryDTO);
+	List<ProductDTO> getAllActiveProducts();
+	void makeOrder(OrderDTO order, UserDTO user);
 	List<UserDTO> getAllUsers();
 	List<OrderDTO> getAllOrdersForXClient(int id) throws IllegalArgumentException;
 	public String getUserName(int id) throws IllegalArgumentException;

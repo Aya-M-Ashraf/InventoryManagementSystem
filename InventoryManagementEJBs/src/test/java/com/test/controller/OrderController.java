@@ -1,13 +1,12 @@
 package com.test.controller;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-
 import com.test.daos.OrderDao;
+import com.test.daos.OrderStatusDao;
 import com.test.entity.Order;
 
 /**
@@ -18,50 +17,39 @@ import com.test.entity.Order;
 public class OrderController implements OrderControllerLocal {
 	
 	@PersistenceContext(unitName = "InventoryManagementEJBs")
-	private EntityManager em;
+	private EntityManager entityManager;
 
-	private OrderDao orderDao = new OrderDao();
-
-	/**
-	 * @return the orderDao
-	 */
+	private OrderDao orderDao = new OrderDao();  //before use it setEntitymanager first
+	private OrderStatusDao orderStatusDao = new OrderStatusDao(); //before use it setEntitymanager first
+	
+	
 	public OrderDao getOrderDao() {
 		return orderDao;
 	}
 
-	/**
-	 * @param orderDao
-	 *            the orderDao to set
-	 */
+
 	public void setOrderDao(OrderDao orderDao) {
 		this.orderDao = orderDao;
 	}
 
-	/**
-	 * Default constructor.
-	 */
-	public OrderController() {
-		// TODO Auto-generated constructor stub
-	}
 
 	@Override
 	public List<Order> getAllOrderforXClient(int id) {
-		orderDao.setEntityManager(em);
-		TypedQuery<Order> clientQuery = em.createNamedQuery("Order.findByUserId", Order.class)
-				.setParameter("id", id);
+			orderDao.setEntityManager(entityManager);
+			TypedQuery<Order> clientQuery = entityManager.createNamedQuery("Order.findByUserId", Order.class).setParameter("id", id);
 		List<Order> orders = clientQuery.getResultList();
 		return orders;
 	}
 
 	@Override
 	public List<Order> getAllOrderforManager() {
-		orderDao.setEntityManager(em);
+		orderDao.setEntityManager(entityManager);
 		return orderDao.findAll();
 	}
 
 	@Override
 	public void changeOrderStatus(Order order) {
-		orderDao.setEntityManager(em);
+		orderDao.setEntityManager(entityManager);
 		try {
 			orderDao.update(order);
 		} catch (Exception e) {
@@ -69,5 +57,16 @@ public class OrderController implements OrderControllerLocal {
 		}
 	}
 
-
+	@Override
+	public void addOrder(Order order) {
+		orderDao.setEntityManager(entityManager);
+		orderStatusDao.setEntityManager(entityManager);
+	    order.setOrderStatus(orderStatusDao.findById(1));
+		try {
+			orderDao.makePersistent(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

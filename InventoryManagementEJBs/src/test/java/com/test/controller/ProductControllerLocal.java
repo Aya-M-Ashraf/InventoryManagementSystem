@@ -19,4 +19,5 @@ public interface ProductControllerLocal {
 	public Product addProduct(Product product, Inventory inventory);
 	public ArrayList<Product> addProductByXml(File file);
 	public RealNameDTO getRealFilePath(String fakePath);
+	public List<Product> getAllActiveProducts();
 }

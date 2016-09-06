@@ -26,6 +26,9 @@ import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Hidden;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.inventory.client.presenter.ManagerHomePresenter;
@@ -52,19 +55,19 @@ public class ManagerHome extends Composite implements Display {
 
 	@UiField
 	Button addProductButton;
-	
+
 	@UiField
 	Button btnxml;
 
-	FileUpload fileUpload ;
-	DialogBox dialogbox;	
+	FileUpload fileUpload;
+	DialogBox dialogbox;
 	Button uploadBtn;
 	FormPanel form;
 	FormPanel downloadFrom;
 	Button templateDwnBtn;
 	VerticalPanel verticalPanel;
 	Hidden userHidden;
-	
+
 	public ManagerHome() {
 		initWidget(uiBinder.createAndBindUi(this));
 		productList = new DataGrid<ProductDTO>();
@@ -249,8 +252,8 @@ public class ManagerHome extends Composite implements Display {
 		});
 		bind();
 	}
-	
-	void bind(){
+
+	void bind() {
 		downloadFrom = new FormPanel();
 		templateDwnBtn = new Button("Download template file");
 		//
@@ -262,7 +265,7 @@ public class ManagerHome extends Composite implements Display {
 		form = new FormPanel();
 		uploadBtn = new Button("upload");
 		dialogbox = new DialogBox();
-		fileUpload =  new FileUpload();
+		fileUpload = new FileUpload();
 		fileUpload.setName("myFile");
 		dialogbox.setAnimationEnabled(true);
 		dialogbox.setGlassEnabled(true);
@@ -284,9 +287,39 @@ public class ManagerHome extends Composite implements Display {
 	public void setDataGridList(List<ProductDTO> myList) {
 
 		productList.setRowData(myList);
-		dockPanel.setSpacing(4);
+		HorizontalPanel hyperLinks = new HorizontalPanel();
+		Hyperlink clientsLink = new Hyperlink("Clients", "Clients");
+		Hyperlink ordersLink = new Hyperlink("Orders", "Orders");
+		Hyperlink reportsLink = new Hyperlink("Reports", "Reports");
+		hyperLinks.add(clientsLink);
+		hyperLinks.add(ordersLink);
+		hyperLinks.add(reportsLink);
+
+		clientsLink.getElement().getStyle().setProperty("padding", "30px");
+		clientsLink.getElement().getStyle().setProperty("font-size", "150%");
+		clientsLink.getElement().getStyle().setProperty("color", "#373f7e");
+
+		ordersLink.getElement().getStyle().setProperty("padding", "30px");
+		ordersLink.getElement().getStyle().setProperty("font-size", "150%");
+		ordersLink.getElement().getStyle().setProperty("color", "#373f7e");
+
+		reportsLink.getElement().getStyle().setProperty("padding", "30px");
+		reportsLink.getElement().getStyle().setProperty("font-size", "150%");
+		reportsLink.getElement().getStyle().setProperty("color", "#373f7e");
+
+		Image image = new Image();
+		image.setUrl("http://www.haystackinfotech.com/images/product/inventory.jpg");
+		image.setPixelSize(1400, 300);
+		VerticalPanel header = new VerticalPanel();
+
+		header.add(image);
+		header.add(hyperLinks);
+
+		dockPanel.setSpacing(10);
 		dockPanel.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
-		dockPanel.add(productList, DockPanel.NORTH);
+		dockPanel.add(header, DockPanel.NORTH);
+		dockPanel.add(productList, DockPanel.CENTER);
+
 	}
 
 	@Override
@@ -304,7 +337,7 @@ public class ManagerHome extends Composite implements Display {
 	public HashSet<Integer> getChangedIds() {
 		return changedIDs;
 	}
-	
+
 	@Override
 	public HasClickHandlers getXmlButton() {
 		return btnxml;
@@ -334,7 +367,6 @@ public class ManagerHome extends Composite implements Display {
 	public Hidden getUserHidden() {
 		return userHidden;
 	}
-
 
 	@Override
 	public DataGrid<ProductDTO> getProductDataGrid() {

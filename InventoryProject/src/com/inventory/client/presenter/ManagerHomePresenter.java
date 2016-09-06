@@ -27,16 +27,24 @@ public class ManagerHomePresenter implements Presenter {
 
 	public interface Display {
 		void setDataGridList(List<ProductDTO> myList);
+
 		ArrayList<ProductDTO> getChangedDataGridList();
+
 		HashSet<Integer> getChangedIds();
+
 		HasClickHandlers getSaveChangesButton();
+
 		HasClickHandlers getXmlButton();
+
 		HasClickHandlers getUploadBtn();
+
 		DialogBox getXmlDb();
+
 		FileUpload getFileUpload();
+
 		FormPanel getUploadForm();
+
 		Hidden getUserHidden();
-//		void setAddedProduct(ProductDTO newProduct);
 		DataGrid<ProductDTO> getProductDataGrid();
 		HasClickHandlers getDownloadBtn();
 		FormPanel getDownloadForm();
@@ -47,12 +55,15 @@ public class ManagerHomePresenter implements Presenter {
 	private final ManagerHome view;
 	private final UserDTO user;
 
-	public ManagerHomePresenter(HandlerManager eventBus, GreetingServiceAsync rpcService, ManagerHome view, UserDTO user) {
+	public ManagerHomePresenter(HandlerManager eventBus, GreetingServiceAsync rpcService, ManagerHome view,
+			UserDTO user) {
 		this.eventBus = eventBus;
 		this.rpcService = rpcService;
 		this.view = view;
 		this.user = user;
 		this.view.setPresenter(this);
+		
+		Window.alert("Hello, "+user.getUsername()+"role: "+ user.getUserRole().getRole());
 
 		rpcService.getAllProducts(new AsyncCallback<List<ProductDTO>>() {
 			@Override
@@ -75,9 +86,9 @@ public class ManagerHomePresenter implements Presenter {
 		});
 		bind();
 	}
-	
-	void bind(){
-		FormPanel form=view.getUploadForm();
+
+	void bind() {
+		FormPanel form = view.getUploadForm();
 		form.setAction("FileUploadServelt");
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
 		form.setMethod(FormPanel.METHOD_POST);
@@ -103,7 +114,6 @@ public class ManagerHomePresenter implements Presenter {
 						list.addAll(result);
 						view.getProductDataGrid().setRowData(list);
 						view.getProductDataGrid().redraw();
-						Window.alert("product(s) added");
 					}
 					
 					@Override
@@ -119,17 +129,17 @@ public class ManagerHomePresenter implements Presenter {
 	
 		
 		view.getUserHidden().setValue(user.getEmail());
-		
+
 		view.getXmlButton().addClickHandler(new ClickHandler() {
-		
-		@Override
-		public void onClick(ClickEvent event) {
-			view.getXmlDb().center();
-		}
-	});
-		
+
+			@Override
+			public void onClick(ClickEvent event) {
+				view.getXmlDb().center();
+			}
+		});
+
 		view.getUploadBtn().addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				view.getUploadForm().submit();
@@ -184,7 +194,6 @@ public class ManagerHomePresenter implements Presenter {
 	}
 
 	public void addProduct(ProductDTO newProduct, InventoryDTO inventoryDTO) {
-		Window.alert("MH Presenter before add product");
 		rpcService.addProduct(newProduct, inventoryDTO, new AsyncCallback<ProductDTO>() {
 
 			@Override
@@ -194,11 +203,14 @@ public class ManagerHomePresenter implements Presenter {
 
 			@Override
 			public void onSuccess(ProductDTO result) {
-				Window.alert("MH Presenter add product success" + result.getId());
 				ArrayList<ProductDTO> list = new ArrayList<>(ManagerHomePresenter.this.view.getChangedDataGridList());
 				list.add(result);
 				ManagerHomePresenter.this.view.setDataGridList(list);
 			}
 		});
+	}
+
+	public UserDTO getUser() {
+		return user;
 	}
 }

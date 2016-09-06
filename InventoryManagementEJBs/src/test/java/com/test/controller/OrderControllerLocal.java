@@ -10,7 +10,9 @@ import com.test.entity.Order;
 
 @Local
 public interface OrderControllerLocal {
+
 	public List<Order> getAllOrderforXClient(int id);
 	public List<Order> getAllOrderforManager();
 	public void changeOrderStatus(Order order);
+	void addOrder(Order order);
 }
