@@ -16,6 +16,10 @@ import com.inventory.client.event.GetOrdersEvent;
 import com.inventory.client.event.GetOrdersEventHandler;
 import com.inventory.client.event.LogOutEvent;
 import com.inventory.client.event.LogOutEventHandler;
+import com.inventory.client.event.RegisterEvent;
+import com.inventory.client.event.RegisterHandler;
+import com.inventory.client.event.RegisterSignin;
+import com.inventory.client.event.RegisterSigninHandler;
 import com.inventory.client.event.SignInEvent;
 import com.inventory.client.event.SignInEventHandler;
 import com.inventory.client.presenter.ClientHomePresenter;
@@ -26,6 +30,7 @@ import com.inventory.client.presenter.ManagerHomePresenter;
 import com.inventory.client.presenter.ManagingOrdersPresenter;
 import com.inventory.client.presenter.OrdersOfXClientPresenter;
 import com.inventory.client.presenter.Presenter;
+import com.inventory.client.presenter.RegisterationPresenter;
 import com.inventory.client.presenter.SignInPresenter;
 import com.inventory.client.view.ClientHome;
 import com.inventory.client.view.AllClientsView;
@@ -34,6 +39,7 @@ import com.inventory.client.view.ForgetPasswordView;
 import com.inventory.client.view.ManagerHome;
 import com.inventory.client.view.ManagingOrders;
 import com.inventory.client.view.OrdersOfXClientView;
+import com.inventory.client.view.Registeration;
 import com.inventory.client.view.SignInView;
 import com.inventory.shared.dto.UserDTO;
 
@@ -115,7 +121,28 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				History.newItem("editProfile");
 			}
 		});
+		eventBus.addHandler(RegisterEvent.TYPE, new RegisterHandler() {
+			@Override
+			public void onButtonClicked(RegisterEvent registerevent) {
+				doButtonClickedThing();
+			}
+
+			private void doButtonClickedThing() {
+				// TODO Auto-generated method stub
+				History.newItem("register");
+			}
+		});
+		eventBus.addHandler(RegisterSignin.TYPE, new RegisterSigninHandler() {
+			
+			@Override
+			public void onRegister(RegisterSignin registerSignin) {
+				// TODO Auto-generated method stub
+				Presenter presenter = new SignInPresenter(eventBus, rpcService, new SignInView());
+				presenter.go(container);
+			}
+		});
 	}
+	
 
 	public void go(final HasWidgets container) {
 		this.container = container;
@@ -165,6 +192,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				presenter = new EditProfileOPresenter(eventBus, rpcService, new EditProfileView());
 				presenter.go(container);
 			}
+			if (token.equals("register")) {
+				presenter = new RegisterationPresenter(eventBus, rpcService, new Registeration());
+				presenter.go(container);
+			}
+
 		}
 	}
 	

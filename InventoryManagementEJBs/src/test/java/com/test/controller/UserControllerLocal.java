@@ -13,4 +13,5 @@ public interface UserControllerLocal {
 	void updateProfileController(String email, String oldPasswd, String newPasswd);
 	public List<User> getAllClients() ; 
 	public String getUserName(int id) ;
+	void addUser(User user);
 }

@@ -33,4 +33,5 @@ public interface GreetingServiceAsync {
 	void addProductByXML(String fileName, AsyncCallback<ArrayList<ProductDTO>> callback);
 	void getAllOrdersForManager(AsyncCallback<ArrayList<OrderDTO>> callback);
 	void changeOrderStatus(OrderDTO orderDTO, String value, AsyncCallback<Void> callback);
+	void addUser(UserDTO userDto, AsyncCallback<Void> callback);
 }

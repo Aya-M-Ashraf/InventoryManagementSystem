@@ -165,6 +165,8 @@
 		.invalid {
 		color: red;
 		}
+	.register{
+			float: right;}
 	</ui:style>
 
 	<g:HTMLPanel>
@@ -187,6 +189,8 @@
 						<label>
 							<g:CheckBox ui:field="rememberMe" value="false">Remember Me</g:CheckBox>
 						</label>
+						<g:Anchor ui:field="register"
+						styleName="{style.register} "> Register</g:Anchor>
 					</div>
 					<br />
 				</div>

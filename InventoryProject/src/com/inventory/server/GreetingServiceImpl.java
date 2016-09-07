@@ -216,6 +216,13 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		}
 		orderController.changeOrderStatus(mapper.mapOrderDtoToOrder(orderDTO));
 	}
+
+	@Override
+	public void addUser(UserDTO userDto) throws IllegalArgumentException {
+		User user = mapper.mapUserDtoToUser(userDto);
+		  userController.addUser(user);
+		
+	}
 	
 
 }

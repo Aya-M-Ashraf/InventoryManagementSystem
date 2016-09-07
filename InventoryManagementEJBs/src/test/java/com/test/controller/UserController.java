@@ -93,4 +93,16 @@ public class UserController implements UserControllerLocal {
 	public String getUserName(int id) {
 		return userDao.getUserName(id);
 	}
+
+	@Override
+	public void addUser(User user) {
+		try {
+    		userDao.setEm(em);
+			userDao.makePersistent(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+
+	
 }
