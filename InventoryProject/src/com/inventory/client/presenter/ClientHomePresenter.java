@@ -19,6 +19,7 @@ public class ClientHomePresenter implements Presenter {
 
 	public interface Display {
 		void setDataGridList(List<ProductDTO> myList);
+
 		ArrayList<ProductDTO> getChangedDataGridList();
 	}
 
@@ -35,8 +36,6 @@ public class ClientHomePresenter implements Presenter {
 		this.view = view;
 		this.user = user;
 		this.view.setPresenter(this);
-		
-		Window.alert("Hello, "+user.getUsername()+"role: "+ user.getUserRole().getRole());
 
 		rpcService.getAllActiveProducts(new AsyncCallback<List<ProductDTO>>() {
 			@Override
@@ -58,38 +57,47 @@ public class ClientHomePresenter implements Presenter {
 		container.add(ClientHomePresenter.this.view.asWidget());
 	}
 
-
 	public UserDTO getUser() {
 		return user;
 	}
 
 	public void setOrderedProduct(ProductDTO product) {
 		orderedProduct = product;
-		
+
 	}
 
 	public void makeOrder(Number quantity, Date deliveryDate) {
 		OrderDTO order = new OrderDTO();
 		order.setDeliveryDate(deliveryDate);
 		order.setOrderDate(new Date());
-		order.setQuantity((int)quantity);
-		order.setTotalWeight((int)quantity*(orderedProduct.getWeight()));
+		order.setQuantity((int) quantity);
+		order.setTotalWeight((int) quantity * (orderedProduct.getWeight()));
 		order.setProduct(orderedProduct);
-		rpcService.makeOrder(order,user,new AsyncCallback<Void>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
+		if ((int) quantity > orderedProduct.getInventory().getQuantityForOrder()) {
+			ClientHomePresenter.this.view.getMyDialogBox()
+					.setErrorMsg("Your required quantity is unavailable, Sorry !");
+			
+		} else if (deliveryDate.before(new Date())) {
+			ClientHomePresenter.this.view.getMyDialogBox().setErrorMsg("Inavalid Date!");
+			
+		} else {
+			ClientHomePresenter.this.view.getMyDialogBox().setErrorMsg("");
+			rpcService.makeOrder(order, user, new AsyncCallback<Void>() {
 
-			@Override
-			public void onSuccess(Void result) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void onSuccess(Void result) {
+					// TODO Auto-generated method stub
+
+				}
+			});
+		}
 	}
-
 
 }

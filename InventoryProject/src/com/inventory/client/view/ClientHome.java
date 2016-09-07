@@ -37,6 +37,14 @@ public class ClientHome extends Composite implements Display, DialogBoxOpener {
 
 	private OrderDialogBox myDialogBox = new OrderDialogBox();
 
+	public OrderDialogBox getMyDialogBox() {
+		return myDialogBox;
+	}
+
+	public void setMyDialogBox(OrderDialogBox myDialogBox) {
+		this.myDialogBox = myDialogBox;
+	}
+
 	DataGrid<ProductDTO> productList;
 
 	@UiField
@@ -45,7 +53,7 @@ public class ClientHome extends Composite implements Display, DialogBoxOpener {
 	public ClientHome() {
 		initWidget(uiBinder.createAndBindUi(this));
 		productList = new DataGrid<ProductDTO>();
-		productList.setSize("1300px", "500px");
+		productList.setSize("1300px", "350px");
 
 		// columns***********************************************
 
