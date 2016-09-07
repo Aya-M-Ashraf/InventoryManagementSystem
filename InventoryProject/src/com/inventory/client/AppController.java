@@ -8,6 +8,8 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.inventory.client.event.AllClientsEvent;
+import com.inventory.client.event.AllClientsHandler;
 import com.inventory.client.event.EditProfileEvent;
 import com.inventory.client.event.EditProfileHandler;
 import com.inventory.client.event.ForgetPasswordEvent;
@@ -69,14 +71,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			@Override
 			public void onSignIn(SignInEvent event) {
 				if (event.getUser().getUserRole().getRole().equalsIgnoreCase("manager")) {
-//					Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),
-//							event.getUser());
-					Presenter presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
+					Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),
+							event.getUser());
+//					Presenter presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
 					presenter.go(container);
 				} else {
-//					Presenter presenter = new ClientHomePresenter(eventBus, rpcService, new ClientHome(),
-//							event.getUser());
-					Presenter presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
+					Presenter presenter = new ClientHomePresenter(eventBus, rpcService, new ClientHome(),
+							event.getUser());
+//					Presenter presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
 					presenter.go(container);
 				}
 
@@ -92,8 +94,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 				
 				//Presenter presenter2 = new ManagingOrdersPresenter(eventBus, rpcService, new ManagingOrders());
-				Presenter presenter2 = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
-				presenter2.go(container);
+				/*Presenter presenter2 = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
+				presenter2.go(container);*/
 			}
 		});
 
@@ -139,6 +141,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				// TODO Auto-generated method stub
 				Presenter presenter = new SignInPresenter(eventBus, rpcService, new SignInView());
 				presenter.go(container);
+			}
+		});
+		eventBus.addHandler(AllClientsEvent.TYPE, new AllClientsHandler() {
+
+			@Override
+			public void onAllClients(AllClientsEvent allClientsEvent) {
+				History.newItem("Clients");
 			}
 		});
 	}
@@ -194,6 +203,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 			if (token.equals("register")) {
 				presenter = new RegisterationPresenter(eventBus, rpcService, new Registeration());
+				presenter.go(container);
+			}
+			if (token.equals("Clients")) {
+				presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
 				presenter.go(container);
 			}
 

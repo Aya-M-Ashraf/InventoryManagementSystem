@@ -4,9 +4,11 @@
 	<ui:style>
 		.body, html {
 		height: 100%;
-		background-color: #D1C4A5;
-		background-repeat: no-repeat;
+		background-image:
+		url("http://maginus.com/globalassets/maginustest/maginus-oms-jumbotron/maginus-oms-child-page-jumbotrons/inventory-management-banner.jpg?id=4533");
+		<!-- background-repeat: no-repeat; -->
 		}
+
 
 		.card-container.card {
 		max-width: 350px;
@@ -23,11 +25,13 @@
 		}
 
 		/*
-		* Card component
+		* Card
+		component
 		*/
 		.card {
 		background-color: #F7F7F7;
-		/* just in case there no content*/
+		/* just in case there no
+		content*/
 		padding: 20px 25px 30px;
 		margin: 0 auto 25px;
 		margin-top: 50px;
@@ -61,7 +65,8 @@
 		.profile-name-card {
 		font-size: 16px;
 		font-weight: bold;
-		text-align: center;
+		text-align:
+		center;
 		margin: 10px 0
 		0;
 		min-height: 1em;
@@ -79,15 +84,18 @@
 		ellipsis;
 		white-space: nowrap;
 		-moz-box-sizing: border-box;
-		-webkit-box-sizing: border-box;
+		-webkit-box-sizing:
+		border-box;
 		box-sizing: border-box;
 		}
 
-		.form-signin #inputEmail, .form-signin #inputPassword {
+		.form-signin #inputEmail,
+		.form-signin #inputPassword {
 		direction: ltr;
 		height:
 		44px;
-		font-size: 16px;
+		font-size:
+		16px;
 		}
 
 		.f-h {
@@ -105,14 +113,17 @@
 		box-sizing: border-box;
 		}
 
-		.form-signin input[type=email], .form-signin input[type=password],
+		.form-signin input[type=email], .form-signin
+		input[type=password],
 		.form-signin
-		input[type=text], .form-signin button {
+		input[type=text], .form-signin button
+		{
 		width: 100%;
 		display: block;
 		margin-bottom: 10px;
 		z-index: 1;
-		position: relative;
+		position:
+		relative;
 		-moz-box-sizing:
 		border-box;
 		-webkit-box-sizing: border-box;
@@ -122,17 +133,21 @@
 		.form-signin .form-control:focus {
 		border-color: rgb(104, 145, 162);
 		outline: 0;
-		-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px
+		-webkit-box-shadow: inset
+		0 1px 1px rgba(0, 0, 0, .075), 0 0 8px
 		rgb(104, 145, 162);
-		box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0
+		box-shadow:
+		inset 0 1px 1px rgba(0, 0, 0, .075), 0
 		0 8px
 		rgb(104, 145, 162);
 		}
 
 		.btn.btn-signin {
 		/*background-color: #4d90fe; */
-		background-color: rgb(104, 145, 162);
-		/* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97,
+		background-color:
+		rgb(104, 145, 162);
+		/* background-color: linear-gradient(rgb(104, 145,
+		162), rgb(12, 97,
 		33));*/
 		padding: 0px;
 		font-weight: 700;
@@ -148,7 +163,8 @@
 		transition: all 0.218s;
 		}
 
-		.btn.btn-signin:hover, .btn.btn-signin:active, .btn.btn-signin:focus {
+		.btn.btn-signin:hover, .btn.btn-signin:active,
+		.btn.btn-signin:focus {
 		background-color:
 		teal;
 		}
@@ -157,20 +173,23 @@
 		color: rgb(104, 145, 162);
 		}
 
-		.forgot-password:hover, .forgot-password:active, .forgot-password:focus
+		.forgot-password:hover,
+		.forgot-password:active, .forgot-password:focus
 		{
 		color: teal;
 		}
 
-		.invalid {
+		.invalid
+		{
 		color: red;
 		}
-	.register{
-			float: right;}
+		.register{
+		float: right;}
 	</ui:style>
 
 	<g:HTMLPanel>
-		<div>
+		<div
+			style="background-image:url('http://maginus.com/globalassets/maginustest/maginus-oms-jumbotron/maginus-oms-child-page-jumbotrons/inventory-management-banner.jpg?id=4533')">
 			<div class='{style.card} {style.card-container}'>
 				<img id="profile-img" class='{style.profile-img-card}'
 					src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
@@ -189,8 +208,7 @@
 						<label>
 							<g:CheckBox ui:field="rememberMe" value="false">Remember Me</g:CheckBox>
 						</label>
-						<g:Anchor ui:field="register"
-						styleName="{style.register} "> Register</g:Anchor>
+						<g:Anchor ui:field="register" styleName="{style.register} "> Register</g:Anchor>
 					</div>
 					<br />
 				</div>

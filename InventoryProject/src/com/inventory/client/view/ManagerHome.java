@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.DatePickerCell;
 import com.google.gwt.cell.client.EditTextCell;
@@ -29,6 +28,7 @@ import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.inventory.client.presenter.ManagerHomePresenter;
@@ -67,11 +67,25 @@ public class ManagerHome extends Composite implements Display {
 	Button templateDwnBtn;
 	VerticalPanel verticalPanel;
 	Hidden userHidden;
+	private Label errorMsg;
 
 	public ManagerHome() {
 		initWidget(uiBinder.createAndBindUi(this));
+		buildDataGrid();
+		addProductButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				ProductDTO newProduct = new ProductDTO();
+				InventoryDTO inventoryDTO = new InventoryDTO();
+				presenter.addProduct(newProduct, inventoryDTO);
+			}
+		});
+		bind();
+	}
+
+	public void buildDataGrid() {
 		productList = new DataGrid<ProductDTO>();
-		productList.setSize("1300px", "500px");
+		productList.setSize("1300px", "350px");
 
 		// columns***********************************************
 
@@ -161,7 +175,11 @@ public class ManagerHome extends Composite implements Display {
 		productWeightColumn.setFieldUpdater(new FieldUpdater<ProductDTO, String>() {
 			@Override
 			public void update(int index, ProductDTO object, String value) {
-				object.setWeight(Double.parseDouble(value));
+				try {
+					object.setWeight(Double.parseDouble(value));
+				} catch (NumberFormatException e) {
+					errorMsg.setText("Invalid weight!");
+				}
 				changedIDs.add(index);
 			}
 		});
@@ -177,21 +195,34 @@ public class ManagerHome extends Composite implements Display {
 		productQuantityColumn.setFieldUpdater(new FieldUpdater<ProductDTO, String>() {
 			@Override
 			public void update(int index, ProductDTO object, String value) {
-				object.getInventory().setQuantity(Integer.parseInt(value));
+				try {
+					object.getInventory().setQuantity(Integer.parseInt(value));
+				} catch (NumberFormatException e) {
+					errorMsg.setText("Invalid quantity!");
+				}
 				changedIDs.add(index);
 			}
 		});
 		productQuantityForOrderColumn.setFieldUpdater(new FieldUpdater<ProductDTO, String>() {
 			@Override
 			public void update(int index, ProductDTO object, String value) {
-				object.getInventory().setQuantityForOrder(Integer.parseInt(value));
+				try {
+					object.getInventory().setQuantityForOrder(Integer.parseInt(value));
+				} catch (NumberFormatException e) {
+					errorMsg.setText("Invalid quantity for order!");
+				}
 				changedIDs.add(index);
 			}
 		});
 		productThresholdColumn.setFieldUpdater(new FieldUpdater<ProductDTO, String>() {
 			@Override
 			public void update(int index, ProductDTO object, String value) {
-				object.setThreshold(Integer.parseInt(value));
+				try {
+					object.setThreshold(Integer.parseInt(value));
+				} catch (NumberFormatException e) {
+					errorMsg.setText("Invalid quantity for threshold!");
+				}
+				changedIDs.add(index);
 			}
 		});
 		activeProductButtonsColumn.setFieldUpdater(new FieldUpdater<ProductDTO, String>() {
@@ -242,23 +273,14 @@ public class ManagerHome extends Composite implements Display {
 		productList.addColumn(expiryAlarmColumn, "Expiry Warning");
 		productList.addColumn(deleteProductButtonsColumn, "");
 
-		addProductButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				ProductDTO newProduct = new ProductDTO();
-				InventoryDTO inventoryDTO = new InventoryDTO();
-				presenter.addProduct(newProduct, inventoryDTO);
-			}
-		});
-		bind();
+		buildPageDockPanel();
+
 	}
 
 	void bind() {
 		downloadFrom = new FormPanel();
 		templateDwnBtn = new Button("Download template file");
-		//
 		downloadFrom.add(templateDwnBtn);
-		//
 		userHidden = new Hidden();
 		userHidden.getElement().setAttribute("name", "user_email");
 		verticalPanel = new VerticalPanel();
@@ -279,14 +301,15 @@ public class ManagerHome extends Composite implements Display {
 		dialogbox.setWidget(form);
 	}
 
-	public void setPresenter(ManagerHomePresenter presenter) {
-		this.presenter = presenter;
-	}
-
 	@Override
 	public void setDataGridList(List<ProductDTO> myList) {
 
 		productList.setRowData(myList);
+		productList.redraw();
+
+	}
+
+	public void buildPageDockPanel() {
 		HorizontalPanel hyperLinks = new HorizontalPanel();
 		Hyperlink clientsLink = new Hyperlink("Clients", "Clients");
 		Hyperlink ordersLink = new Hyperlink("Orders", "Orders");
@@ -310,10 +333,13 @@ public class ManagerHome extends Composite implements Display {
 		Image image = new Image();
 		image.setUrl("http://www.haystackinfotech.com/images/product/inventory.jpg");
 		image.setPixelSize(1400, 300);
+		errorMsg = new Label();
+		errorMsg.getElement().getStyle().setColor("red");
 		VerticalPanel header = new VerticalPanel();
 
 		header.add(image);
 		header.add(hyperLinks);
+		header.add(errorMsg);
 
 		dockPanel.setSpacing(10);
 		dockPanel.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
@@ -381,6 +407,19 @@ public class ManagerHome extends Composite implements Display {
 	@Override
 	public FormPanel getDownloadForm() {
 		return downloadFrom;
+	}
+
+	public void setPresenter(ManagerHomePresenter presenter) {
+		this.presenter = presenter;
+	}
+
+	public Label getErrorMsg() {
+		return errorMsg;
+	}
+
+	public void setErrorMsg(String msg) {
+		errorMsg.setText(msg);
+		;
 	}
 
 }
