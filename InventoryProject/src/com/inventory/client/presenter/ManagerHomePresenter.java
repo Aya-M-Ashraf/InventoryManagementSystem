@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Hidden;
 import com.inventory.client.GreetingServiceAsync;
+import com.inventory.client.event.LogOutEvent;
 import com.inventory.client.view.ManagerHome;
 import com.inventory.shared.dto.InventoryDTO;
 import com.inventory.shared.dto.ProductDTO;
@@ -150,6 +151,14 @@ public class ManagerHomePresenter implements Presenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				view.getDownloadForm().submit();
+			}
+		});
+		view.getLogout().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				eventBus.fireEvent(new LogOutEvent());
+				
 			}
 		});
 	}

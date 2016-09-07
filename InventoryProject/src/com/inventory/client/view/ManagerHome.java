@@ -68,6 +68,15 @@ public class ManagerHome extends Composite implements Display {
 	VerticalPanel verticalPanel;
 	Hidden userHidden;
 	private Label errorMsg;
+	private Hyperlink logout;
+
+	public Hyperlink getLogout() {
+		return logout;
+	}
+
+	public void setLogout(Hyperlink logout) {
+		this.logout = logout;
+	}
 
 	public ManagerHome() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -311,25 +320,33 @@ public class ManagerHome extends Composite implements Display {
 
 	public void buildPageDockPanel() {
 		HorizontalPanel hyperLinks = new HorizontalPanel();
+		Hyperlink productsLink = new Hyperlink("Products", "Products");
 		Hyperlink clientsLink = new Hyperlink("Clients", "Clients");
 		Hyperlink ordersLink = new Hyperlink("Orders", "Orders");
 		Hyperlink reportsLink = new Hyperlink("Reports", "Reports");
+		logout = new Hyperlink("Logout", "Logout");
+		hyperLinks.add(productsLink);
 		hyperLinks.add(clientsLink);
 		hyperLinks.add(ordersLink);
 		hyperLinks.add(reportsLink);
+		hyperLinks.add(logout);
 
+		productsLink.getElement().getStyle().setProperty("padding", "30px");
+		productsLink.getElement().getStyle().setProperty("font-size", "150%");
+		
 		clientsLink.getElement().getStyle().setProperty("padding", "30px");
-		clientsLink.getElement().getStyle().setProperty("font-size", "150%");
-		clientsLink.getElement().getStyle().setProperty("color", "#373f7e");
+		clientsLink.getElement().getStyle().setProperty("font-size", "150%");		
 
 		ordersLink.getElement().getStyle().setProperty("padding", "30px");
 		ordersLink.getElement().getStyle().setProperty("font-size", "150%");
-		ordersLink.getElement().getStyle().setProperty("color", "#373f7e");
-
+		
 		reportsLink.getElement().getStyle().setProperty("padding", "30px");
-		reportsLink.getElement().getStyle().setProperty("font-size", "150%");
-		reportsLink.getElement().getStyle().setProperty("color", "#373f7e");
-
+		reportsLink.getElement().getStyle().setProperty("font-size", "150%");		
+		
+		logout.getElement().getStyle().setProperty("padding", "30px");
+		logout.getElement().getStyle().setProperty("font-size", "150%");
+		logout.getElement().setInnerHTML("<a style='color:#511323;' >Logout</a>");
+		
 		Image image = new Image();
 		image.setUrl("http://www.haystackinfotech.com/images/product/inventory.jpg");
 		image.setPixelSize(1400, 300);

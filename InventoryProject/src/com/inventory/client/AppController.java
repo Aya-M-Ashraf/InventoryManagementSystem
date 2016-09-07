@@ -22,6 +22,8 @@ import com.inventory.client.event.RegisterEvent;
 import com.inventory.client.event.RegisterHandler;
 import com.inventory.client.event.RegisterSignin;
 import com.inventory.client.event.RegisterSigninHandler;
+import com.inventory.client.event.ShowProductsEvent;
+import com.inventory.client.event.ShowProductsHandler;
 import com.inventory.client.event.SignInEvent;
 import com.inventory.client.event.SignInEventHandler;
 import com.inventory.client.presenter.ClientHomePresenter;
@@ -50,6 +52,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private final HandlerManager eventBus;
 	private final GreetingServiceAsync rpcService;
 	private HasWidgets container;
+	UserDTO userDTO;
 
 	public AppController(GreetingServiceAsync rpcService, HandlerManager eventBus) {
 		this.eventBus = eventBus;
@@ -104,7 +107,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			public void onLogOut(LogOutEvent event) {
 				Cookies.removeCookie("invSignName");
 				Cookies.removeCookie("invSignPass");
-				Window.Location.replace("http://localhost:8085/InventoryManagement/");
+				Window.Location.replace("http://localhost:8080/InventoryManagement/");
 			}
 		});
 
@@ -148,6 +151,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			@Override
 			public void onAllClients(AllClientsEvent allClientsEvent) {
 				History.newItem("Clients");
+			}
+		});
+		eventBus.addHandler(ShowProductsEvent.TYPE, new ShowProductsHandler() {
+			
+			@Override
+			public void onShowProducts(ShowProductsEvent showProductsEvent) {
+				History.newItem("Products");
+				
 			}
 		});
 	}
@@ -207,6 +218,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 			if (token.equals("Clients")) {
 				presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
+				presenter.go(container);
+			}
+			if (token.equals("Products")) {
+				presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),userDTO);
 				presenter.go(container);
 			}
 

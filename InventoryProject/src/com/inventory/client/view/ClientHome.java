@@ -19,7 +19,11 @@ import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.inventory.client.presenter.ClientHomePresenter;
 import com.inventory.client.presenter.ClientHomePresenter.Display;
@@ -34,19 +38,9 @@ public class ClientHome extends Composite implements Display, DialogBoxOpener {
 
 	private ClientHomePresenter presenter;
 	private HashSet<Integer> changedIDs = new HashSet<>();
-
 	private OrderDialogBox myDialogBox = new OrderDialogBox();
-
-	public OrderDialogBox getMyDialogBox() {
-		return myDialogBox;
-	}
-
-	public void setMyDialogBox(OrderDialogBox myDialogBox) {
-		this.myDialogBox = myDialogBox;
-	}
-
+	private Hyperlink logout;
 	DataGrid<ProductDTO> productList;
-
 	@UiField
 	DockPanel myDockPanel;
 
@@ -130,13 +124,39 @@ public class ClientHome extends Composite implements Display, DialogBoxOpener {
 	@Override
 	public void setDataGridList(List<ProductDTO> myList) {
 		productList.setRowData(myList);
-		myDockPanel.setSpacing(4);
-		myDockPanel.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
-		myDockPanel.add(productList, DockPanel.CENTER);
+		HorizontalPanel hyperLinks = new HorizontalPanel();
+		Hyperlink productsLink = new Hyperlink("Products", "clientProducts");
+		Hyperlink ordersLink = new Hyperlink("My Orders", "MyOrders");
+		logout = new Hyperlink("Logout", "Logout");
+		hyperLinks.add(productsLink);
+		hyperLinks.add(ordersLink);
+		hyperLinks.add(logout);
+
+		productsLink.getElement().getStyle().setProperty("padding", "30px");
+		productsLink.getElement().getStyle().setProperty("font-size", "150%");
+		
+		ordersLink.getElement().getStyle().setProperty("padding", "30px");
+		ordersLink.getElement().getStyle().setProperty("font-size", "150%");
+		
+		logout.getElement().getStyle().setProperty("padding", "30px");
+		logout.getElement().getStyle().setProperty("font-size", "150%");
+		logout.getElement().setInnerHTML("<a style='color:#511323;' >Logout</a>");
+		
 		Image image = new Image();
 		image.setUrl("http://www.haystackinfotech.com/images/product/inventory.jpg");
 		image.setPixelSize(1400, 300);
-		myDockPanel.add(image, DockPanel.NORTH);
+		
+		VerticalPanel header = new VerticalPanel();
+
+		header.add(image);
+		header.add(hyperLinks);
+		
+		myDockPanel.setSpacing(10);
+		myDockPanel.setHorizontalAlignment(DockPanel.ALIGN_CENTER);
+		myDockPanel.add(header, DockPanel.NORTH);
+		myDockPanel.add(productList, DockPanel.CENTER);
+
+
 	}
 
 	@Override
@@ -161,6 +181,22 @@ public class ClientHome extends Composite implements Display, DialogBoxOpener {
 		/* Window.alert("quantity: "+quantity+" date: "+ deliveryDate); */
 		presenter.makeOrder(quantity, deliveryDate);
 
+	}
+
+	public Hyperlink getLogout() {
+		return logout;
+	}
+
+	public void setLogout(Hyperlink logout) {
+		this.logout = logout;
+	}
+
+	public OrderDialogBox getMyDialogBox() {
+		return myDialogBox;
+	}
+
+	public void setMyDialogBox(OrderDialogBox myDialogBox) {
+		this.myDialogBox = myDialogBox;
 	}
 
 }

@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.inventory.client.GreetingServiceAsync;
+import com.inventory.client.event.LogOutEvent;
 import com.inventory.client.view.ClientHome;
 import com.inventory.shared.dto.InventoryDTO;
 import com.inventory.shared.dto.OrderDTO;
@@ -49,8 +52,21 @@ public class ClientHomePresenter implements Presenter {
 			}
 		});
 
+//	bind();
 	}
 
+/*	private void bind() {
+		view.getLogout().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				eventBus.fireEvent(new LogOutEvent());
+
+			}
+		});
+		
+	}
+*/
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
@@ -77,10 +93,10 @@ public class ClientHomePresenter implements Presenter {
 		if ((int) quantity > orderedProduct.getInventory().getQuantityForOrder()) {
 			ClientHomePresenter.this.view.getMyDialogBox()
 					.setErrorMsg("Your required quantity is unavailable, Sorry !");
-			
+
 		} else if (deliveryDate.before(new Date())) {
 			ClientHomePresenter.this.view.getMyDialogBox().setErrorMsg("Inavalid Date!");
-			
+
 		} else {
 			ClientHomePresenter.this.view.getMyDialogBox().setErrorMsg("");
 			rpcService.makeOrder(order, user, new AsyncCallback<Void>() {
