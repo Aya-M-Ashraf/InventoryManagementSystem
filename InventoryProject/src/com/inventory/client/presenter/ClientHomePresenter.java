@@ -55,18 +55,19 @@ public class ClientHomePresenter implements Presenter {
 //	bind();
 	}
 
-/*	private void bind() {
+	 void bind() {
 		view.getLogout().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				Window.alert("on logout click handler");
 				eventBus.fireEvent(new LogOutEvent());
 
 			}
 		});
 		
 	}
-*/
+
 	@Override
 	public void go(HasWidgets container) {
 		container.clear();
@@ -114,6 +115,10 @@ public class ClientHomePresenter implements Presenter {
 				}
 			});
 		}
+	}
+
+	public HandlerManager getEventBus() {
+		return eventBus;
 	}
 
 }

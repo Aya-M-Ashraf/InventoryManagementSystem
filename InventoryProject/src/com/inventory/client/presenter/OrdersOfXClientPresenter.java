@@ -71,8 +71,7 @@ public class OrdersOfXClientPresenter implements Presenter {
 		rpcService.getAllOrdersForXClient(id, new AsyncCallback<List<OrderDTO>>() {
 			@Override
 			public void onSuccess(List<OrderDTO> ordersList) {
-				System.out.println("Success");
-
+				Window.alert("Orders Succes");
 				OrdersOfXClientPresenter.this.view.getLabel().setText("Numbers of Orders  are : "
 
 						+ ordersList.size());

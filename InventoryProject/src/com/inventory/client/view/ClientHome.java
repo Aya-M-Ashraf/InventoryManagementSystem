@@ -12,6 +12,8 @@ import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
@@ -25,6 +27,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.inventory.client.event.LogOutEvent;
 import com.inventory.client.presenter.ClientHomePresenter;
 import com.inventory.client.presenter.ClientHomePresenter.Display;
 import com.inventory.shared.dto.ProductDTO;
@@ -114,7 +117,6 @@ public class ClientHome extends Composite implements Display, DialogBoxOpener {
 		productList.addColumn(productQuantityColumn, "Quantity");
 		productList.addColumn(productQuantityForOrderColumn, "Quantity For Order");
 		productList.addColumn(orderProductButtonsColumn, "Make an Order");
-
 	}
 
 	public void setPresenter(ClientHomePresenter presenter) {

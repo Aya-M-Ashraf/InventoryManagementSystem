@@ -224,6 +224,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),userDTO);
 				presenter.go(container);
 			}
+			if (token.equals("Logout")) {
+				Cookies.removeCookie("invSignName");
+				Cookies.removeCookie("invSignPass");
+				Window.Location.replace("http://localhost:8080/InventoryManagement/");
+			}
 
 		}
 	}
