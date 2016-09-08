@@ -2,8 +2,11 @@ package com.inventory.client.presenter;
 
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasDirectionalText;
@@ -13,6 +16,7 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.inventory.client.GreetingServiceAsync;
 import com.inventory.client.event.GetOrdersEvent;
+import com.inventory.client.event.ShowProductsEvent;
 import com.inventory.client.view.AllClientsView;
 import com.inventory.shared.dto.UserDTO;
 
@@ -31,12 +35,14 @@ public class AllClientsPresenter implements Presenter {
 	private final HandlerManager eventBus;
 	private final GreetingServiceAsync rpcService;
 	private final AllClientsView view;
+	private final UserDTO userDto;
 	final SingleSelectionModel<UserDTO> selectionModel = new SingleSelectionModel<UserDTO>();
 
-	public AllClientsPresenter(HandlerManager eventBus, GreetingServiceAsync rpcService, AllClientsView view) {
+	public AllClientsPresenter(HandlerManager eventBus, GreetingServiceAsync rpcService, AllClientsView view,UserDTO userDTO) {
 		this.eventBus = eventBus;
 		this.rpcService = rpcService;
 		this.view = view;
+		userDto=userDTO;
 		bind();
 	}
 
@@ -62,6 +68,13 @@ public class AllClientsPresenter implements Presenter {
 						}
 					}
 				});
+				view.getProductsLink().addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						eventBus.fireEvent(new ShowProductsEvent(userDto));
+					}
+				});
 			}
 
 			@Override
@@ -75,6 +88,7 @@ public class AllClientsPresenter implements Presenter {
 
 	@Override
 	public void go(HasWidgets container) {
+	
 		container.clear();
 		container.add(AllClientsPresenter.this.view.asWidget());
 

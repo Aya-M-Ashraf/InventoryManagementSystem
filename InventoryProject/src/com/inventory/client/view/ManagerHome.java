@@ -69,6 +69,7 @@ public class ManagerHome extends Composite implements Display {
 	Hidden userHidden;
 	private Label errorMsg;
 	private Hyperlink logout;
+	private Hyperlink clientsLink;
 
 	public Hyperlink getLogout() {
 		return logout;
@@ -321,7 +322,7 @@ public class ManagerHome extends Composite implements Display {
 	public void buildPageDockPanel() {
 		HorizontalPanel hyperLinks = new HorizontalPanel();
 		Hyperlink productsLink = new Hyperlink("Products", "Products");
-		Hyperlink clientsLink = new Hyperlink("Clients", "Clients");
+		clientsLink = new Hyperlink("Clients", "Clients");
 		Hyperlink ordersLink = new Hyperlink("Orders", "Orders");
 		Hyperlink reportsLink = new Hyperlink("Reports", "Reports");
 		logout = new Hyperlink("Logout", "Logout");
@@ -437,6 +438,11 @@ public class ManagerHome extends Composite implements Display {
 	public void setErrorMsg(String msg) {
 		errorMsg.setText(msg);
 		;
+	}
+
+	@Override
+	public Hyperlink getClintsHyperlink() {
+		return clientsLink;
 	}
 
 }

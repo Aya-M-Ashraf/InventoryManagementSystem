@@ -54,6 +54,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private HasWidgets container;
 	UserDTO userDTO;
 
+
 	public AppController(GreetingServiceAsync rpcService, HandlerManager eventBus) {
 		this.eventBus = eventBus;
 		this.rpcService = rpcService;
@@ -151,6 +152,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			@Override
 			public void onAllClients(AllClientsEvent allClientsEvent) {
 				History.newItem("Clients");
+				Presenter presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView(),allClientsEvent.getUser());
+				presenter.go(container);
+				
 			}
 		});
 		eventBus.addHandler(ShowProductsEvent.TYPE, new ShowProductsHandler() {
@@ -158,7 +162,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			@Override
 			public void onShowProducts(ShowProductsEvent showProductsEvent) {
 				History.newItem("Products");
-				
+				Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),showProductsEvent.getUser());
+				presenter.go(container);
 			}
 		});
 	}
@@ -216,18 +221,23 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				presenter = new RegisterationPresenter(eventBus, rpcService, new Registeration());
 				presenter.go(container);
 			}
-			if (token.equals("Clients")) {
+	/*		if (token.equals("Clients")) {
+				
 				presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView());
 				presenter.go(container);
-			}
-			if (token.equals("Products")) {
+			}*/
+		/*	if (token.equals("Products")) {
 				presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),userDTO);
 				presenter.go(container);
 			}
-			if (token.equals("Logout")) {
+*/			if (token.equals("Logout")) {
 				Cookies.removeCookie("invSignName");
 				Cookies.removeCookie("invSignPass");
 				Window.Location.replace("http://localhost:8080/InventoryManagement/");
+			}
+			if (token.equals("ClientProducts")) {
+				presenter = new ClientHomePresenter(eventBus, rpcService, new ClientHome(),userDTO);
+				presenter.go(container);
 			}
 
 		}

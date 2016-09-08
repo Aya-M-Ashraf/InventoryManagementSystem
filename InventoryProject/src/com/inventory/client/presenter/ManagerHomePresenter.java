@@ -17,7 +17,9 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Hidden;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.inventory.client.GreetingServiceAsync;
+import com.inventory.client.event.AllClientsEvent;
 import com.inventory.client.event.LogOutEvent;
 import com.inventory.client.view.ManagerHome;
 import com.inventory.shared.dto.InventoryDTO;
@@ -50,6 +52,7 @@ public class ManagerHomePresenter implements Presenter {
 		DataGrid<ProductDTO> getProductDataGrid();
 
 		HasClickHandlers getDownloadBtn();
+		Hyperlink getClintsHyperlink();
 
 		FormPanel getDownloadForm();
 	}
@@ -161,10 +164,19 @@ public class ManagerHomePresenter implements Presenter {
 				
 			}
 		});
+		view.getClintsHyperlink().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+			 eventBus.fireEvent(new AllClientsEvent(user));
+				
+			}
+		});
 	}
 
 	@Override
 	public void go(HasWidgets container) {
+		Window.alert("in home go");
 		container.clear();
 		container.add(ManagerHomePresenter.this.view.asWidget());
 	}

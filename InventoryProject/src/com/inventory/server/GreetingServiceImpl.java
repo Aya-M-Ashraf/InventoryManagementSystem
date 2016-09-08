@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.inventory.client.GreetingService;
 import com.inventory.shared.dto.InventoryDTO;
