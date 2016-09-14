@@ -3,13 +3,18 @@ package com.inventory.client.view;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasDirectionalText;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,9 +33,27 @@ public class AllClientsView extends Composite implements com.inventory.client.pr
 	@UiField
 	Label info;
 	
+	Hyperlink productsLink;
+	
+	public Hyperlink getProductsLink() {
+		return productsLink;
+	}
+
+	public void setProductsLink(Hyperlink productsLink) {
+		this.productsLink = productsLink;
+	}
+
 	public AllClientsView() {
-		System.out.println("In construcotr of   client view");
 		constructDataGrid();
+	/*	productsLink.setText("Products");
+		productsLink.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				History.newItem("Products");
+				
+			}
+		});*/
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
@@ -103,6 +126,8 @@ public class AllClientsView extends Composite implements com.inventory.client.pr
 
 		dataGrid.setColumnWidth(2, "200px");
 		RootPanel.get("divTest").add(dataGrid);
+		productsLink =  new Hyperlink("Products","Products");
+		RootPanel.get("links").add(productsLink);
 
 	}
 
@@ -111,5 +136,6 @@ public class AllClientsView extends Composite implements com.inventory.client.pr
 		// TODO Auto-generated method stub
 		return label;
 	}
+
 
 }

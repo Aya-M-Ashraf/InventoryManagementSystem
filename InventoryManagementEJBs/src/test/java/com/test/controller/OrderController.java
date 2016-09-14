@@ -1,17 +1,12 @@
 package com.test.controller;
-
 import java.util.List;
-
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-
 import com.test.daos.OrderDao;
 import com.test.daos.OrderStatusDao;
-import com.test.entity.Order;
-import com.test.entity.OrderStatus;
 import com.test.entity.Order;
 
 /**
@@ -40,12 +35,25 @@ public class OrderController implements OrderControllerLocal {
 
 	@Override
 	public List<Order> getAllOrderforXClient(int id) {
-		TypedQuery<Order> clientQuery = entityManager.createNamedQuery("Order.findByUserId", Order.class)
-				.setParameter("id", id);
-		List<Order> orders = clientQuery.getResultList();
-		return orders;
+			orderDao.setEntityManager(entityManager);
+		return orderDao.getAllOrderforXClientDao(id);
 	}
 
+	@Override
+	public List<Order> getAllOrderforManager() {
+		orderDao.setEntityManager(entityManager);
+		return orderDao.findAll();
+	}
+
+	@Override
+	public void changeOrderStatus(Order order) {
+		orderDao.setEntityManager(entityManager);
+		try {
+			orderDao.update(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public void addOrder(Order order) {
@@ -59,5 +67,4 @@ public class OrderController implements OrderControllerLocal {
 		}
 		
 	}
-
 }

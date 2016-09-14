@@ -17,7 +17,10 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Hidden;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.inventory.client.GreetingServiceAsync;
+import com.inventory.client.event.AllClientsEvent;
+import com.inventory.client.event.LogOutEvent;
 import com.inventory.client.view.ManagerHome;
 import com.inventory.shared.dto.InventoryDTO;
 import com.inventory.shared.dto.ProductDTO;
@@ -45,9 +48,12 @@ public class ManagerHomePresenter implements Presenter {
 		FormPanel getUploadForm();
 
 		Hidden getUserHidden();
-//		void setAddedProduct(ProductDTO newProduct);
+
 		DataGrid<ProductDTO> getProductDataGrid();
+
 		HasClickHandlers getDownloadBtn();
+		Hyperlink getClintsHyperlink();
+
 		FormPanel getDownloadForm();
 	}
 
@@ -63,8 +69,6 @@ public class ManagerHomePresenter implements Presenter {
 		this.view = view;
 		this.user = user;
 		this.view.setPresenter(this);
-		
-		Window.alert("Hello, "+user.getUsername()+"role: "+ user.getUserRole().getRole());
 
 		rpcService.getAllProducts(new AsyncCallback<List<ProductDTO>>() {
 			@Override
@@ -93,21 +97,21 @@ public class ManagerHomePresenter implements Presenter {
 		form.setAction("FileUploadServelt");
 		form.setEncoding(FormPanel.ENCODING_MULTIPART);
 		form.setMethod(FormPanel.METHOD_POST);
-		
+
 		view.getDownloadForm().setAction("FileUploadServelt");
 		view.getDownloadForm().setMethod(FormPanel.METHOD_GET);
-		
+
 		form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
-			
+
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-//				String fileNameFake = view.getFileUpload().getFilename();
-//				String[] For_split_Fake = fileNameFake.split("\\");
-//				
-				String path =  user.getEmail()+ "\\"+view.getFileUpload().getFilename();
-				
+				// String fileNameFake = view.getFileUpload().getFilename();
+				// String[] For_split_Fake = fileNameFake.split("\\");
+				//
+				String path = user.getEmail() + "\\" + view.getFileUpload().getFilename();
+
 				rpcService.addProductByXML(path, new AsyncCallback<ArrayList<ProductDTO>>() {
-					
+
 					@Override
 					public void onSuccess(ArrayList<ProductDTO> result) {
 						view.getXmlDb().hide();
@@ -115,21 +119,18 @@ public class ManagerHomePresenter implements Presenter {
 						list.addAll(result);
 						view.getProductDataGrid().setRowData(list);
 						view.getProductDataGrid().redraw();
-						Window.alert("product(s) added");
 					}
-					
+
 					@Override
 					public void onFailure(Throwable caught) {
 						view.getXmlDb().hide();
 						Window.alert("product failed");
 					}
 				});
-				
+
 			}
 		});
-		
-	
-		
+
 		view.getUserHidden().setValue(user.getEmail());
 
 		view.getXmlButton().addClickHandler(new ClickHandler() {
@@ -147,37 +148,88 @@ public class ManagerHomePresenter implements Presenter {
 				view.getUploadForm().submit();
 			}
 		});
-		
+
 		view.getDownloadBtn().addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				view.getDownloadForm().submit();
+			}
+		});
+		view.getLogout().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				eventBus.fireEvent(new LogOutEvent());
+				
+			}
+		});
+		view.getClintsHyperlink().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+			 eventBus.fireEvent(new AllClientsEvent(user));
+				
 			}
 		});
 	}
 
 	@Override
 	public void go(HasWidgets container) {
+		Window.alert("in home go");
 		container.clear();
 		container.add(ManagerHomePresenter.this.view.asWidget());
 	}
 
 	public void saveEditedProducts() {
+		ArrayList<ProductDTO> changedProducts = ManagerHomePresenter.this.view.getChangedDataGridList();
+		Boolean canInsert = true;
+		for (ProductDTO changedProduct : changedProducts) {
+			if (hasInvalidData(changedProduct)) {
+				canInsert = false;
+			}
+		}
+		if (canInsert) {
+			rpcService.saveEditedProducts(changedProducts, ManagerHomePresenter.this.view.getChangedIds(),
+					new AsyncCallback<Void>() {
+						@Override
+						public void onFailure(Throwable caught) {
+							Window.alert("Errrrrooooorrrrrrr !!!! " + caught.getMessage());
+						}
 
-		rpcService.saveEditedProducts(ManagerHomePresenter.this.view.getChangedDataGridList(),
-				ManagerHomePresenter.this.view.getChangedIds(), new AsyncCallback<Void>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Errrrrooooorrrrrrr !!!! " + caught.getMessage());
-					}
+						@Override
+						public void onSuccess(Void result) {
+							Window.alert("your changes Updated successfully ");
+						}
+					});
+		}
+	}
 
-					@Override
-					public void onSuccess(Void result) {
-						Window.alert("your changes Updated successfully ");
-					}
-				});
-
+	private boolean hasInvalidData(ProductDTO changedProduct) {
+		if (changedProduct.getName().trim().equals("")) {
+			ManagerHomePresenter.this.view.setErrorMsg("Product name can't be empty!");
+			return true;
+		} 
+		else if(changedProduct.getWeight()<=0.0){
+			ManagerHomePresenter.this.view.setErrorMsg(changedProduct.getName()  + " : Invalid product weight!");
+			return true;
+		} 
+		else if(changedProduct.getThreshold()<0){
+			ManagerHomePresenter.this.view.setErrorMsg(changedProduct.getName()   + " : Invalid product threshold!");
+			return true;
+		} 
+		else if(changedProduct.getInventory().getQuantity()<0){
+			ManagerHomePresenter.this.view.setErrorMsg(changedProduct.getName()   + " : Invalid product quantity!");
+			return true;
+		} 
+		else if(changedProduct.getInventory().getQuantityForOrder()<=0){
+			ManagerHomePresenter.this.view.setErrorMsg(changedProduct.getName()   + " : Invalid product quantity for order!");
+			return true;
+		} 
+		else{
+			ManagerHomePresenter.this.view.setErrorMsg("");
+			return false;
+		}
 	}
 
 	public void deleteProduct(ProductDTO product) {
@@ -196,7 +248,6 @@ public class ManagerHomePresenter implements Presenter {
 	}
 
 	public void addProduct(ProductDTO newProduct, InventoryDTO inventoryDTO) {
-		Window.alert("MH Presenter before add product");
 		rpcService.addProduct(newProduct, inventoryDTO, new AsyncCallback<ProductDTO>() {
 
 			@Override
@@ -206,7 +257,6 @@ public class ManagerHomePresenter implements Presenter {
 
 			@Override
 			public void onSuccess(ProductDTO result) {
-				Window.alert("MH Presenter add product success" + result.getId());
 				ArrayList<ProductDTO> list = new ArrayList<>(ManagerHomePresenter.this.view.getChangedDataGridList());
 				list.add(result);
 				ManagerHomePresenter.this.view.setDataGridList(list);

@@ -1,0 +1,35 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	.important {
+		font-weight: bold;
+		color: blue;
+	}
+	.error{
+	 color: red;
+	}
+	</ui:style>
+	
+	<g:HTMLPanel>
+		
+	
+		<h3 class="{style.important}">Username: </h3><g:TextBox ui:field="username" />
+		<g:Label visible="false"  styleName="{style.error}" ui:field="errorusername">Please fill username </g:Label>
+		<br></br>
+		<h3 class="{style.important}">Email: </h3><g:TextBox ui:field="email" />
+		<g:Label visible="false" styleName="{style.error}" ui:field="erroremail">Please fill email </g:Label>
+		<br></br>
+		<h3 class="{style.important}">Address: </h3><g:TextBox ui:field="address" />
+		<g:Label visible="false" styleName="{style.error}" ui:field="erroraddress">Please fill Address</g:Label>
+		<br></br>
+		<h3 class="{style.important}">Password: </h3><g:PasswordTextBox ui:field="password" />
+		<g:Label visible="false" styleName="{style.error}" ui:field="errorpassword">Please fill password </g:Label>
+		<br></br>
+		<h3 class="{style.important}">Confirm Password: </h3><g:PasswordTextBox ui:field="confirmPassword"/>
+		<g:Label visible="false" styleName="{style.error}" ui:field="errorpass">Mismatch password</g:Label>
+		<br></br>
+		<g:Button styleName="{style.important}" ui:field="register" >Register</g:Button>
+		
+	</g:HTMLPanel>
+</ui:UiBinder> 

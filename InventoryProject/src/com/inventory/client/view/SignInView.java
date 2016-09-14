@@ -44,6 +44,9 @@ public class SignInView extends Composite implements SignInPresenter.Display {
 	
 	@UiField
 	Anchor editProfile;
+	
+	@UiField
+	Anchor register;
 
 	@Override
 	public TextBox getEmail() {
@@ -83,6 +86,11 @@ public class SignInView extends Composite implements SignInPresenter.Display {
 	@Override
 	public HasClickHandlers getEditProfile() {
 		return editProfile;
+	}
+	
+	@Override
+	public HasClickHandlers register() {
+		return register;
 	}
 
 }

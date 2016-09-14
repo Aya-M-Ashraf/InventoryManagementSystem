@@ -2,30 +2,32 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-	.important {
+		.important {
 		font-weight: bold;
-		
-	}
-	.head
-	{
-	 margin-left: 385px;
-	align : center ;
-	color : blue   ;
-	font-weight: bold;
-	    font-size: 20px;
-	
-}
-.datagridStyle{
-	
-	
-	 margin-left: 200px;
-	 align : center ; 
-}
+
+		}
+		.head
+		{
+		margin-left: 385px;
+		align : center ;
+		color : blue ;
+		font-weight: bold;
+		font-size: 20px;
+
+		}
+		.datagridStyle{
+
+
+		margin-left: 200px;
+		align : center ;
+		}
 	</ui:style>
 	<g:HTMLPanel>
-<g:Label ui:field="info"    text="Click on Client name to get All Orders"/>
-	<g:Label ui:field="label"   addStyleNames="{style.head}" text="All Clients   : "/>
-	<div id = "divTest"   verticalAlignment="ALIGN_MIDDLE"  />
-		
+		<!-- <g:DockPanel ui:field="dockPanel" /> -->
+		<div id="links"/>
+		<g:Label ui:field="info" text="Click on Client name to get All Orders" />
+		<g:Label ui:field="label" addStyleNames="{style.head}" text="All Clients   : " />
+		<div id="divTest" />
+
 	</g:HTMLPanel>
 </ui:UiBinder> 

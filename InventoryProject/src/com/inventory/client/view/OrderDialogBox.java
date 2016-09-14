@@ -19,8 +19,9 @@ public class OrderDialogBox extends DialogBox  {
     private final Button validButton = new Button("Ok");
     private final DateBox myDateBox = new DateBox();
     private final IntegerBox quantityBox = new IntegerBox() ;
+    private Label errorMsg = new Label("");
 
-    public OrderDialogBox () {
+	public OrderDialogBox () {
             cancelButton.addClickHandler(new ClickHandler () {
                     @Override
                     public void onClick(final ClickEvent event) {
@@ -33,20 +34,28 @@ public class OrderDialogBox extends DialogBox  {
             validButton.addClickHandler(new ClickHandler () {
                     @Override
                     public void onClick(final ClickEvent event) {
-                            hide();
+                          /*  hide();*/
                             if (opener!=null)
                                     opener.dialogBoxValidated(quantityBox.getValue(),myDateBox.getValue());
+                            		if(errorMsg.getText().equals("")){
+                            			hide();
+                            		}
                     }
             });
             
             DockPanel mainPanel = new DockPanel(); 
             mainPanel.setSize("300px", "200px");
             
+            VerticalPanel northPanel = new VerticalPanel();
+            northPanel.setSpacing(20);
             Label title = new Label("Make Order");
             title.getElement().getStyle().setProperty("font-weight", "bold"); 
             title.getElement().getStyle().setProperty("text-align", "center");
             title.getElement().getStyle().setProperty("font-size", "large");
-            mainPanel.add(title,DockPanel.NORTH);
+            errorMsg.getElement().getStyle().setColor("red");
+            northPanel.add(title);
+            northPanel.add(errorMsg);
+            mainPanel.add(northPanel,DockPanel.NORTH);
             
             HorizontalPanel panel = new HorizontalPanel();
             panel.setSpacing(20);
@@ -75,4 +84,11 @@ public class OrderDialogBox extends DialogBox  {
             // Show the DialogBox
             center ();
     }
+    public Label getErrorMsg() {
+		return errorMsg;
+	}
+
+	public void setErrorMsg(String msg) {
+		errorMsg.setText(msg);
+	}
 }

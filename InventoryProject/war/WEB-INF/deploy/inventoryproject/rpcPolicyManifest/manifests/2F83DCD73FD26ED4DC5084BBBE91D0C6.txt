@@ -1,0 +1,2 @@
+serviceClass: com.inventory.client.GreetingService
+path: 621CFAFA7A68507BDB55711C38C44596.gwt.rpc

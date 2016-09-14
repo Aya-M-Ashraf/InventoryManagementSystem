@@ -10,12 +10,12 @@ import java.util.List;
  */
 @Entity
 @NamedQueries({ @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-@NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-@NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
-@NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-@NamedQuery(name = "User.findByAddress", query = "SELECT u FROM User u WHERE u.address = :address"),
-@NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-@NamedQuery(name = "User.findByUserRoleId", query = "SELECT u FROM User u WHERE u.userRole.role= :userRole") })
+		@NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
+		@NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
+		@NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+		@NamedQuery(name = "User.findByAddress", query = "SELECT u FROM User u WHERE u.address = :address"),
+		@NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
+		@NamedQuery(name = "User.findByUserRole", query = "SELECT u FROM User u WHERE u.userRole.role= :userRole") })
 
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -33,7 +33,7 @@ public class User implements Serializable {
 	private String username;
 
 	// bi-directional many-to-one association to Order
-	@OneToMany(fetch=FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> Orders;
 
 	// bi-directional many-to-one association to UserRole
@@ -56,6 +56,16 @@ public class User implements Serializable {
 		this.userRole = userRole;
 	}
 
+
+	public User(int id, String address, String email, String password, String username, UserRole userRole) {
+		super();
+		this.id = id;
+		this.address = address;
+		this.email = email;
+		this.password = password;
+		this.username = username;
+		this.userRole = userRole;
+	}
 
 	public int getId() {
 		return this.id;

@@ -31,4 +31,7 @@ public interface GreetingServiceAsync {
 	void getAllOrdersForXClient(int id, AsyncCallback<List<OrderDTO>> callback);
 	void getUserName(int id, AsyncCallback<String> callback);
 	void addProductByXML(String fileName, AsyncCallback<ArrayList<ProductDTO>> callback);
+	void getAllOrdersForManager(AsyncCallback<ArrayList<OrderDTO>> callback);
+	void changeOrderStatus(OrderDTO orderDTO, String value, AsyncCallback<Void> callback);
+	void addUser(UserDTO userDto, AsyncCallback<Void> callback);
 }
