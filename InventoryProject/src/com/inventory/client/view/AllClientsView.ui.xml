@@ -22,7 +22,7 @@
 		align : center ;
 		}
 	</ui:style>
-	<g:HTMLPanel>
+	<g:HTMLPanel  ui:field="myHtmlPanel">
 		<div id="imageDiv"/>
 		<g:Label ui:field="info" text="Click on Client name to get All Orders" />
 		<g:Label ui:field="label" addStyleNames="{style.head}" text="All Clients   : " />

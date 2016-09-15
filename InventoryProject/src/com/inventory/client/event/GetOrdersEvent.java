@@ -6,19 +6,16 @@ import com.inventory.shared.dto.UserDTO;
 public class GetOrdersEvent extends GwtEvent<GetOrdersEventHandler> {
 	public static Type<GetOrdersEventHandler> TYPE = new Type<GetOrdersEventHandler>();
 	private final int id;
-	private UserDTO user;
+	private final UserDTO user;
 
 	public UserDTO getUser() {
 		return user;
 	}
 
-	public void setUser(UserDTO user) {
-		this.user = user;
-	}
-
+/*
 	public GetOrdersEvent(int id) {
 		this.id = id;
-	}
+	}*/
 
 	@Override
 	public Type<GetOrdersEventHandler> getAssociatedType() {

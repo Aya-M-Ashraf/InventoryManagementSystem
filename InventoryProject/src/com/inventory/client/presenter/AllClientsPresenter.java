@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
@@ -14,6 +16,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.inventory.client.GreetingServiceAsync;
 import com.inventory.client.event.AllClientsEvent;
 import com.inventory.client.event.GetOrdersEvent;
@@ -40,11 +43,12 @@ public class AllClientsPresenter implements Presenter {
 	private final UserDTO userDto;
 	final SingleSelectionModel<UserDTO> selectionModel = new SingleSelectionModel<UserDTO>();
 
-	public AllClientsPresenter(HandlerManager eventBus, GreetingServiceAsync rpcService, AllClientsView view,UserDTO userDTO) {
+	public AllClientsPresenter(HandlerManager eventBus, GreetingServiceAsync rpcService, AllClientsView view,
+			UserDTO userDTO) {
 		this.eventBus = eventBus;
 		this.rpcService = rpcService;
 		this.view = view;
-		userDto=userDTO;
+		userDto = userDTO;
 		bind();
 	}
 
@@ -61,38 +65,37 @@ public class AllClientsPresenter implements Presenter {
 				AllClientsPresenter.this.view.setDataGrid(clientsList);
 
 				AllClientsPresenter.this.view.getDataGridList().setSelectionModel(selectionModel);
-				selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+				SelectionChangeEvent.Handler myHandler = new SelectionChangeEvent.Handler() {
+					@Override
 					public void onSelectionChange(SelectionChangeEvent event) {
-						UserDTO selected = selectionModel.getSelectedObject();
-						if (selected != null) {
-							eventBus.fireEvent(new GetOrdersEvent(selected.getId(),userDto));
+						//UserDTO selected = selectionModel.getSelectedObject();
+						if (selectionModel.getSelectedObject() != null) {
+							fireSelectionEvent(selectionModel.getSelectedObject().getId());
 						}
 					}
-				});
+				};
+			
+				selectionModel.addSelectionChangeHandler(myHandler);
 				view.getProductsLink().addClickHandler(new ClickHandler() {
-					
 					@Override
 					public void onClick(ClickEvent event) {
 						eventBus.fireEvent(new ShowProductsEvent(userDto));
 					}
 				});
-				view.getLogout().addClickHandler(new ClickHandler() {
 
+				view.getLogout().addClickHandler(new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
 						eventBus.fireEvent(new LogOutEvent());
-
 					}
 				});
-				view.getClientsLink().addClickHandler(new ClickHandler() {
 
+				view.getClientsLink().addClickHandler(new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
 						eventBus.fireEvent(new AllClientsEvent(userDto));
-
 					}
 				});
-			
 			}
 
 			@Override
@@ -106,10 +109,15 @@ public class AllClientsPresenter implements Presenter {
 
 	@Override
 	public void go(HasWidgets container) {
-	
+
 		container.clear();
 		container.add(AllClientsPresenter.this.view.asWidget());
 
+	}
+
+	private void fireSelectionEvent(int id) {
+		GetOrdersEvent event = new GetOrdersEvent(id, userDto);
+		eventBus.fireEvent(event);
 	}
 
 }

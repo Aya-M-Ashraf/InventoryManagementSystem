@@ -12,6 +12,7 @@ import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSe
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasDirectionalText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -35,6 +36,8 @@ public class OrdersOfXClientView extends Composite
 	Label label;
 	@UiField
 	Label clientName;
+	@UiField
+	HTMLPanel myHtmlPanel;
 
 	private Hyperlink productsLink;
 	private Hyperlink logout;
@@ -56,19 +59,19 @@ public class OrdersOfXClientView extends Composite
 		hyperLinks.add(logout);
 
 		productsLink.getElement().getStyle().setProperty("padding", "30px");
-		productsLink.getElement().getStyle().setProperty("font-size", "150%");
+		productsLink.getElement().getStyle().setProperty("fontSize", "150%");
 		
 		clientsLink.getElement().getStyle().setProperty("padding", "30px");
-		clientsLink.getElement().getStyle().setProperty("font-size", "150%");		
+		clientsLink.getElement().getStyle().setProperty("fontSize", "150%");		
 
 		ordersLink.getElement().getStyle().setProperty("padding", "30px");
-		ordersLink.getElement().getStyle().setProperty("font-size", "150%");
+		ordersLink.getElement().getStyle().setProperty("fontSize", "150%");
 		
 		reportsLink.getElement().getStyle().setProperty("padding", "30px");
-		reportsLink.getElement().getStyle().setProperty("font-size", "150%");		
+		reportsLink.getElement().getStyle().setProperty("fontSize", "150%");		
 		
 		logout.getElement().getStyle().setProperty("padding", "30px");
-		logout.getElement().getStyle().setProperty("font-size", "150%");
+		logout.getElement().getStyle().setProperty("fontSize", "150%");
 		logout.getElement().setInnerHTML("<a style='color:#511323;' >Logout</a>");
 		
 		Image image = new Image();
@@ -79,7 +82,7 @@ public class OrdersOfXClientView extends Composite
 
 		header.add(image);
 		header.add(hyperLinks);
-		RootPanel.get("imageDiv1").add(header);
+		myHtmlPanel.add(header,"imageDiv1");
 
 	}
 
@@ -193,7 +196,7 @@ public class OrdersOfXClientView extends Composite
 		dataGrid.setRowData(users);
 		dataGrid.setRowCount(users.size(), true);
 		dataGrid.setWidth("100%");
-		RootPanel.get("grid").add(dataGrid);
+		myHtmlPanel.add(dataGrid,"grid");
 		Window.alert("end of set datagrid");
 		setHeader();
 		

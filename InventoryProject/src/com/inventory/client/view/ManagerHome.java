@@ -329,19 +329,19 @@ public class ManagerHome extends Composite implements Display {
 		hyperLinks.add(logout);
 
 		productsLink.getElement().getStyle().setProperty("padding", "30px");
-		productsLink.getElement().getStyle().setProperty("font-size", "150%");
+		productsLink.getElement().getStyle().setProperty("fontSize", "150%");
 		
 		clientsLink.getElement().getStyle().setProperty("padding", "30px");
-		clientsLink.getElement().getStyle().setProperty("font-size", "150%");		
+		clientsLink.getElement().getStyle().setProperty("fontSize", "150%");		
 
 		ordersLink.getElement().getStyle().setProperty("padding", "30px");
-		ordersLink.getElement().getStyle().setProperty("font-size", "150%");
+		ordersLink.getElement().getStyle().setProperty("fontSize", "150%");
 		
 		reportsLink.getElement().getStyle().setProperty("padding", "30px");
-		reportsLink.getElement().getStyle().setProperty("font-size", "150%");		
+		reportsLink.getElement().getStyle().setProperty("fontSize", "150%");		
 		
 		logout.getElement().getStyle().setProperty("padding", "30px");
-		logout.getElement().getStyle().setProperty("font-size", "150%");
+		logout.getElement().getStyle().setProperty("fontSize", "150%");
 		logout.getElement().setInnerHTML("<a style='color:#511323;' >Logout</a>");
 		
 		Image image = new Image();
