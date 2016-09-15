@@ -10,10 +10,15 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasDirectionalText;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.inventory.shared.dto.OrderDTO;
 
@@ -31,10 +36,99 @@ public class OrdersOfXClientView extends Composite
 	@UiField
 	Label clientName;
 
+	private Hyperlink productsLink;
+	private Hyperlink logout;
+	private Hyperlink clientsLink;
+	private Hyperlink ordersLink;
+	private Hyperlink reportsLink;
+
+	public void setHeader(){
+		HorizontalPanel hyperLinks = new HorizontalPanel();
+		productsLink = new Hyperlink("Products", "Products");
+		clientsLink = new Hyperlink("Clients", "Clients");
+		ordersLink = new Hyperlink("Orders", "Orders");
+		reportsLink = new Hyperlink("Reports", "Reports");
+		logout = new Hyperlink("Logout", "Logout");
+		hyperLinks.add(productsLink);
+		hyperLinks.add(clientsLink);
+		hyperLinks.add(ordersLink);
+		hyperLinks.add(reportsLink);
+		hyperLinks.add(logout);
+
+		productsLink.getElement().getStyle().setProperty("padding", "30px");
+		productsLink.getElement().getStyle().setProperty("font-size", "150%");
+		
+		clientsLink.getElement().getStyle().setProperty("padding", "30px");
+		clientsLink.getElement().getStyle().setProperty("font-size", "150%");		
+
+		ordersLink.getElement().getStyle().setProperty("padding", "30px");
+		ordersLink.getElement().getStyle().setProperty("font-size", "150%");
+		
+		reportsLink.getElement().getStyle().setProperty("padding", "30px");
+		reportsLink.getElement().getStyle().setProperty("font-size", "150%");		
+		
+		logout.getElement().getStyle().setProperty("padding", "30px");
+		logout.getElement().getStyle().setProperty("font-size", "150%");
+		logout.getElement().setInnerHTML("<a style='color:#511323;' >Logout</a>");
+		
+		Image image = new Image();
+		image.setUrl("http://www.haystackinfotech.com/images/product/inventory.jpg");
+		image.setPixelSize(1400, 300);
+
+		VerticalPanel header = new VerticalPanel();
+
+		header.add(image);
+		header.add(hyperLinks);
+		RootPanel.get("imageDiv1").add(header);
+
+	}
+
+
+	public Hyperlink getProductsLink() {
+		return productsLink;
+	}
+
+	public void setProductsLink(Hyperlink productsLink) {
+		this.productsLink = productsLink;
+	}
+
+	public Hyperlink getLogout() {
+		return logout;
+	}
+
+	public void setLogout(Hyperlink logout) {
+		this.logout = logout;
+	}
+
+	public Hyperlink getClientsLink() {
+		return clientsLink;
+	}
+
+	public void setClientsLink(Hyperlink clientsLink) {
+		this.clientsLink = clientsLink;
+	}
+
+	public Hyperlink getOrdersLink() {
+		return ordersLink;
+	}
+
+	public void setOrdersLink(Hyperlink ordersLink) {
+		this.ordersLink = ordersLink;
+	}
+
+	public Hyperlink getReportsLink() {
+		return reportsLink;
+	}
+
+	public void setReportsLink(Hyperlink reportsLink) {
+		this.reportsLink = reportsLink;
+	}
+
 	public OrdersOfXClientView() {
-		System.out.println("In construcotr of   client view");
+		
 		constructDataGrid();
 		initWidget(uiBinder.createAndBindUi(this));
+		
 	}
 
 	public Widget asWidget() {
@@ -92,7 +186,6 @@ public class OrdersOfXClientView extends Composite
 		dataGrid.addColumn(name, "Order Status");
 
 		// =======================Email =======================================
-
 	}
 
 	@Override
@@ -100,8 +193,10 @@ public class OrdersOfXClientView extends Composite
 		dataGrid.setRowData(users);
 		dataGrid.setRowCount(users.size(), true);
 		dataGrid.setWidth("100%");
-
-		RootPanel.get("divTest").add(dataGrid);
+		RootPanel.get("grid").add(dataGrid);
+		Window.alert("end of set datagrid");
+		setHeader();
+		
 	}
 
 	@Override

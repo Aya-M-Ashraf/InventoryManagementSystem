@@ -15,7 +15,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.inventory.client.GreetingServiceAsync;
+import com.inventory.client.event.AllClientsEvent;
 import com.inventory.client.event.GetOrdersEvent;
+import com.inventory.client.event.LogOutEvent;
 import com.inventory.client.event.ShowProductsEvent;
 import com.inventory.client.view.AllClientsView;
 import com.inventory.shared.dto.UserDTO;
@@ -52,7 +54,6 @@ public class AllClientsPresenter implements Presenter {
 
 			@Override
 			public void onSuccess(List<UserDTO> clientsList) {
-				Window.alert("sucess");
 				String count = Integer.toString(clientsList.size());
 
 				AllClientsPresenter.this.view.getLabel().setText("Numbers of Clients : " + count);
@@ -64,7 +65,7 @@ public class AllClientsPresenter implements Presenter {
 					public void onSelectionChange(SelectionChangeEvent event) {
 						UserDTO selected = selectionModel.getSelectedObject();
 						if (selected != null) {
-							eventBus.fireEvent(new GetOrdersEvent(selected.getId()));
+							eventBus.fireEvent(new GetOrdersEvent(selected.getId(),userDto));
 						}
 					}
 				});
@@ -75,6 +76,23 @@ public class AllClientsPresenter implements Presenter {
 						eventBus.fireEvent(new ShowProductsEvent(userDto));
 					}
 				});
+				view.getLogout().addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						eventBus.fireEvent(new LogOutEvent());
+
+					}
+				});
+				view.getClientsLink().addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						eventBus.fireEvent(new AllClientsEvent(userDto));
+
+					}
+				});
+			
 			}
 
 			@Override

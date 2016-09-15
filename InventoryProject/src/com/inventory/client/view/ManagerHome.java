@@ -70,16 +70,12 @@ public class ManagerHome extends Composite implements Display {
 	private Label errorMsg;
 	private Hyperlink logout;
 	private Hyperlink clientsLink;
+	private Hyperlink productsLink;
+	private Hyperlink ordersLink;
+	private Hyperlink reportsLink;
+	
 
-	public Hyperlink getLogout() {
-		return logout;
-	}
-
-	public void setLogout(Hyperlink logout) {
-		this.logout = logout;
-	}
-
-	public ManagerHome() {
+		public ManagerHome() {
 		initWidget(uiBinder.createAndBindUi(this));
 		buildDataGrid();
 		addProductButton.addClickHandler(new ClickHandler() {
@@ -321,10 +317,10 @@ public class ManagerHome extends Composite implements Display {
 
 	public void buildPageDockPanel() {
 		HorizontalPanel hyperLinks = new HorizontalPanel();
-		Hyperlink productsLink = new Hyperlink("Products", "Products");
+		productsLink = new Hyperlink("Products", "Products");
 		clientsLink = new Hyperlink("Clients", "Clients");
-		Hyperlink ordersLink = new Hyperlink("Orders", "Orders");
-		Hyperlink reportsLink = new Hyperlink("Reports", "Reports");
+		ordersLink = new Hyperlink("Orders", "Orders");
+		reportsLink = new Hyperlink("Reports", "Reports");
 		logout = new Hyperlink("Logout", "Logout");
 		hyperLinks.add(productsLink);
 		hyperLinks.add(clientsLink);
@@ -444,5 +440,38 @@ public class ManagerHome extends Composite implements Display {
 	public Hyperlink getClintsHyperlink() {
 		return clientsLink;
 	}
+	public Hyperlink getReportsLink() {
+		return reportsLink;
+	}
+
+	public void setReportsLink(Hyperlink reportsLink) {
+		this.reportsLink = reportsLink;
+	}
+
+	public Hyperlink getOrdersLink() {
+		return ordersLink;
+	}
+
+	public void setOrdersLink(Hyperlink ordersLink) {
+		this.ordersLink = ordersLink;
+	}
+
+	public Hyperlink getProductsLink() {
+		return productsLink;
+	}
+
+	public void setProductsLink(Hyperlink productsLink) {
+		this.productsLink = productsLink;
+	}
+
+	public Hyperlink getLogout() {
+		return logout;
+	}
+
+	public void setLogout(Hyperlink logout) {
+		this.logout = logout;
+	}
+
+
 
 }

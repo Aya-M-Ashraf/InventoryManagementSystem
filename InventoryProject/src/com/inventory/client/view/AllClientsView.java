@@ -14,9 +14,12 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasDirectionalText;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.inventory.shared.dto.UserDTO;
 
@@ -33,8 +36,45 @@ public class AllClientsView extends Composite implements com.inventory.client.pr
 	@UiField
 	Label info;
 	
-	Hyperlink productsLink;
+	private Hyperlink productsLink;
+	private Hyperlink logout;
+	private Hyperlink clientsLink;
+	private Hyperlink ordersLink;
+	private Hyperlink reportsLink;
+
 	
+	public Hyperlink getLogout() {
+		return logout;
+	}
+
+	public void setLogout(Hyperlink logout) {
+		this.logout = logout;
+	}
+
+	public Hyperlink getClientsLink() {
+		return clientsLink;
+	}
+
+	public void setClientsLink(Hyperlink clientsLink) {
+		this.clientsLink = clientsLink;
+	}
+
+	public Hyperlink getOrdersLink() {
+		return ordersLink;
+	}
+
+	public void setOrdersLink(Hyperlink ordersLink) {
+		this.ordersLink = ordersLink;
+	}
+
+	public Hyperlink getReportsLink() {
+		return reportsLink;
+	}
+
+	public void setReportsLink(Hyperlink reportsLink) {
+		this.reportsLink = reportsLink;
+	}
+
 	public Hyperlink getProductsLink() {
 		return productsLink;
 	}
@@ -45,15 +85,6 @@ public class AllClientsView extends Composite implements com.inventory.client.pr
 
 	public AllClientsView() {
 		constructDataGrid();
-	/*	productsLink.setText("Products");
-		productsLink.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				History.newItem("Products");
-				
-			}
-		});*/
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
@@ -113,6 +144,46 @@ public class AllClientsView extends Composite implements com.inventory.client.pr
 		// ====================================================
 
 	}
+	public void setHeader(){
+		HorizontalPanel hyperLinks = new HorizontalPanel();
+		productsLink = new Hyperlink("Products", "Products");
+		clientsLink = new Hyperlink("Clients", "Clients");
+		ordersLink = new Hyperlink("Orders", "Orders");
+		reportsLink = new Hyperlink("Reports", "Reports");
+		logout = new Hyperlink("Logout", "Logout");
+		hyperLinks.add(productsLink);
+		hyperLinks.add(clientsLink);
+		hyperLinks.add(ordersLink);
+		hyperLinks.add(reportsLink);
+		hyperLinks.add(logout);
+
+		productsLink.getElement().getStyle().setProperty("padding", "30px");
+		productsLink.getElement().getStyle().setProperty("font-size", "150%");
+		
+		clientsLink.getElement().getStyle().setProperty("padding", "30px");
+		clientsLink.getElement().getStyle().setProperty("font-size", "150%");		
+
+		ordersLink.getElement().getStyle().setProperty("padding", "30px");
+		ordersLink.getElement().getStyle().setProperty("font-size", "150%");
+		
+		reportsLink.getElement().getStyle().setProperty("padding", "30px");
+		reportsLink.getElement().getStyle().setProperty("font-size", "150%");		
+		
+		logout.getElement().getStyle().setProperty("padding", "30px");
+		logout.getElement().getStyle().setProperty("font-size", "150%");
+		logout.getElement().setInnerHTML("<a style='color:#511323;' >Logout</a>");
+		
+		Image image = new Image();
+		image.setUrl("http://www.haystackinfotech.com/images/product/inventory.jpg");
+		image.setPixelSize(1400, 300);
+
+		VerticalPanel header = new VerticalPanel();
+
+		header.add(image);
+		header.add(hyperLinks);
+		RootPanel.get("imageDiv").add(header);
+
+	}
 
 	@Override
 	public void setDataGrid(List<UserDTO> users) {
@@ -126,8 +197,8 @@ public class AllClientsView extends Composite implements com.inventory.client.pr
 
 		dataGrid.setColumnWidth(2, "200px");
 		RootPanel.get("divTest").add(dataGrid);
-		productsLink =  new Hyperlink("Products","Products");
-		RootPanel.get("links").add(productsLink);
+		setHeader();
+
 
 	}
 
