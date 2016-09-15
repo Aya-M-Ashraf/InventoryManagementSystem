@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.inventory.client.GreetingServiceAsync;
 import com.inventory.client.event.AllClientsEvent;
 import com.inventory.client.event.LogOutEvent;
+import com.inventory.client.event.ShowProductsEvent;
 import com.inventory.client.view.ManagerHome;
 import com.inventory.shared.dto.InventoryDTO;
 import com.inventory.shared.dto.ProductDTO;
@@ -52,6 +53,7 @@ public class ManagerHomePresenter implements Presenter {
 		DataGrid<ProductDTO> getProductDataGrid();
 
 		HasClickHandlers getDownloadBtn();
+
 		Hyperlink getClintsHyperlink();
 
 		FormPanel getDownloadForm();
@@ -157,26 +159,49 @@ public class ManagerHomePresenter implements Presenter {
 			}
 		});
 		view.getLogout().addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				eventBus.fireEvent(new LogOutEvent());
-				
+
 			}
 		});
 		view.getClintsHyperlink().addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
-			 eventBus.fireEvent(new AllClientsEvent(user));
-				
+				eventBus.fireEvent(new AllClientsEvent(user));
+
 			}
 		});
+		view.getProductsLink().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				eventBus.fireEvent(new ShowProductsEvent(user));
+
+			}
+		});
+/*		view.getOrdersLink().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+		view.getReportsLink().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+
+			}
+		});*/
 	}
 
 	@Override
 	public void go(HasWidgets container) {
-		Window.alert("in home go");
 		container.clear();
 		container.add(ManagerHomePresenter.this.view.asWidget());
 	}
@@ -209,24 +234,20 @@ public class ManagerHomePresenter implements Presenter {
 		if (changedProduct.getName().trim().equals("")) {
 			ManagerHomePresenter.this.view.setErrorMsg("Product name can't be empty!");
 			return true;
-		} 
-		else if(changedProduct.getWeight()<=0.0){
-			ManagerHomePresenter.this.view.setErrorMsg(changedProduct.getName()  + " : Invalid product weight!");
+		} else if (changedProduct.getWeight() <= 0.0) {
+			ManagerHomePresenter.this.view.setErrorMsg(changedProduct.getName() + " : Invalid product weight!");
 			return true;
-		} 
-		else if(changedProduct.getThreshold()<0){
-			ManagerHomePresenter.this.view.setErrorMsg(changedProduct.getName()   + " : Invalid product threshold!");
+		} else if (changedProduct.getThreshold() < 0) {
+			ManagerHomePresenter.this.view.setErrorMsg(changedProduct.getName() + " : Invalid product threshold!");
 			return true;
-		} 
-		else if(changedProduct.getInventory().getQuantity()<0){
-			ManagerHomePresenter.this.view.setErrorMsg(changedProduct.getName()   + " : Invalid product quantity!");
+		} else if (changedProduct.getInventory().getQuantity() < 0) {
+			ManagerHomePresenter.this.view.setErrorMsg(changedProduct.getName() + " : Invalid product quantity!");
 			return true;
-		} 
-		else if(changedProduct.getInventory().getQuantityForOrder()<=0){
-			ManagerHomePresenter.this.view.setErrorMsg(changedProduct.getName()   + " : Invalid product quantity for order!");
+		} else if (changedProduct.getInventory().getQuantityForOrder() <= 0) {
+			ManagerHomePresenter.this.view
+					.setErrorMsg(changedProduct.getName() + " : Invalid product quantity for order!");
 			return true;
-		} 
-		else{
+		} else {
 			ManagerHomePresenter.this.view.setErrorMsg("");
 			return false;
 		}
