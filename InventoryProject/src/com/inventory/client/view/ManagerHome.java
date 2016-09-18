@@ -75,6 +75,7 @@ public class ManagerHome extends Composite implements Display {
 	private Hyperlink reportsLink;
 	
 
+
 		public ManagerHome() {
 		initWidget(uiBinder.createAndBindUi(this));
 		buildDataGrid();
@@ -338,8 +339,8 @@ public class ManagerHome extends Composite implements Display {
 		ordersLink.getElement().getStyle().setProperty("fontSize", "150%");
 		
 		reportsLink.getElement().getStyle().setProperty("padding", "30px");
-		reportsLink.getElement().getStyle().setProperty("fontSize", "150%");		
-		
+		reportsLink.getElement().getStyle().setProperty("fontSize", "150%");
+			
 		logout.getElement().getStyle().setProperty("padding", "30px");
 		logout.getElement().getStyle().setProperty("fontSize", "150%");
 		logout.getElement().setInnerHTML("<a style='color:#511323;' >Logout</a>");
@@ -433,7 +434,6 @@ public class ManagerHome extends Composite implements Display {
 
 	public void setErrorMsg(String msg) {
 		errorMsg.setText(msg);
-		;
 	}
 
 	@Override

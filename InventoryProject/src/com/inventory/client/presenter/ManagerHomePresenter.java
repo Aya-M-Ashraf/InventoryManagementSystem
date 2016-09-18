@@ -166,38 +166,7 @@ public class ManagerHomePresenter implements Presenter {
 
 			}
 		});
-		view.getClintsHyperlink().addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new AllClientsEvent(user));
-
-			}
-		});
-		view.getProductsLink().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ShowProductsEvent(user));
-
-			}
-		});
-/*		view.getOrdersLink().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		view.getReportsLink().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-
-			}
-		});*/
 	}
 
 	@Override

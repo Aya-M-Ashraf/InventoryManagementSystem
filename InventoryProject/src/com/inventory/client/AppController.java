@@ -52,8 +52,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private final HandlerManager eventBus;
 	private final GreetingServiceAsync rpcService;
 	private HasWidgets container;
-	UserDTO userDTO;
-	int id;UserDTO u=new UserDTO();
+	UserDTO signedInUser = new UserDTO();
 
 	public AppController(GreetingServiceAsync rpcService, HandlerManager eventBus) {
 		this.eventBus = eventBus;
@@ -67,8 +66,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 			@Override
 			public void onGetOrders(GetOrdersEvent event) {
-				 doGetOrders(event.getId(),event.getUser());
-				
+				History.newItem("ordersHistory");
+				Presenter presenter = new OrdersOfXClientPresenter(eventBus, rpcService, new OrdersOfXClientView(),
+						event.getId(), event.getUser());
+				presenter.go(container);
+
 			}
 		});
 
@@ -78,12 +80,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				if (event.getUser().getUserRole().getRole().equalsIgnoreCase("manager")) {
 					Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),
 							event.getUser());
+					signedInUser = event.getUser();
 					// Presenter presenter = new AllClientsPresenter(eventBus,
 					// rpcService, new AllClientsView());
 					presenter.go(container);
 				} else {
 					Presenter presenter = new ClientHomePresenter(eventBus, rpcService, new ClientHome(),
 							event.getUser());
+					signedInUser = event.getUser();
 					// Presenter presenter = new AllClientsPresenter(eventBus,
 					// rpcService, new AllClientsView());
 					presenter.go(container);
@@ -123,7 +127,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 
 			private void doButtonClickedThing() {
-				// TODO Auto-generated method stub
 				History.newItem("register");
 			}
 		});
@@ -131,7 +134,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 			@Override
 			public void onRegister(RegisterSignin registerSignin) {
-				// TODO Auto-generated method stub
 				Presenter presenter = new SignInPresenter(eventBus, rpcService, new SignInView());
 				presenter.go(container);
 			}
@@ -141,8 +143,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			@Override
 			public void onAllClients(AllClientsEvent allClientsEvent) {
 				History.newItem("Clients");
-				Presenter presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView(),
-						allClientsEvent.getUser());
+				Presenter presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView(), signedInUser);
 				presenter.go(container);
 
 			}
@@ -152,8 +153,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			@Override
 			public void onShowProducts(ShowProductsEvent showProductsEvent) {
 				History.newItem("Products");
-				Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(),
-						showProductsEvent.getUser());
+				Presenter presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(), signedInUser);
 				presenter.go(container);
 			}
 		});
@@ -211,44 +211,29 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				presenter = new RegisterationPresenter(eventBus, rpcService, new Registeration());
 				presenter.go(container);
 			}
-			if (token.equals("ordersHistory")) {
-			    presenter = new OrdersOfXClientPresenter(eventBus, rpcService, new OrdersOfXClientView(), id, u);
+
+			if (token.equals("Clients")) {
+				presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView(), signedInUser);
 				presenter.go(container);
 			}
-			/*
-			 * if (token.equals("Clients")) {
-			 * 
-			 * presenter = new AllClientsPresenter(eventBus, rpcService, new
-			 * AllClientsView()); presenter.go(container); }
-			 */
-			/*
-			 * if (token.equals("Products")) { presenter = new
-			 * ManagerHomePresenter(eventBus, rpcService, new
-			 * ManagerHome(),userDTO); presenter.go(container); }
-			 */ if (token.equals("Logout")) {
+
+			if (token.equals("Products")) {
+				presenter = new ManagerHomePresenter(eventBus, rpcService, new ManagerHome(), signedInUser);
+				presenter.go(container);
+			}
+			if (token.equals("Orders")) {
+
+				presenter = new ManagingOrdersPresenter(eventBus, rpcService, new ManagingOrders());
+				presenter.go(container);
+			}
+
+			if (token.equals("Logout")) {
 				Cookies.removeCookie("invSignName");
 				Cookies.removeCookie("invSignPass");
 				Window.Location.replace("http://localhost:8080/InventoryManagement/");
 			}
-			if (token.equals("ClientProducts")) {
-				presenter = new ClientHomePresenter(eventBus, rpcService, new ClientHome(), userDTO);
-				presenter.go(container);
-			}
 
 		}
 	}
-
-	// ===========================================================================
-	private void doGetOrders(int i, UserDTO user) {
-
-		History.newItem("ordersHistory");
-		id=i;
-		u=user;
-	/*	Presenter presenter = new OrdersOfXClientPresenter(eventBus, rpcService, new OrdersOfXClientView(), id, user);
-		Window.alert("selectedid= " + id + "\n logged in user" + user.getUsername());
-
-		presenter.go(container);*/
-	}
-	// ==========================================================================
 
 }

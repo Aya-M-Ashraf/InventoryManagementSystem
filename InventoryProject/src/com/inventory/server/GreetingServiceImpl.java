@@ -73,6 +73,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	@Override
 	public void deleteProduct(ProductDTO product) throws IllegalArgumentException {
 		Product deletedProduct = mapper.mapProductDtoToProduct(product);
+		deletedProduct.setOrders(orderController.getProductOrders(product.getId()));
 		productController.deleteProduct(deletedProduct);
 
 	}

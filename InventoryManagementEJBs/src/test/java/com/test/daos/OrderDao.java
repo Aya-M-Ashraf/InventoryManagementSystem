@@ -34,13 +34,17 @@ public class OrderDao extends GenericDao<Order, Integer> {
 		this.entityManager = entityManager;
 	}
 
-
 	public List<Order> getAllOrderforXClientDao(int id) {
-		
-		System.out.println("In Order Method Dao");
 		TypedQuery<Order> clientQuery = getEntityManager().createNamedQuery("Order.findByUserId", Order.class)
 				.setParameter("id", id);
 		List<Order> orders = clientQuery.getResultList();
+		return orders;
+	}
+
+	public List<Order> getProductOrders(int productId) {
+		TypedQuery<Order> query = getEntityManager().createNamedQuery("Order.findByProductId", Order.class)
+				.setParameter("id", productId);
+		List<Order> orders = query.getResultList();
 		return orders;
 	}
 

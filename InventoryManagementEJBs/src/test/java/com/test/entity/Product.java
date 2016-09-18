@@ -52,12 +52,10 @@ public class Product implements Serializable {
 
 	//bi-directional one-to-one association to Inventory
 	@OneToOne(mappedBy="product",cascade = {CascadeType.MERGE,CascadeType.REMOVE,CascadeType.PERSIST,CascadeType.REFRESH})
-
 	private Inventory inventory;
 
 	//bi-directional many-to-one association to Order
 	@OneToMany(mappedBy="product",cascade = {CascadeType.MERGE,CascadeType.REMOVE,CascadeType.PERSIST,CascadeType.REFRESH})
-
 	private List<Order> orders;
 
 	public Product() {

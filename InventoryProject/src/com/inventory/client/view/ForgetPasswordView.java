@@ -7,9 +7,14 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.inventory.client.presenter.ForgetPasswordPresenter;
 
@@ -38,6 +43,7 @@ public class ForgetPasswordView extends Composite implements ForgetPasswordPrese
 	
 	@UiField
 	Anchor editProfile;
+	
 
 	@Override
 	public TextBox getEmail() {
@@ -63,4 +69,7 @@ public class ForgetPasswordView extends Composite implements ForgetPasswordPrese
 	public HasClickHandlers getEditProfile() {
 		return editProfile;
 	}
+	
+
+
 }

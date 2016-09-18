@@ -38,14 +38,14 @@ public class AllClientsView extends Composite implements com.inventory.client.pr
 	Label info;
 	@UiField
 	HTMLPanel myHtmlPanel;
-	
+
 	private Hyperlink productsLink;
 	private Hyperlink logout;
 	private Hyperlink clientsLink;
 	private Hyperlink ordersLink;
 	private Hyperlink reportsLink;
 
-	
+
 	public Hyperlink getLogout() {
 		return logout;
 	}
@@ -147,7 +147,8 @@ public class AllClientsView extends Composite implements com.inventory.client.pr
 		// ====================================================
 
 	}
-	public void setHeader(){
+
+	public void setHeader() {
 		HorizontalPanel hyperLinks = new HorizontalPanel();
 		productsLink = new Hyperlink("Products", "Products");
 		clientsLink = new Hyperlink("Clients", "Clients");
@@ -162,20 +163,20 @@ public class AllClientsView extends Composite implements com.inventory.client.pr
 
 		productsLink.getElement().getStyle().setProperty("padding", "30px");
 		productsLink.getElement().getStyle().setProperty("fontSize", "150%");
-		
+
 		clientsLink.getElement().getStyle().setProperty("padding", "30px");
-		clientsLink.getElement().getStyle().setProperty("fontSize", "150%");		
+		clientsLink.getElement().getStyle().setProperty("fontSize", "150%");
 
 		ordersLink.getElement().getStyle().setProperty("padding", "30px");
 		ordersLink.getElement().getStyle().setProperty("fontSize", "150%");
-		
+
 		reportsLink.getElement().getStyle().setProperty("padding", "30px");
-		reportsLink.getElement().getStyle().setProperty("fontSize", "150%");		
-		
+		reportsLink.getElement().getStyle().setProperty("fontSize", "150%");
+
 		logout.getElement().getStyle().setProperty("padding", "30px");
 		logout.getElement().getStyle().setProperty("fontSize", "150%");
 		logout.getElement().setInnerHTML("<a style='color:#511323;' >Logout</a>");
-		
+
 		Image image = new Image();
 		image.setUrl("http://www.haystackinfotech.com/images/product/inventory.jpg");
 		image.setPixelSize(1400, 300);
@@ -184,7 +185,7 @@ public class AllClientsView extends Composite implements com.inventory.client.pr
 
 		header.add(image);
 		header.add(hyperLinks);
-		myHtmlPanel.add(header,"imageDiv");
+		myHtmlPanel.add(header, "imageDiv");
 
 	}
 
@@ -199,10 +200,9 @@ public class AllClientsView extends Composite implements com.inventory.client.pr
 		// Background
 
 		dataGrid.setColumnWidth(2, "200px");
-		
-		myHtmlPanel.add(dataGrid,"divTest");
-		setHeader();
 
+		myHtmlPanel.add(dataGrid, "divTest");
+		setHeader();
 
 	}
 
@@ -211,6 +211,5 @@ public class AllClientsView extends Composite implements com.inventory.client.pr
 		// TODO Auto-generated method stub
 		return label;
 	}
-
 
 }

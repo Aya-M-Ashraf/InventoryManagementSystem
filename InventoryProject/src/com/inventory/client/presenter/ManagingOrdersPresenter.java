@@ -3,14 +3,20 @@ package com.inventory.client.presenter;
 import java.util.ArrayList;
 
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Widget;
 import com.inventory.client.GreetingServiceAsync;
+import com.inventory.client.event.AllClientsEvent;
+import com.inventory.client.event.LogOutEvent;
+import com.inventory.client.event.ShowProductsEvent;
 import com.inventory.shared.dto.OrderDTO;
 
 public class ManagingOrdersPresenter implements Presenter {
@@ -23,6 +29,8 @@ public class ManagingOrdersPresenter implements Presenter {
 		Column<OrderDTO, String> getRejectOrderColumn();
 
 		Widget asWidget();
+
+		Hyperlink getLogout();
 	}
 
 	private final HandlerManager eventBus;
@@ -121,6 +129,16 @@ public class ManagingOrdersPresenter implements Presenter {
 				
 			}
 		});
+		display.getLogout().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				eventBus.fireEvent(new LogOutEvent());
+
+			}
+		});
+		
+
 	}
 
 	@Override

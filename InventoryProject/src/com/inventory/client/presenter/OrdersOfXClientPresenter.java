@@ -62,7 +62,7 @@ public class OrdersOfXClientPresenter implements Presenter {
 
 	// ==============================================
 	public void bind(int id) {
-	/*	rpcService.getUserName(id, new AsyncCallback<String>() {
+		rpcService.getUserName(id, new AsyncCallback<String>() {
 
 			@Override
 			public void onSuccess(String result) {
@@ -75,7 +75,7 @@ public class OrdersOfXClientPresenter implements Presenter {
 
 			}
 		});
-*/
+
 		rpcService.getAllOrdersForXClient(id, new AsyncCallback<List<OrderDTO>>() {
 			@Override
 			public void onSuccess(List<OrderDTO> ordersList) {
@@ -83,7 +83,7 @@ public class OrdersOfXClientPresenter implements Presenter {
 
 						+ ordersList.size());
 				OrdersOfXClientPresenter.this.view.setDataGrid(ordersList);
-				
+
 			}
 
 			@Override
@@ -91,26 +91,12 @@ public class OrdersOfXClientPresenter implements Presenter {
 				Window.alert("failed to get orders");
 			}
 		});
-		view.getProductsLink().addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new ShowProductsEvent(userDto));
-			}
-		});
 		view.getLogout().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				eventBus.fireEvent(new LogOutEvent());
-
-			}
-		});
-		view.getClientsLink().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				eventBus.fireEvent(new AllClientsEvent(userDto));
 
 			}
 		});
@@ -121,7 +107,6 @@ public class OrdersOfXClientPresenter implements Presenter {
 	public void go(HasWidgets container) {
 		container.clear();
 		container.add(OrdersOfXClientPresenter.this.view.asWidget());
-
 
 	}
 

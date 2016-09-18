@@ -67,4 +67,11 @@ public class OrderController implements OrderControllerLocal {
 		}
 		
 	}
+
+
+	@Override
+	public List<Order> getProductOrders(int productId) {
+		orderDao.setEntityManager(entityManager);
+		return orderDao.getProductOrders(productId);
+	}
 }

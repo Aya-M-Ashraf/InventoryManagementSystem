@@ -13,7 +13,8 @@ import java.util.Date;
 @Table(name = "the_order")
 @NamedQueries({
 	@NamedQuery(name="Order.findAll", query="SELECT o FROM Order o"),
-	@NamedQuery(name = "Order.findByUserId", query = "SELECT o FROM Order o WHERE o.user.id = :id") })
+	@NamedQuery(name = "Order.findByUserId", query = "SELECT o FROM Order o WHERE o.user.id = :id"),
+    @NamedQuery(name = "Order.findByProductId", query = "SELECT o FROM Order o WHERE o.product.id = :id") })
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -41,6 +42,7 @@ public class Order implements Serializable {
 
 	//bi-directional many-to-one association to Product
 	@ManyToOne
+	@JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private Product product;
 
 	//bi-directional many-to-one association to User

@@ -55,6 +55,7 @@ public abstract class GenericDao<T, ID extends Serializable> implements GenericD
 	public void makeTransient(T entity) throws Exception {
 		System.out.println("--------- inside the Daoooo in makeTransient");
 		getEntityManager().remove(getEntityManager().merge(entity));
+		getEntityManager().flush();
 	}
 
 	@Override

@@ -61,6 +61,7 @@ public class ForgetPasswordPresenter implements Presenter {
 				eventBus.fireEvent(new EditProfileEvent());
 			}
 		});
+	
 	}
 
 	private void onForgetPassword() {
