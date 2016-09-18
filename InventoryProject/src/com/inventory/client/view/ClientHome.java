@@ -40,7 +40,6 @@ public class ClientHome extends Composite implements Display, DialogBoxOpener {
 	}
 
 	private ClientHomePresenter presenter;
-	private HashSet<Integer> changedIDs = new HashSet<>();
 	private OrderDialogBox myDialogBox = new OrderDialogBox();
 	private Hyperlink logout;
 	DataGrid<ProductDTO> productList;
@@ -128,20 +127,20 @@ public class ClientHome extends Composite implements Display, DialogBoxOpener {
 		productList.setRowData(myList);
 		HorizontalPanel hyperLinks = new HorizontalPanel();
 		Hyperlink productsLink = new Hyperlink("Products", "clientProducts");
-		Hyperlink ordersLink = new Hyperlink("My Orders", "MyOrders");
+		Hyperlink ordersLink = new Hyperlink("My Orders", "ordersHistory");
 		logout = new Hyperlink("Logout", "Logout");
 		hyperLinks.add(productsLink);
 		hyperLinks.add(ordersLink);
 		hyperLinks.add(logout);
 
 		productsLink.getElement().getStyle().setProperty("padding", "30px");
-		productsLink.getElement().getStyle().setProperty("font-size", "150%");
+		productsLink.getElement().getStyle().setProperty("fontSize", "150%");
 		
 		ordersLink.getElement().getStyle().setProperty("padding", "30px");
-		ordersLink.getElement().getStyle().setProperty("font-size", "150%");
+		ordersLink.getElement().getStyle().setProperty("fontSize", "150%");
 		
 		logout.getElement().getStyle().setProperty("padding", "30px");
-		logout.getElement().getStyle().setProperty("font-size", "150%");
+		logout.getElement().getStyle().setProperty("fontSize", "150%");
 		logout.getElement().setInnerHTML("<a style='color:#511323;' >Logout</a>");
 		
 		Image image = new Image();
@@ -161,11 +160,7 @@ public class ClientHome extends Composite implements Display, DialogBoxOpener {
 
 	}
 
-	@Override
-	public ArrayList<ProductDTO> getChangedDataGridList() {
-		ArrayList<ProductDTO> list = new ArrayList<>(productList.getVisibleItems());
-		return list;
-	}
+
 
 	@Override
 	public void dialogBoxCancelled() {

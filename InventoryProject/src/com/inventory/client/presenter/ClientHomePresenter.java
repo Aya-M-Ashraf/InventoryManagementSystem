@@ -23,7 +23,6 @@ public class ClientHomePresenter implements Presenter {
 	public interface Display {
 		void setDataGridList(List<ProductDTO> myList);
 
-		ArrayList<ProductDTO> getChangedDataGridList();
 	}
 
 	private final HandlerManager eventBus;

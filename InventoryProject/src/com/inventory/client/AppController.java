@@ -68,7 +68,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			public void onGetOrders(GetOrdersEvent event) {
 				History.newItem("ordersHistory");
 				Presenter presenter = new OrdersOfXClientPresenter(eventBus, rpcService, new OrdersOfXClientView(),
-						event.getId(), event.getUser());
+						signedInUser.getId(), signedInUser);
 				presenter.go(container);
 
 			}
@@ -214,6 +214,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 			if (token.equals("Clients")) {
 				presenter = new AllClientsPresenter(eventBus, rpcService, new AllClientsView(), signedInUser);
+				presenter.go(container);
+			}
+
+			if (token.equals("clientProducts")) {
+				presenter = new ClientHomePresenter(eventBus, rpcService, new ClientHome(), signedInUser);
 				presenter.go(container);
 			}
 

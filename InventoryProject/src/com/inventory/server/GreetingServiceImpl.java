@@ -10,6 +10,7 @@ import java.util.Properties;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.inventory.client.GreetingService;
 import com.inventory.shared.dto.InventoryDTO;
